@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 
-const backgroundStartColor = Color(0xFFFFD500);
-const backgroundEndColor = Color(0xFFF6A00C);
+const backgroundStartColor = Colors.black87;
+const backgroundEndColor = Colors.teal;
 
 class RightSide extends StatelessWidget {
   const RightSide({Key? key}) : super(key: key);
@@ -12,11 +12,7 @@ class RightSide extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [backgroundStartColor, backgroundEndColor],
-              stops: [0.0, 1.0]),
+          color: backgroundStartColor,
         ),
         child: Column(children: [
           WindowTitleBarBox(
@@ -33,10 +29,11 @@ class RightSide extends StatelessWidget {
 
 final buttonColors = WindowButtonColors(
     iconNormal: const Color(0xFF805306),
-    mouseOver: const Color(0xFFF6A00C),
+    mouseOver: const Color(0xFF805306),
     mouseDown: const Color(0xFF805306),
-    iconMouseOver: const Color(0xFF805306),
-    iconMouseDown: const Color(0xFFFFD500));
+    iconMouseOver: backgroundStartColor,
+    iconMouseDown: backgroundStartColor
+);
 
 final closeButtonColors = WindowButtonColors(
     mouseOver: const Color(0xFFD32F2F),
