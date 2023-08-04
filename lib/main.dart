@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:window_manager/window_manager.dart';
-
+import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'core/main_container.dart';
 
 void main() {
@@ -14,7 +14,8 @@ void main() {
     win.minSize = initialSize;
     win.size = initialSize;
     win.alignment = Alignment.center;
-    win.title = "Custom window with Flutter";
+    win.title = "junction";
+    await windowManager.setHasShadow(false);
     win.show();
   });
 }
@@ -28,6 +29,50 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      color: Colors.transparent,
+      builder: (context, child) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Stack(
+            children: [
+              /// Fake window border
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.greenAccent.withOpacity(.4),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Container(
+                  margin: const EdgeInsets.all(8),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: child!,
+                  ),
+                ),
+              ),
+              /// Window Caption
+              const SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: WindowCaption(),
+              ),
+              /// Resizable Border
+              const DragToResizeArea(
+                enableResizeEdges: [
+                  ResizeEdge.topLeft,
+                  ResizeEdge.top,
+                  ResizeEdge.topRight,
+                  ResizeEdge.left,
+                  ResizeEdge.right,
+                  ResizeEdge.bottomLeft,
+                  ResizeEdge.bottomLeft,
+                  ResizeEdge.bottomRight,
+                ],
+                child: SizedBox(),
+              ),
+            ],
+          ),
+        );
+      },
       home: Scaffold(
         body: WindowBorder(
           color: borderColor,
