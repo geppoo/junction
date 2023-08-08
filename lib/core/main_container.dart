@@ -3,7 +3,6 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 
 const backgroundStartColor = Colors.black87;
-const backgroundEndColor = Colors.teal;
 
 class RightSide extends StatelessWidget {
   const RightSide({Key? key}) : super(key: key);
@@ -18,7 +17,25 @@ class RightSide extends StatelessWidget {
           WindowTitleBarBox(
             child: Row(
               //TODO Implementare TopNavBar inserendo come argomento child: Row() in MoveWindow()
-              children: [Expanded(child: MoveWindow()), const WindowButtons()],
+              children: [
+                Expanded(
+                    child: MoveWindow(
+                        child: const Row(
+                  children: <Widget>[
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 100.0,top: 10,right: 10.0),
+                        child: SearchBar(
+                          hintText: 'Search',
+                        ),
+                      ),
+                    ),
+                  ],
+                ))),
+                const WindowButtons()
+              ],
             ),
           )
         ]),
@@ -32,8 +49,7 @@ final buttonColors = WindowButtonColors(
     mouseOver: const Color(0xFF805306),
     mouseDown: const Color(0xFF805306),
     iconMouseOver: backgroundStartColor,
-    iconMouseDown: backgroundStartColor
-);
+    iconMouseDown: backgroundStartColor);
 
 final closeButtonColors = WindowButtonColors(
     mouseOver: const Color(0xFFD32F2F),
@@ -62,18 +78,15 @@ class WindowButtonsState extends State<WindowButtons> {
         MinimizeWindowButton(colors: buttonColors),
         appWindow.isMaximized
             ? RestoreWindowButton(
-          colors: buttonColors,
-          onPressed: maximizeOrRestore,
-        )
+                colors: buttonColors,
+                onPressed: maximizeOrRestore,
+              )
             : MaximizeWindowButton(
-          colors: buttonColors,
-          onPressed: maximizeOrRestore,
-        ),
+                colors: buttonColors,
+                onPressed: maximizeOrRestore,
+              ),
         CloseWindowButton(colors: closeButtonColors),
       ],
     );
   }
 }
-
-
-
