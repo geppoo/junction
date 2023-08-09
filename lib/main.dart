@@ -4,7 +4,7 @@ import 'package:junction/core/junction.dart';
 import 'package:junction/core/junction_model.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +22,7 @@ void main() {
   });
 }
 
-const borderColor = Color(0xFF805306);
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
