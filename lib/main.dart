@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           color: borderColor,
           width: 1,
           child:  const Row(
-            children: [RightSide()],
+            children: [MainContainer()],
           ),
         ),
       ),

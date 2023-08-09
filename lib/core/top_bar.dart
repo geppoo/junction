@@ -17,6 +17,7 @@ class TopBar extends StatelessWidget {
             padding: EdgeInsets.only(left: 100.0, top: 10, right: 10.0),
             child: SearchBar(
               hintText: 'Search',
+              leading: Icon(Icons.search),
             ),
           ),
         ),]),)),
