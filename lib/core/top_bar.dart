@@ -1,6 +1,8 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 
+import 'expand_button.dart';
+
 const backgroundStartColor = Colors.black87;
 
 class TopBar extends StatelessWidget {
@@ -14,18 +16,20 @@ class TopBar extends StatelessWidget {
           flex: 1,
           fit: FlexFit.tight,
           child: Padding(
-            padding: EdgeInsets.only(left: 100.0, top: 10, right: 10.0),
+            padding: EdgeInsets.only(left: 100.0, top: 10,bottom: 10, right: 1.0),
             child: SearchBar(
               hintText: 'Search',
               leading: Icon(Icons.search),
             ),
           ),
         ),]),)),
-        const WindowButtons(),
+        //const WindowButtons(),
+         const ExpandButton()
       ],
     );
   }
 }
+
 
 final buttonColors = WindowButtonColors(
     iconNormal: const Color(0xFF805306),

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:junction/core/top_bar.dart';
 import 'package:window_manager/window_manager.dart';
-
-import 'core/main_container.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
   doWhenWindowReady(() async {
     // NON RIMUOVERE
-    await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
+
+    windowManager.setAsFrameless();
     final win = appWindow;
-    const initialSize = Size(600, 450);
+    const initialSize = Size(500, 20);
     win.minSize = initialSize;
     win.size = initialSize;
-    win.alignment = Alignment.center;
+    win.alignment = Alignment.topCenter;
     win.title = "Custom window with Flutter";
     win.show();
   });
@@ -26,18 +27,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: WindowBorder(
-          color: borderColor,
-          width: 1,
-          child:  const Row(
-            children: [MainContainer()],
-          ),
-        ),
-      ),
+      home: Scaffold(body: TopBar()),
     );
   }
 }
-
