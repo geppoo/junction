@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:junction/core/top_bar.dart';
+import 'package:junction/core/junction.dart';
+import 'package:junction/core/junction_model.dart';
+import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -8,14 +10,14 @@ void main() {
   runApp(const MyApp());
   doWhenWindowReady(() async {
     // NON RIMUOVERE
-
+    windowManager.setResizable(true);
     windowManager.setAsFrameless();
     final win = appWindow;
-    const initialSize = Size(500, 20);
+    const initialSize = Size(500, 100);
     win.minSize = initialSize;
     win.size = initialSize;
     win.alignment = Alignment.topCenter;
-    win.title = "Custom window with Flutter";
+    win.title = "Junction";
     win.show();
   });
 }
@@ -27,9 +29,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(body: TopBar()),
+    return ChangeNotifierProvider(
+      create: (context) => JunctionModel(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(body: TopBar()),
+      ),
     );
   }
 }

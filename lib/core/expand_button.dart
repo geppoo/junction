@@ -1,26 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:junction/core/junction_model.dart';
+import 'package:provider/provider.dart';
+import 'package:window_manager/window_manager.dart';
 
-class ExpandButton extends StatefulWidget {
+class ExpandButton extends StatelessWidget {
   const ExpandButton({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ExpandButtonState();
-}
-
-class _ExpandButtonState extends State<ExpandButton> {
-  bool _expanded = false;
-
-  @override
   Widget build(BuildContext context) {
+    final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return IconButton(
-
         iconSize: 10,
         onPressed: () {
-          setState(() {
-            _expanded = !_expanded;
-          });
+          junctionModel
+              .setIsDashboardVisible(!junctionModel.getIsDashboardVisible);
         },
-        icon: _expanded ? const Icon(Icons.lock_open) : const Icon(Icons.lock));
+        icon: junctionModel.getIsDashboardVisible
+            ? const Icon(Icons.lock_open)
+            : const Icon(Icons.lock));
   }
 }
