@@ -8,9 +8,9 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
-        Flexible(
+        Expanded(child: MoveWindow(child: const Row(children: [Flexible(
           flex: 1,
           fit: FlexFit.tight,
           child: Padding(
@@ -19,8 +19,8 @@ class TopBar extends StatelessWidget {
               hintText: 'Search',
             ),
           ),
-        ),
-        WindowButtons(),
+        ),]),)),
+        const WindowButtons(),
       ],
     );
   }
