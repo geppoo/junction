@@ -10,12 +10,12 @@ import 'dart:async';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Window.initialize();
+  await windowManager.ensureInitialized();
   await Window.setEffect(
     effect: WindowEffect.transparent,
     color: const Color(0xCC222222),
-    dark: false,
   );
-/*  WindowOptions windowOptions = const WindowOptions(
+  WindowOptions windowOptions = const WindowOptions(
     size: Size(800, 600),
     center: true,
     alwaysOnTop: true,
@@ -27,13 +27,12 @@ Future<void> main() async {
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
     await windowManager.focus();
-  });*/
-
-/*  doWhenWindowReady(() async {
-    appWindow
-      ..alignment = Alignment.topCenter
-      ..show();
-  });*/
+    doWhenWindowReady(() async {
+      appWindow
+        ..alignment = Alignment.topCenter
+        ..show();
+    });
+  });
 
   runApp(const JunctionApp());
 }
