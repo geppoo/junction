@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:junction/dashboard.dart';
 import 'package:provider/provider.dart';
 
@@ -15,8 +14,8 @@ class JunctionTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
-    return Scaffold(
-      body: Column(children: [
+    return Container(
+      child: Column(children: [
         ///Junction bar
         const SizedBox(
           width: 500,

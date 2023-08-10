@@ -10,14 +10,10 @@ import 'dart:async';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Window.initialize();
-  await windowManager.ensureInitialized();
-  await Window.setEffect(
-    effect: WindowEffect.transparent,
-    color: const Color(0xCC222222),
-  );
+  await WindowManager.instance.ensureInitialized();
+
   WindowOptions windowOptions = const WindowOptions(
     size: Size(800, 600),
-    center: true,
     alwaysOnTop: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
@@ -25,6 +21,7 @@ Future<void> main() async {
     windowButtonVisibility: false,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.setAsFrameless();
     await windowManager.show();
     await windowManager.focus();
     doWhenWindowReady(() async {
@@ -32,6 +29,10 @@ Future<void> main() async {
         ..alignment = Alignment.topCenter
         ..show();
     });
+    await Window.setEffect(
+      effect: WindowEffect.transparent,
+      color: Colors.transparent,
+    );
   });
 
   runApp(const JunctionApp());
@@ -47,7 +48,7 @@ class JunctionApp extends StatelessWidget {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Junction",
-        home: Scaffold(body: JunctionTopBar()),
+        home: JunctionTopBar(),
       ),
     );
   }
