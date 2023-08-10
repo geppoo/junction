@@ -10,12 +10,18 @@ class Dashboard extends StatelessWidget {
     //TODO Implementare generazione dinamica dei Widget
     return const Wrap(
       children: [
-        StatelessJunctionWidget(
+        //TODO for test purpose, remove after
+        SizedBox(
+          width: 700,
+          height: 400,
+          child: Text("Prova dropdown"),
+        )
+/*        StatelessJunctionWidget(
           title: null,
           height: null,
           width: null,
           widget: null,
-        )
+        )*/
       ],
     );
   }

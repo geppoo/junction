@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:junction/core/junction_model.dart';
+import 'package:junction/core/widget/junction_widget_size.dart';
 import 'package:provider/provider.dart';
-import 'package:window_manager/window_manager.dart';
 
 class ExpandButton extends StatelessWidget {
   const ExpandButton({super.key});
@@ -10,13 +10,13 @@ class ExpandButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return IconButton(
-        iconSize: 10,
+        iconSize: 30,
         onPressed: () {
           junctionModel
               .setIsDashboardVisible(!junctionModel.getIsDashboardVisible);
         },
         icon: junctionModel.getIsDashboardVisible
-            ? const Icon(Icons.lock_open)
-            : const Icon(Icons.lock));
+            ? const Icon(Icons.arrow_drop_up)
+            : const Icon(Icons.arrow_drop_down));
   }
 }
