@@ -14,45 +14,43 @@ class JunctionTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
-    return Container(
-      child: Column(children: [
-        ///Junction bar
-        const SizedBox(
-          width: 500,
-          height: 30,
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(children: [
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 1.0, top: 1, bottom: 1, right: 1.0),
-                      child: SearchBar(
-                        hintText: 'Search',
-                        leading: Icon(Icons.search),
-                      ),
+    return Column(children: [
+      ///Junction bar
+      const SizedBox(
+        width: 500,
+        height: 30,
+        child: Row(
+          children: [
+            Expanded(
+              child: Row(children: [
+                Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: 1.0, top: 1, bottom: 1, right: 1.0),
+                    child: SearchBar(
+                      hintText: 'Search',
+                      leading: Icon(Icons.search),
                     ),
                   ),
-                ]),
-              ),
-              //const WindowButtons(),
-              ExpandButton(),
-            ],
-          ),
+                ),
+              ]),
+            ),
+            //const WindowButtons(),
+            ExpandButton(),
+          ],
         ),
+      ),
 
-        ///Expandable Dashboard window
+      ///Expandable Dashboard window
 
-        Visibility(
-          visible: junctionModel.getIsDashboardVisible,
-          child: const Row(
-            children: [Dashboard()],
-          ),
+      Visibility(
+        visible: junctionModel.getIsDashboardVisible,
+        child: const Row(
+          children: [Dashboard()],
         ),
-      ]),
-    );
+      ),
+    ]);
   }
 }
