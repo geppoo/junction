@@ -5,9 +5,9 @@ enum JunctionWidgetSize {
   four;
 }
 
-extension JunctionWidgetSizeExtension on JunctionWidgetSize{
-  double? get size{
-    switch(this){
+extension JunctionWidgetSizeExtension on JunctionWidgetSize {
+  double? get size {
+    switch (this) {
       case JunctionWidgetSize.one:
         return 100;
       case JunctionWidgetSize.two:
