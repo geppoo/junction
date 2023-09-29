@@ -8,7 +8,9 @@ class StatefulJunctionWidget extends StatefulWidget implements JunctionWidget {
       required title,
       required height,
       required width,
-      required widget});
+      required widget,
+      required this.token,
+      required this.list});
 
   @override
   JunctionWidgetSize get height => height;
@@ -22,20 +24,26 @@ class StatefulJunctionWidget extends StatefulWidget implements JunctionWidget {
   @override
   JunctionWidgetSize get width => width;
 
-  @override
-  State<StatefulWidget> createState() => StateJunctionWidget();
+  final String  token;
+
+  final List<String> list;
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
+  State<StatefulWidget> createState() => StateJunctionWidget(token, list);
 }
 
 class StateJunctionWidget extends State<StatefulJunctionWidget> {
+  final String _token ;
+  final List<String> _list;
+
+  StateJunctionWidget(this._token, this._list);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return SizedBox(
+      width: widget.width.size,
+      height: widget.height.size,
+      child: widget,
+    );
   }
 }
