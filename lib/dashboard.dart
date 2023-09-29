@@ -10,14 +10,20 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO Implementare generazione dinamica dei Widget
-    return  Wrap(
+    return  const Wrap(
       children: [
         //TODO for test purpose, remove after
         StatelessJunctionWidget(
           title: 'Test',
           height: JunctionWidgetSize.one,
           width: JunctionWidgetSize.one,
-          widget: const Text('Test'),
+          widget: Text('dhjkasjoikdajsdjasdjadjaTestasdasdasda'),
+        ),
+        StatelessJunctionWidget(
+          title: 'Test',
+          height: JunctionWidgetSize.one,
+          width: JunctionWidgetSize.four,
+          widget: Text('Tawref8hithuqowgftlibhwadjbifnladbkfbnjklsdfknjasdnkjdfknjsdfknjsaknjlfknjlsafnkjlanfklòsnkdlònòklsaest2'),
         ),
         /**StatefulJunctionWidget(
             title: 'Test',

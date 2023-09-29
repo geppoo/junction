@@ -4,19 +4,14 @@ import 'junction_widget.dart';
 
 class StatelessJunctionWidget extends StatelessWidget implements JunctionWidget {
   const StatelessJunctionWidget(
-      {super.key, required title, required height, required width, required widget});
+      {Key? key,
+      required this.title,
+      required this.height,
+      required this.width,
+      required this.widget})
+      : super(key: key);
 
-  @override
-  JunctionWidgetSize get height => height;
 
-  @override
-  String get title => title;
-
-  @override
-  Widget get widget => widget;
-
-  @override
-  JunctionWidgetSize get width => width;
 
   @override
   Widget build(BuildContext context) {
@@ -26,4 +21,18 @@ class StatelessJunctionWidget extends StatelessWidget implements JunctionWidget 
       child: widget,
     );
   }
+
+  @override
+  final JunctionWidgetSize height;
+
+  @override
+  final String title;
+
+  @override
+  final Widget widget;
+
+  @override
+  final JunctionWidgetSize width;
+
+
 }

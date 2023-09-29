@@ -7,9 +7,5 @@ abstract class JunctionWidget {
   final JunctionWidgetSize width;
   final Widget widget;
 
-  const JunctionWidget(
-      {required this.title,
-      required this.height,
-      required this.width,
-      required this.widget});
+  JunctionWidget(this.title, this.height, this.width, this.widget);
 }
