@@ -3,40 +3,41 @@ import 'package:junction/core/widget/junction_widget.dart';
 import 'package:junction/core/widget/junction_widget_size.dart';
 
 class StatefulJunctionWidget extends StatefulWidget implements JunctionWidget {
+
+
   const StatefulJunctionWidget(
-      {super.key,
-      required title,
-      required height,
-      required width,
-      required widget,
-      required this.token,
-      required this.list});
+      {Key? key,
+        required this.title,
+        required this.height,
+        required this.width,
+        required this.widget, required this.token, required this.list})
+      : super(key: key);
 
-  @override
-  JunctionWidgetSize get height => height;
 
-  @override
-  String get title => title;
-
-  @override
-  Widget get widget => widget;
-
-  @override
-  JunctionWidgetSize get width => width;
 
   final String  token;
 
   final List<String> list;
 
   @override
-  State<StatefulWidget> createState() => StateJunctionWidget(token, list);
+  State<StatefulWidget> createState() => _StateJunctionWidget();
+
+
+  @override
+  final JunctionWidgetSize height;
+
+  @override
+  final String title;
+
+  @override
+  final Widget widget;
+
+  @override
+  final JunctionWidgetSize width;
+
 }
 
-class StateJunctionWidget extends State<StatefulJunctionWidget> {
-  final String _token ;
-  final List<String> _list;
-
-  StateJunctionWidget(this._token, this._list);
+class _StateJunctionWidget extends State<StatefulJunctionWidget> {
 
   @override
   Widget build(BuildContext context) {
