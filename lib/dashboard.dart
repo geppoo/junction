@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:junction/core/widget/stateful_junction_widget.dart';
+import 'core/widget/junction_widget_size.dart';
 import 'core/widget/stateless_junction_widget.dart';
 
 //TODO Implementare griglia widget semi-dinamica
@@ -8,20 +10,22 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO Implementare generazione dinamica dei Widget
-    return const Wrap(
+    return  Wrap(
       children: [
         //TODO for test purpose, remove after
-        SizedBox(
-          width: 700,
-          height: 400,
-          child: Text("Prova dropdown"),
-        )
-/*        StatelessJunctionWidget(
-          title: null,
-          height: null,
-          width: null,
-          widget: null,
-        )*/
+        StatelessJunctionWidget(
+          title: 'Test',
+          height: JunctionWidgetSize.one,
+          width: JunctionWidgetSize.one,
+          widget: const Text('Test'),
+        ),
+        /**StatefulJunctionWidget(
+            title: 'Test',
+            height: JunctionWidgetSize.one,
+            width: JunctionWidgetSize.one,
+            widget: Text('Test'),
+            token: 'test',
+            list: ['test'])*/
       ],
     );
   }

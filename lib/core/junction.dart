@@ -27,8 +27,7 @@ class JunctionTopBar extends StatelessWidget {
                   flex: 1,
                   fit: FlexFit.tight,
                   child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 1.0, top: 1, bottom: 1, right: 1.0),
+                    padding: EdgeInsets.only(left: 1.0, top: 1, bottom: 1, right: 1.0),
                     child: SearchBar(
                       hintText: 'Search',
                       leading: Icon(Icons.search),
@@ -45,12 +44,15 @@ class JunctionTopBar extends StatelessWidget {
 
       ///Expandable Dashboard window
 
-      Visibility(
-        visible: junctionModel.getIsDashboardVisible,
-        child: const Row(
-          children: [Dashboard()],
+      Flexible(
+        flex: 1,
+        child: Visibility(
+          visible: junctionModel.getIsDashboardVisible,
+          child: const Row(
+            children: [Expanded(flex: 1,child: Dashboard())],
+          ),
         ),
-      ),
+      )
     ]);
   }
 }
