@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:junction/core/widget/stateful_junction_widget.dart';
+import 'core/junction_grid.dart';
 import 'core/widget/junction_widget_size.dart';
 import 'core/widget/stateless_junction_widget.dart';
 
@@ -7,26 +9,12 @@ import 'core/widget/stateless_junction_widget.dart';
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
 
+  //TODO implementare Lettura da file JSON
+
+
   @override
   Widget build(BuildContext context) {
     //TODO Implementare generazione dinamica dei Widget
-    return const Wrap(
-      children: [
-        //TODO for test purpose, remove after
-        StatelessJunctionWidget(
-          title: 'Test',
-          height: JunctionWidgetSize.one,
-          width: JunctionWidgetSize.one,
-          child: Text('dhjkasjoikdajsdjasdjadjaTestasdasdasda'),
-        ),
-        StatefulJunctionWidget(
-            title: 'Test',
-            height: JunctionWidgetSize.one,
-            width: JunctionWidgetSize.one,
-            token: 'test',
-            list: ['test'],
-            child: Text('Testasdasdsadasdasdasdadasd'))
-      ],
-    );
+    return JunctionGrid();
   }
 }
