@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:junction/core/widget/junction_widget_size.dart';
 
 import 'junction_widget.dart';
@@ -44,22 +45,36 @@ class StatefulJunctionWidget extends StatefulWidget implements JunctionWidget {
 class _StateJunctionWidget extends State<StatefulJunctionWidget> {
   @override
   Widget build(BuildContext context) {
+    final globalKey = GlobalKey();
+    final junctionWidget = StatefulJunctionWidget(
+        title: "widget globale",
+        height: widget.height,
+        width: widget.width,
+        left: widget.left,
+        bottom: widget.bottom,
+        key: globalKey,
+        child: widget.child);
+    final isDropped = false;
+
     return Positioned(
       left: widget.left,
       bottom: widget.bottom,
-      child: Draggable(
-          feedback: SizedBox(
-            child: SizedBox(
-              width: widget.width.size,
-              height: widget.height.size,
-              child: widget.child,
-            ),
-          ),
-          child: SizedBox(
-            width: widget.width.size,
-            height: widget.height.size,
+      child: SizedBox(
+        width: widget.width.size,
+        height: widget.height.size,
+        child: Draggable<Key>(
+          data: junctionWidget.key,
+          feedback: Opacity(
+            opacity: 0.5,
             child: widget.child,
-          )),
+          ),
+          childWhenDragging: Container(
+            color: Colors.green,
+            child: const Text("background when dragging"),
+          ),
+          child: widget.child,
+        ),
+      ),
     );
   }
 }
