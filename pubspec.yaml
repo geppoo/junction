@@ -41,6 +41,8 @@ dependencies:
   dartdoc: ^6.2.2
   flutter_acrylic: ^1.1.3
   shared_preferences: ^2.2.1
+  get: ^4.6.6
+  mockito: ^5.4.2
 
 
 dev_dependencies:
