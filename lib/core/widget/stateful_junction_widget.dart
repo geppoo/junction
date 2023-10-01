@@ -3,12 +3,14 @@ import 'package:junction/core/widget/junction_widget_size.dart';
 
 import 'junction_widget.dart';
 
+//ignore: must_be_immutable
 class StatefulJunctionWidget extends StatefulWidget implements JunctionWidget {
-  final String? token;
-  final List<String>? list;
+  late final String? token;
+  late final List<String>? list;
 
   StatefulJunctionWidget(
-      {required this.child,
+      {super.key,
+      required this.child,
       required this.height,
       required this.title,
       required this.width,

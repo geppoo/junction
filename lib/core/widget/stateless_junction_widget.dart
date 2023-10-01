@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:junction/core/widget/junction_widget_size.dart';
 import 'junction_widget.dart';
 
+//ignore: must_be_immutable
 class StatelessJunctionWidget extends StatelessWidget implements JunctionWidget {
   @override
   Widget child;
@@ -29,19 +30,11 @@ class StatelessJunctionWidget extends StatelessWidget implements JunctionWidget 
     return Positioned(
       left: left,
       bottom: bottom,
-      child: Draggable(
-          feedback: SizedBox(
-            child: SizedBox(
-              width: width.size,
-              height: height.size,
-              child: child,
-            ),
-          ),
-          child: SizedBox(
-            width: width.size,
-            height: height.size,
-            child: child,
-          )),
+      child: SizedBox(
+        width: width.size,
+        height: height.size,
+        child: child,
+      ),
     );
   }
 

@@ -49,7 +49,7 @@ class JunctionTopBar extends StatelessWidget {
         child: Visibility(
           visible: junctionModel.getIsDashboardVisible,
           child: const Row(
-            children: [Expanded(flex: 1,child: Dashboard())],
+            children: [Expanded(flex: 1, child: Dashboard())],
           ),
         ),
       )
