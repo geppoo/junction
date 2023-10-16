@@ -6,7 +6,7 @@ import 'package:junction/core/junction_model.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:async';
-
+//TODO Implementare la generalizzazione delle impostazioni della barra
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Window.initialize();
