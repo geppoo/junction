@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:junction/core/widget/junction_widget_size.dart';
 
 import 'junction_widget.dart';
 
 //ignore: must_be_immutable
-class StatefulJunctionWidget extends StatefulWidget implements JunctionWidget {
+class DraggableJunctionWidget extends StatefulWidget implements JunctionWidget {
   late final String? token;
   late final List<String>? list;
 
-  StatefulJunctionWidget(
+  DraggableJunctionWidget(
       {super.key,
       required this.child,
       required this.height,
@@ -21,7 +20,8 @@ class StatefulJunctionWidget extends StatefulWidget implements JunctionWidget {
       this.list});
 
   @override
-  State<StatefulJunctionWidget> createState() => _StateJunctionWidget();
+  State<DraggableJunctionWidget> createState() =>
+      _StateDraggableJunctionWidget();
 
   @override
   Widget child;
@@ -42,11 +42,12 @@ class StatefulJunctionWidget extends StatefulWidget implements JunctionWidget {
   double left;
 }
 
-class _StateJunctionWidget extends State<StatefulJunctionWidget> {
+class _StateDraggableJunctionWidget extends State<DraggableJunctionWidget> {
   @override
   Widget build(BuildContext context) {
     final globalKey = GlobalKey();
-    final junctionWidget = StatefulJunctionWidget(
+    final isDropped = false;
+    final junctionWidget = DraggableJunctionWidget(
         title: "widget globale",
         height: widget.height,
         width: widget.width,
@@ -54,7 +55,6 @@ class _StateJunctionWidget extends State<StatefulJunctionWidget> {
         bottom: widget.bottom,
         key: globalKey,
         child: widget.child);
-    final isDropped = false;
 
     return Positioned(
       left: widget.left,

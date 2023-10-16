@@ -36,11 +36,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:junction/core/widget/junction_widget.dart';
-import 'package:junction/core/widget/stateful_junction_widget.dart';
-import 'package:junction/core/widget/stateless_junction_widget.dart';
+import 'package:junction/core/widget/draggable_junction_widget.dart';
+import 'package:junction/core/widget/drag_target_junction_widget.dart';
 
 ///
-/// Widget that contains the grid of the junction, it is a stack of [StatelessJunctionWidget] and [StatefulJunctionWidget]
+/// Widget that contains the grid of the junction, it is a stack of [DragTargetJunctionWidget] and [DraggableJunctionWidget]
 ///
 class JunctionGrid extends StatefulWidget {
   final List<Widget> junctions;
@@ -50,7 +50,7 @@ class JunctionGrid extends StatefulWidget {
   const JunctionGrid({Key? key, required this.junctions}) : super(key: key);
 
 
-  /// Add a [StatelessJunctionWidget] or [StatefulWidget] to the grid, returns [true] if the widget is added correctly
+  /// Add a [DragTargetJunctionWidget] or [StatefulWidget] to the grid, returns [true] if the widget is added correctly
   bool addJunction(JunctionWidget junction) {
     for (Widget iter in junctions) {
       JunctionWidget i = (iter as JunctionWidget);
