@@ -1,20 +1,73 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:ffi';
 
-import 'junction_widget_size.dart';
+import 'package:flutter/material.dart';
 
-class JunctionWidget {
-  late Widget child;
-  late JunctionWidgetSize height;
-  late String title;
-  late JunctionWidgetSize width;
-  late double left;
-  late double bottom;
+//ignore: must_be_immutable
+class JunctionWidget extends StatefulWidget {
+  late final String? token;
+  late final List<String>? list;
 
   JunctionWidget(
-      {required this.child,
+      {super.key,
+      required this.child,
       required this.height,
       required this.title,
       required this.width,
       required this.left,
-      required this.bottom});
+      required this.bottom,
+      this.token,
+      this.list});
+
+  @override
+  State<JunctionWidget> createState() =>
+      _StateDraggableJunctionWidget();
+
+  Widget child;
+
+  double height;
+
+  String title;
+
+  double width;
+
+  double bottom;
+
+  double left;
+}
+
+class _StateDraggableJunctionWidget extends State<JunctionWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final globalKey = GlobalKey();
+    const isDropped = false;
+    final junctionWidget = JunctionWidget(
+        title: "widget globale",
+        height: widget.height,
+        width: widget.width,
+        left: widget.left,
+        bottom: widget.bottom,
+        key: globalKey,
+        child: widget.child);
+
+    return Positioned(
+      left: widget.left,
+      bottom: widget.bottom,
+      child: SizedBox(
+        width: widget.width,
+        height: widget.height,
+        child: Draggable<Key>(
+          data: junctionWidget.key,
+          feedback: Opacity(
+            opacity: 0.5,
+            child: widget.child,
+          ),
+          childWhenDragging: Container(
+            color: Colors.green,
+            child: const Text("background when dragging"),
+          ),
+          child: widget.child,
+        ),
+      ),
+    );
+  }
 }
