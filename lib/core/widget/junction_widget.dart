@@ -19,8 +19,7 @@ class JunctionWidget extends StatefulWidget {
       this.list});
 
   @override
-  State<JunctionWidget> createState() =>
-      _StateDraggableJunctionWidget();
+  State<JunctionWidget> createState() => _StateJunctionWidget();
 
   Widget child;
 
@@ -35,7 +34,12 @@ class JunctionWidget extends StatefulWidget {
   double left;
 }
 
-class _StateDraggableJunctionWidget extends State<JunctionWidget> {
+class _StateJunctionWidget extends State<JunctionWidget> {
+  Offset position = const Offset(100, 100);
+
+  void updatePosition(Offset newPosition) =>
+      setState(() => position = newPosition);
+
   @override
   Widget build(BuildContext context) {
     final globalKey = GlobalKey();
@@ -50,12 +54,13 @@ class _StateDraggableJunctionWidget extends State<JunctionWidget> {
         child: widget.child);
 
     return Positioned(
-      left: widget.left,
-      bottom: widget.bottom,
+      left: position.dx,
+      top: position.dy,
       child: SizedBox(
         width: widget.width,
         height: widget.height,
         child: Draggable<Key>(
+          maxSimultaneousDrags: 1,
           data: junctionWidget.key,
           feedback: Opacity(
             opacity: 0.5,
@@ -65,6 +70,7 @@ class _StateDraggableJunctionWidget extends State<JunctionWidget> {
             color: Colors.green,
             child: const Text("background when dragging"),
           ),
+          onDragEnd: (details) => updatePosition(details.offset),
           child: widget.child,
         ),
       ),
