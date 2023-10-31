@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:junction/core/junction_search_bar.dart';
 import 'package:junction/dashboard.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class JunctionTopBar extends StatelessWidget {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return Column(children: [
       ///Junction bar
-      const SizedBox(
+       SizedBox(
         width: 500,
         height: 30,
         child: Row(
@@ -28,10 +29,7 @@ class JunctionTopBar extends StatelessWidget {
                   fit: FlexFit.tight,
                   child: Padding(
                     padding: EdgeInsets.only(left: 1.0, top: 1, bottom: 1, right: 1.0),
-                    child: SearchBar(
-                      hintText: 'Search',
-                      leading: Icon(Icons.search),
-                    ),
+                    child:  JunctionSearchBar(),
                   ),
                 ),
               ]),
@@ -56,3 +54,4 @@ class JunctionTopBar extends StatelessWidget {
     ]);
   }
 }
+
