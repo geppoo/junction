@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:junction/dashboard.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,16 @@ class JunctionTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
+
+    //TODO Implementare configurazione dinamica delle shortcut
+    final HotKey hotKeyOpenJunction = HotKey(
+      KeyCode.keyJ,
+      modifiers: [KeyModifier.alt],
+      scope: HotKeyScope.system,
+    );
+
+    _registerExpandJunctionHotkey(hotKeyOpenJunction, junctionModel);
+
     return Column(children: [
       ///Junction bar
       const SizedBox(
@@ -27,7 +38,8 @@ class JunctionTopBar extends StatelessWidget {
                   flex: 1,
                   fit: FlexFit.tight,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 1.0, top: 1, bottom: 1, right: 1.0),
+                    padding: EdgeInsets.only(
+                        left: 1.0, top: 1, bottom: 1, right: 1.0),
                     child: SearchBar(
                       hintText: 'Search',
                       leading: Icon(Icons.search),
@@ -54,5 +66,14 @@ class JunctionTopBar extends StatelessWidget {
         ),
       )
     ]);
+  }
+
+  Future<void> _registerExpandJunctionHotkey(HotKey hotKey, JunctionModel junctionModel) async {
+    await hotKeyManager.register(
+      hotKey,
+      keyDownHandler: (hotKey) {
+        junctionModel.setIsDashboardVisible(!junctionModel.getIsDashboardVisible);
+      },
+    );
   }
 }

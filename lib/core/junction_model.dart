@@ -1,25 +1,44 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
 class JunctionModel extends ChangeNotifier {
   bool _isDashboardVisible = false;
-  WindowOptions customWindowOptions = const WindowOptions();
+  WindowOptions windowOptions = const WindowOptions();
 
-  JunctionModel(WindowOptions windowOptions){
-    customWindowOptions = windowOptions;
-  }
+  JunctionModel(this.windowOptions);
 
   bool get getIsDashboardVisible => _isDashboardVisible;
 
-  //TODO Implementare personalizzazione dimensione dashboard con opzioni fisse
   void setIsDashboardVisible(bool value) {
     _isDashboardVisible = value;
 
-    customWindowOptions = WindowOptions(
-      size: getIsDashboardVisible ? const Size(800, 500) : const Size(800, 30),
-    );
-    windowManager.waitUntilReadyToShow(customWindowOptions, () {
+    if (!getIsDashboardVisible) {
+      windowOptions = const WindowOptions(
+        size: Size(800, 30),
+        alwaysOnTop: true,
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+        windowButtonVisibility: false,
+      );
+    } else {
+      windowOptions = const WindowOptions(
+        alwaysOnTop: true,
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+        windowButtonVisibility: false,
+      );
+    }
+
+    windowManager.waitUntilReadyToShow(windowOptions, () {
+      windowManager.setAsFrameless();
+      windowManager.setResizable(false);
+      if (getIsDashboardVisible) {
+        windowManager.maximize();
+      }
       windowManager.show();
+      windowManager.focus();
     });
     notifyListeners();
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:junction/core/junction.dart';
 import 'package:junction/core/junction_model.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,11 @@ Future<void> main() async {
       color: Colors.transparent,
     );
   });
+
+  // Must add this line.
+  WidgetsFlutterBinding.ensureInitialized();
+  // For hot reload, `unregisterAll()` needs to be called.
+  await hotKeyManager.unregisterAll();
 
   runApp(const JunctionApp());
 }
