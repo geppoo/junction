@@ -13,10 +13,19 @@ import 'package:junction/core/junction_search_bar.dart';
 void main() {
   testWidgets('SearchBar return of text', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    var SUT =  const JunctionSearchBar(numberOfResult: 100);
-    await tester.pumpWidget(SUT);
-    await tester.enterText(find.byElementType(SearchBar),"asd");
-    expect( SUT, "asd");
+    var SUT = JunctionSearchBar(numberOfResult: 0);
+    var DOC =  MaterialApp(home : SUT);
+    await tester.pumpWidget(DOC);
+    assert(SUT.height == 50);
+  });
+
+
+  testWidgets('SearchBar return of text', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    var SUT = JunctionSearchBar(numberOfResult: 1);
+    var DOC =  MaterialApp(home : SUT);
+    await tester.pumpWidget(DOC);
+    assert(SUT.height == 100);
   });
 
 

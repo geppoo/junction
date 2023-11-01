@@ -3,47 +3,59 @@ import 'package:get/get_utils/get_utils.dart';
 
 class JunctionSearchBar extends StatefulWidget {
   final int numberOfResult;
+  late _JunctionSearchBarState state;
 
-  const JunctionSearchBar({Key? key, required this.numberOfResult}) : super(key: key);
+  JunctionSearchBar({Key? key, required this.numberOfResult}) : super(key: key){
+    state = _JunctionSearchBarState(suggestedLength: numberOfResult);
+  }
+  double get height => state.height;
 
   @override
-  State<StatefulWidget> createState() => _JunctionSearchBarState(suggestedLength: numberOfResult);
+  State<StatefulWidget> createState() => state;
 }
 
 class _JunctionSearchBarState extends State<JunctionSearchBar> {
-  late List<String> lastSearch;
-  late int suggestedLength;
-  double height = 50;
-  double width = 1000;
+  late  List<String> _lastSearch;
+  late final int _suggestedLength;
+  double _height = 50;
 
-  _JunctionSearchBarState({required this.suggestedLength}) {
-    lastSearch = <String>[];
-    height *= suggestedLength;
+  double get height => _height;
+  final double _width = 1000;
+
+  _JunctionSearchBarState({required int suggestedLength}) : _suggestedLength = suggestedLength {
+    _lastSearch = <String>[];
+    _height *= (_suggestedLength + 1) ;
   }
+
 
   @override
   Widget build(BuildContext context) {
     return SearchAnchor(
       viewConstraints: BoxConstraints(
-        maxHeight: height,
-        maxWidth: width
+        maxHeight: _height,
+        maxWidth: _width
       ),
       dividerColor: Colors.black87,
       builder: (BuildContext context, SearchController controller) {
-        return SearchBar(
-          controller: controller,
-          onTap: () {
-            controller.openView();
-          },
-          onChanged: (_) {
-            controller.openView();
-          },
-          leading: const Icon(Icons.search),
+        return Directionality(
+          textDirection: TextDirection.ltr,
+          child:
+            SearchBar(
+              controller: controller,
+              onTap: () {
+                controller.openView();
+              },
+              onChanged: (_) {
+                controller.openView();
+              },
+              leading: const Icon(Icons.search),
+            ),
+
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        return List<Widget>.generate(suggestedLength, (int index) {
-          final String item = lastSearch.length > suggestedLength ? lastSearch[index] : "";
+        return List<Widget>.generate(_suggestedLength, (int index) {
+          final String item = _lastSearch.length > _suggestedLength ? _lastSearch[index] : "";
           return ListTile(
             title: Text(item),
             onTap: () {

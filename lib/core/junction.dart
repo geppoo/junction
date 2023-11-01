@@ -17,7 +17,7 @@ class JunctionTopBar extends StatelessWidget {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return Column(children: [
       ///Junction bar
-      const SizedBox(
+       SizedBox(
         width: 500,
         height: 30,
         child: Row(
