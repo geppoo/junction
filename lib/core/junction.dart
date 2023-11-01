@@ -27,10 +27,10 @@ class JunctionTopBar extends StatelessWidget {
 
     return Column(children: [
       ///Junction bar
-      const SizedBox(
-        width: 500,
-        height: 30,
-        child: Row(
+      SizedBox(
+        width: junctionModel.junctionSettings.junctionBarWidth,
+        height: junctionModel.junctionSettings.junctionBarHeight,
+        child: const Row(
           children: [
             Expanded(
               child: Row(children: [

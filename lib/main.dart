@@ -10,10 +10,9 @@ import 'dart:async';
 
 import 'config/configuration_initializer.dart';
 
-JunctionSettings junctionSettings = JunctionSettings();
+JunctionSettingsRepository junctionSettings = JunctionSettingsRepository();
 WindowOptions windowOptions = const WindowOptions();
 
-//TODO Implementare la generalizzazione delle impostazioni della barra
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Window.initialize();

@@ -40,16 +40,6 @@ class _StateJunctionWidget extends State<JunctionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final globalKey = GlobalKey();
-    final junctionWidget = JunctionWidget(
-        title: "widget globale",
-        height: widget.height,
-        width: widget.width,
-        left: widget.left,
-        bottom: widget.bottom,
-        key: globalKey,
-        child: widget.child);
-
     return Positioned(
       left: position.dx,
       top: position.dy,
@@ -58,7 +48,6 @@ class _StateJunctionWidget extends State<JunctionWidget> {
         height: widget.height,
         child: Draggable<Key>(
           maxSimultaneousDrags: 1,
-          data: junctionWidget.key,
           feedback: Opacity(
             opacity: 0.5,
             child: widget.child,

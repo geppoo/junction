@@ -1,25 +1,20 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+
+const initialAssetFile = 'assets/settings/junction.json';
+const localFilename = 'junction_settings.json';
 
 ///Read and parse JSON configuration file
-class JunctionSettings {
+class JunctionSettingsRepository {
   Future? _initializer;
   late double _junctionBarHeight;
   late double _junctionBarWidth;
 
-  JunctionSettings() {
-    _initializer = _init();
-  }
-
-  Future _init() async {
-    final String response =
-        await rootBundle.loadString('assets/settings/junction.json');
-    final data = await json.decode(response);
-
-    final junctionBar = data["junctionBar"];
-    junctionBarHeight = junctionBar["junctionBarHeight"];
-    junctionBarWidth = junctionBar["junctionBarWidth"];
+  JunctionSettingsRepository() {
+    _initializer = _readFile();
   }
 
   Future? get ensureInitialized => _initializer;
@@ -37,5 +32,34 @@ class JunctionSettings {
     if (value >= 300) {
       _junctionBarWidth = value;
     }
+  }
+
+  Future<File> _initializeFile() async {
+    final localDirectory = await getApplicationDocumentsDirectory();
+    final file = File('${localDirectory.path}\\$localFilename');
+
+    if (!await file.exists()) {
+      // read the file from assets first and create the local file with its contents
+      final initialContent = await rootBundle.loadString(initialAssetFile);
+      await file.create();
+      await file.writeAsString(initialContent);
+    }
+
+    return file;
+  }
+
+  Future _readFile() async {
+    final file = await _initializeFile();
+    var data = await file.readAsString();
+    var jsonData = json.decode(data);
+
+    final junctionBar = jsonData["junctionBar"];
+    junctionBarHeight = junctionBar["junctionBarHeight"];
+    junctionBarWidth = junctionBar["junctionBarWidth"];
+  }
+
+  Future<void> writeToFile(String data) async {
+    final file = await _initializeFile();
+    await file.writeAsString(data);
   }
 }

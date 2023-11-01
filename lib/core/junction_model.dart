@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:junction/config/configuration_initializer.dart';
 import 'package:window_manager/window_manager.dart';
 
 class JunctionModel extends ChangeNotifier {
   bool _isDashboardVisible = false;
-  WindowOptions windowOptions = const WindowOptions();
-  JunctionSettings junctionSettings;
+  WindowOptions _windowOptions = const WindowOptions();
+  final JunctionSettingsRepository _junctionSettings;
 
-  JunctionModel(this.windowOptions, this.junctionSettings);
+  JunctionModel(this._windowOptions, this._junctionSettings);
 
   bool get getIsDashboardVisible => _isDashboardVisible;
+
+  WindowOptions get windowOptions => _windowOptions;
+  JunctionSettingsRepository get junctionSettings => _junctionSettings;
+
+  set windowOptions(WindowOptions options){
+    if(!options.isBlank!){
+      _windowOptions = options;
+    }
+  }
 
   void setIsDashboardVisible(bool value) {
     _isDashboardVisible = value;
