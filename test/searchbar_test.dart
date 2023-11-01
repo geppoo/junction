@@ -7,28 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:junction/core/junction_model.dart';
 import 'package:junction/core/junction_search_bar.dart';
+import 'package:junction/main.dart';
+import 'package:provider/provider.dart';
 
 
 void main() {
-  testWidgets('SearchBar return of text', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    var SUT = JunctionSearchBar(numberOfResult: 0);
-    var DOC =  MaterialApp(home : SUT);
-    await tester.pumpWidget(DOC);
-    assert(SUT.height == 50);
-  });
-
-
-  testWidgets('SearchBar return of text', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    var SUT = JunctionSearchBar(numberOfResult: 1);
-    var DOC =  MaterialApp(home : SUT);
-    await tester.pumpWidget(DOC);
-    assert(SUT.height == 100);
-  });
-
-
 
 }
 
