@@ -29,7 +29,7 @@ class JunctionTopBar extends StatelessWidget {
                   fit: FlexFit.tight,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 1.0, top: 1, bottom: 1, right: 1.0),
-                    child: JunctionSearchBar(numberOfResult: 1),
+                    child: JunctionSearchBar(numberOfResult: 4),
                   ),
                 ),
               ]),

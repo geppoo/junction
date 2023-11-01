@@ -47,10 +47,10 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
             SearchBar(
               controller: controller,
               onTap: () {
-                junctionModel.expandIfNot(height) ;
                 controller.openView();
               },
               onChanged: (_) {
+                junctionModel.expandIfNot(height);
                 controller.openView();
               },
               leading: const Icon(Icons.search),
