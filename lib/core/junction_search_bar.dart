@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
+import 'package:provider/provider.dart';
+
+import 'junction_model.dart';
 
 class JunctionSearchBar extends StatefulWidget {
   final int numberOfResult;
@@ -30,6 +33,7 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return SearchAnchor(
       viewConstraints: BoxConstraints(
         maxHeight: _height,
@@ -43,6 +47,7 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
             SearchBar(
               controller: controller,
               onTap: () {
+                junctionModel.expandIfNot(height) ;
                 controller.openView();
               },
               onChanged: (_) {

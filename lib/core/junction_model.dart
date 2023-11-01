@@ -11,12 +11,27 @@ class JunctionModel extends ChangeNotifier {
 
   bool get getIsDashboardVisible => _isDashboardVisible;
 
+
   //TODO Implementare personalizzazione dimensione dashboard con opzioni fisse
-  void setIsDashboardVisible(bool value) {
+  set setIsDashboardVisible(bool value) {
     _isDashboardVisible = value;
 
     customWindowOptions = WindowOptions(
-      size: getIsDashboardVisible ? const Size(800, 500) : const Size(800, 30),
+      size: getIsDashboardVisible ? const Size(800, 500) : const Size(800, 50),
+    );
+    windowManager.waitUntilReadyToShow(customWindowOptions, () {
+      windowManager.show();
+    });
+    notifyListeners();
+
+  }
+
+  void expandIfNot(double height){
+    if(_isDashboardVisible){
+      return;
+    }
+    customWindowOptions = WindowOptions(
+      size:  Size(800, height),
     );
     windowManager.waitUntilReadyToShow(customWindowOptions, () {
       windowManager.show();
