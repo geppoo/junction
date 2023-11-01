@@ -8,20 +8,28 @@ import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:async';
 
-WindowOptions windowOptions = const WindowOptions(
-  size: Size(800, 30),
-  alwaysOnTop: true,
-  backgroundColor: Colors.transparent,
-  skipTaskbar: false,
-  titleBarStyle: TitleBarStyle.hidden,
-  windowButtonVisibility: false,
-);
+import 'config/configuration_initializer.dart';
+
+JunctionSettings junctionSettings = JunctionSettings();
+WindowOptions windowOptions = const WindowOptions();
 
 //TODO Implementare la generalizzazione delle impostazioni della barra
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Window.initialize();
   await WindowManager.instance.ensureInitialized();
+
+  //DO NOT REMOVE, initialization of app settings
+  await junctionSettings.ensureInitialized;
+
+  windowOptions = WindowOptions(
+    size: Size(junctionSettings.junctionBarWidth, junctionSettings.junctionBarHeight),
+    alwaysOnTop: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.hidden,
+    windowButtonVisibility: false,
+  );
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.setAsFrameless();
@@ -53,7 +61,7 @@ class JunctionApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => JunctionModel(windowOptions),
+      create: (context) => JunctionModel(windowOptions, junctionSettings),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Junction",

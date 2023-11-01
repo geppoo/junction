@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:junction/config/configuration_initializer.dart';
 import 'package:window_manager/window_manager.dart';
 
 class JunctionModel extends ChangeNotifier {
   bool _isDashboardVisible = false;
   WindowOptions windowOptions = const WindowOptions();
+  JunctionSettings junctionSettings;
 
-  JunctionModel(this.windowOptions);
+  JunctionModel(this.windowOptions, this.junctionSettings);
 
   bool get getIsDashboardVisible => _isDashboardVisible;
 
@@ -13,8 +15,9 @@ class JunctionModel extends ChangeNotifier {
     _isDashboardVisible = value;
 
     if (!getIsDashboardVisible) {
-      windowOptions = const WindowOptions(
-        size: Size(800, 30),
+      windowOptions = WindowOptions(
+        size: Size(junctionSettings.junctionBarWidth,
+            junctionSettings.junctionBarHeight),
         alwaysOnTop: true,
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
