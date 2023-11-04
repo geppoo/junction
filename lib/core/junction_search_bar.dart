@@ -8,7 +8,7 @@ class JunctionSearchBar extends StatefulWidget {
   final int numberOfResult;
   late _JunctionSearchBarState state;
 
-  JunctionSearchBar({Key? key, required this.numberOfResult}) : super(key: key){
+  JunctionSearchBar({Key? key, required this.numberOfResult}) : super(key: key) {
     state = _JunctionSearchBarState(suggestedLength: numberOfResult);
   }
   double get height => state.height;
@@ -18,7 +18,7 @@ class JunctionSearchBar extends StatefulWidget {
 }
 
 class _JunctionSearchBarState extends State<JunctionSearchBar> {
-  late  List<String> _lastSearch;
+  late List<String> _lastSearch;
   late final int _suggestedLength;
   double _height = 50;
 
@@ -27,35 +27,30 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
 
   _JunctionSearchBarState({required int suggestedLength}) : _suggestedLength = suggestedLength {
     _lastSearch = <String>[];
-    _height *= (_suggestedLength + 1) ;
+    _height *= (_suggestedLength + 1);
   }
-
 
   @override
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return SearchAnchor(
-      viewConstraints: BoxConstraints(
-        maxHeight: _height,
-        maxWidth: _width
-      ),
+      viewConstraints: BoxConstraints(maxHeight: _height, maxWidth: _width),
       dividerColor: Colors.black87,
       builder: (BuildContext context, SearchController controller) {
         return Directionality(
           textDirection: TextDirection.ltr,
-          child:
-            SearchBar(
-              controller: controller,
-              onTap: () {
-                controller.openView();
-              },
-              onChanged: (_) {
-                junctionModel.expandIfNot(height);
-                controller.openView();
-              },
-              leading: const Icon(Icons.search),
-            ),
-
+          child: SearchBar(
+            controller: controller,
+            onTap: () {
+              junctionModel.expandIfNot(height);
+              controller.openView();
+            },
+            onChanged: (_) {
+              junctionModel.expandIfNot(height);
+              controller.openView();
+            },
+            leading: const Icon(Icons.search),
+          ),
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
