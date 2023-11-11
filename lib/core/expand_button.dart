@@ -11,7 +11,7 @@ class ExpandButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () {
         junctionModel
-            .setIsDashboardVisible(!junctionModel.getIsDashboardVisible);
+            .setIsDashboardVisible = !junctionModel.getIsDashboardVisible;
       },
       child: junctionModel.getIsDashboardVisible
           ? const Icon(Icons.arrow_drop_up)
