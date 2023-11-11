@@ -30,10 +30,10 @@ Future<void> main() async {
     titleBarStyle: TitleBarStyle.hidden,
     windowButtonVisibility: false,
   );
+  const arg = String.fromEnvironment("resizable");
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.setAsFrameless();
-    const arg = String.fromEnvironment("resizable");
     await windowManager.setResizable(arg == "true");
     await windowManager.show();
     await windowManager.focus();
@@ -53,11 +53,13 @@ Future<void> main() async {
   // For hot reload, `unregisterAll()` needs to be called.
   await hotKeyManager.unregisterAll();
 
-  runApp(const JunctionApp());
+  runApp(const JunctionApp(resizable: arg == "true"));
 }
 
 class JunctionApp extends StatelessWidget {
-  const JunctionApp({Key? key}) : super(key: key);
+  final bool resizable;
+
+  const JunctionApp({Key? key,required this.resizable}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

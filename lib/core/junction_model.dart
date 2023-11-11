@@ -8,12 +8,15 @@ class JunctionModel extends ChangeNotifier {
   WindowOptions _windowOptions = const WindowOptions();
   final JunctionSettingsRepository _junctionSettings;
 
+
+
+
   JunctionModel(this._windowOptions, this._junctionSettings);
 
   bool get getIsDashboardVisible => _isDashboardVisible;
-
   WindowOptions get windowOptions => _windowOptions;
   JunctionSettingsRepository get junctionSettings => _junctionSettings;
+
 
   set windowOptions(WindowOptions options){
     if(!options.isBlank!){
@@ -44,9 +47,9 @@ class JunctionModel extends ChangeNotifier {
       );
     }
 
-    windowManager.waitUntilReadyToShow(windowOptions, () {
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
       windowManager.setAsFrameless();
-      windowManager.setResizable(false);
+
       if (getIsDashboardVisible) {
         windowManager.maximize();
       }
@@ -64,6 +67,7 @@ class JunctionModel extends ChangeNotifier {
       size:  Size(junctionSettings.junctionBarWidth, height),
     );
     windowManager.waitUntilReadyToShow(windowOptions, () {
+
       windowManager.show();
     });
     notifyListeners();
