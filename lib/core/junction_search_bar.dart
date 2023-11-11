@@ -1,5 +1,7 @@
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:junction/core/io/file_interface.dart';
+import 'package:junction/core/search_builder.dart';
 import 'package:provider/provider.dart';
 
 import 'junction_model.dart';
@@ -53,20 +55,8 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        return List<Widget>.generate(_suggestedLength, (int index) {
-          final String item = _lastSearch.length > _suggestedLength ? _lastSearch[index] : "";
-          return ListTile(
-            title: Text(item),
-            onTap: () {
-              controller.closeView(item);
-              EasyDebounce.debounce('deb', const Duration(milliseconds: 150), () {
-                setState(() {
-                  junctionModel.setIsDashboardVisible(false);
-                });
-              });
-            },
-          );
-        });
+          SearchBuilder sb = SearchBuilder(FileInterface("",""),FileInterface("",""));
+          return sb.generateSearch(_suggestedLength) ;
       },
     );
   }

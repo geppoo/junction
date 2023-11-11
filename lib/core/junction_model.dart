@@ -67,7 +67,6 @@ class JunctionModel extends ChangeNotifier {
       size:  Size(junctionSettings.junctionBarWidth, height),
     );
     windowManager.waitUntilReadyToShow(windowOptions, () {
-
       windowManager.show();
     });
     notifyListeners();
