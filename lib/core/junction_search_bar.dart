@@ -55,7 +55,7 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-          SearchBuilder sb = SearchBuilder(FileInterface("",""),FileInterface("",""));
+          SearchBuilder sb = SearchBuilder(context, controller);
           return sb.generateSearch(_suggestedLength) ;
       },
     );

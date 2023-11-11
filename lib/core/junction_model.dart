@@ -8,18 +8,14 @@ class JunctionModel extends ChangeNotifier {
   WindowOptions _windowOptions = const WindowOptions();
   final JunctionSettingsRepository _junctionSettings;
 
-
-
-
   JunctionModel(this._windowOptions, this._junctionSettings);
 
   bool get getIsDashboardVisible => _isDashboardVisible;
   WindowOptions get windowOptions => _windowOptions;
   JunctionSettingsRepository get junctionSettings => _junctionSettings;
 
-
-  set windowOptions(WindowOptions options){
-    if(!options.isBlank!){
+  set windowOptions(WindowOptions options) {
+    if (!options.isBlank!) {
       _windowOptions = options;
     }
   }
@@ -29,8 +25,7 @@ class JunctionModel extends ChangeNotifier {
 
     if (!getIsDashboardVisible) {
       windowOptions = WindowOptions(
-        size: Size(junctionSettings.junctionBarWidth,
-            junctionSettings.junctionBarHeight),
+        size: Size(junctionSettings.junctionBarWidth, junctionSettings.junctionBarHeight),
         alwaysOnTop: true,
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
@@ -59,12 +54,12 @@ class JunctionModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void expandIfNot(double height){
-    if(_isDashboardVisible){
+  void expandIfNot(double height) {
+    if (_isDashboardVisible) {
       return;
     }
     windowOptions = WindowOptions(
-      size:  Size(junctionSettings.junctionBarWidth, height),
+      size: Size(junctionSettings.junctionBarWidth, height),
     );
     windowManager.waitUntilReadyToShow(windowOptions, () {
       windowManager.show();

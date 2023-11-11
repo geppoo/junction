@@ -22,7 +22,7 @@ void main() {
       when(doc.ensureInitialized).thenAnswer((_) async => jsonEncode({'history': ['peppo', 'dwm', 'junction']}));
       when(doc_s.ensureInitialized).thenAnswer((_) async => jsonEncode({'executable': ['ampl','bestie','carbon']}));
       // Act
-      final SearchBuilder SUT = SearchBuilder(doc, doc_s);
+      final SearchBuilder SUT = SearchBuilder.testing(doc, doc_s);
       final List<Widget> result = await SUT.generateSearch(3);
 
       expect(result, isList); // Ensure it's a list
@@ -40,14 +40,11 @@ void main() {
       when(doc.ensureInitialized).thenAnswer((_) async => jsonEncode({'history': ['peppo', 'dwm', 'junction']}));
       when(docS.ensureInitialized).thenAnswer((_) async => jsonEncode({'executable': ['ampl','bestie','carbon']}));
       // Act
-      final SearchBuilder SUT = SearchBuilder(doc, docS);
+      final SearchBuilder SUT = SearchBuilder.testing(doc, docS);
       final List<Widget> result = await SUT.generateSearch(5);
-
-
 
       final List<String> textValues = result.map((widget) => (widget as Text).data!).toList();
       expect(textValues, ['peppo', 'dwm', 'junction','ampl','bestie']);
-
     });
   });
 }

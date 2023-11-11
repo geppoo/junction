@@ -31,7 +31,7 @@ class JunctionTopBar extends StatelessWidget {
       SizedBox(
         width: junctionModel.junctionSettings.junctionBarWidth,
         height: junctionModel.junctionSettings.junctionBarHeight,
-        child:  Row(
+        child: Row(
           children: [
             Expanded(
               child: Row(children: [
@@ -39,10 +39,8 @@ class JunctionTopBar extends StatelessWidget {
                   flex: 1,
                   fit: FlexFit.tight,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 1.0, top: 1, bottom: 1, right: 1.0),
-                    child: JunctionSearchBar(numberOfResult: 4)
-                  ),
+                      padding: const EdgeInsets.only(left: 1.0, top: 1, bottom: 1, right: 1.0),
+                      child: JunctionSearchBar(numberOfResult: 2)),
                 ),
               ]),
             ),
