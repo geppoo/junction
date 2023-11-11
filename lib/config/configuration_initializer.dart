@@ -1,23 +1,20 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
+import '../core/io/file_interface.dart';
 
 const initialAssetFile = 'assets/settings/junction.json';
 const localFilename = 'junction_settings.json';
 
 ///Read and parse JSON configuration file
 class JunctionSettingsRepository {
-  Future? _initializer;
+  FileInterface? _fileInterface;
   late double _junctionBarHeight;
   late double _junctionBarWidth;
+  dynamic jsonFileData;
 
   JunctionSettingsRepository() {
-    _initializer = _readFile();
+    _fileInterface = FileInterface(initialAssetFile, localFilename);
   }
-
-  Future? get ensureInitialized => _initializer;
 
   double get junctionBarHeight => _junctionBarHeight;
   double get junctionBarWidth => _junctionBarWidth;
@@ -34,32 +31,12 @@ class JunctionSettingsRepository {
     }
   }
 
-  Future<File> _initializeFile() async {
-    final localDirectory = await getApplicationDocumentsDirectory();
-    final file = File('${localDirectory.path}\\$localFilename');
+  init() async {
+    final stringFileData = await _fileInterface?.ensureInitialized;
 
-    if (!await file.exists()) {
-      // read the file from assets first and create the local file with its contents
-      final initialContent = await rootBundle.loadString(initialAssetFile);
-      await file.create();
-      await file.writeAsString(initialContent);
-    }
-
-    return file;
-  }
-
-  Future _readFile() async {
-    final file = await _initializeFile();
-    var data = await file.readAsString();
-    var jsonData = json.decode(data);
-
-    final junctionBar = jsonData["junctionBar"];
-    junctionBarHeight = junctionBar["junctionBarHeight"];
+    jsonFileData = await jsonDecode(stringFileData!);
+    final junctionBar = jsonFileData["junctionBar"];
     junctionBarWidth = junctionBar["junctionBarWidth"];
-  }
-
-  Future<void> writeToFile(String data) async {
-    final file = await _initializeFile();
-    await file.writeAsString(data);
+    junctionBarHeight = junctionBar["junctionBarHeight"];
   }
 }

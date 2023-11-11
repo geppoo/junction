@@ -10,7 +10,7 @@ import 'dart:async';
 
 import 'config/configuration_initializer.dart';
 
-JunctionSettingsRepository junctionSettings = JunctionSettingsRepository();
+JunctionSettingsRepository? junctionSettings;
 WindowOptions windowOptions = const WindowOptions();
 
 Future<void> main() async {
@@ -18,11 +18,12 @@ Future<void> main() async {
   await Window.initialize();
   await WindowManager.instance.ensureInitialized();
 
-  //DO NOT REMOVE, initialization of app settings
-  await junctionSettings.ensureInitialized;
+  //settings initialization
+  junctionSettings = JunctionSettingsRepository();
+  await junctionSettings?.init();
 
   windowOptions = WindowOptions(
-    size: Size(junctionSettings.junctionBarWidth, junctionSettings.junctionBarHeight),
+    size: Size(junctionSettings!.junctionBarWidth, junctionSettings!.junctionBarHeight),
     alwaysOnTop: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
@@ -60,7 +61,7 @@ class JunctionApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => JunctionModel(windowOptions, junctionSettings),
+      create: (context) => JunctionModel(windowOptions, junctionSettings!),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Junction",
