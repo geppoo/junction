@@ -1,39 +1,69 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:junction/config/configuration_initializer.dart';
 import 'package:window_manager/window_manager.dart';
 
 class JunctionModel extends ChangeNotifier {
   bool _isDashboardVisible = false;
-  WindowOptions customWindowOptions = const WindowOptions();
+  WindowOptions _windowOptions = const WindowOptions();
+  final JunctionSettingsRepository _junctionSettings;
 
-  JunctionModel(WindowOptions windowOptions){
-    customWindowOptions = windowOptions;
-  }
+  JunctionModel(this._windowOptions, this._junctionSettings);
 
   bool get getIsDashboardVisible => _isDashboardVisible;
 
+  WindowOptions get windowOptions => _windowOptions;
+  JunctionSettingsRepository get junctionSettings => _junctionSettings;
 
-  //TODO Implementare personalizzazione dimensione dashboard con opzioni fisse
-  set setIsDashboardVisible(bool value) {
+  set windowOptions(WindowOptions options){
+    if(!options.isBlank!){
+      _windowOptions = options;
+    }
+  }
+
+  void setIsDashboardVisible(bool value) {
     _isDashboardVisible = value;
 
-    customWindowOptions = WindowOptions(
-      size: getIsDashboardVisible ? const Size(800, 500) : const Size(800, 50),
-    );
-    windowManager.waitUntilReadyToShow(customWindowOptions, () {
+    if (!getIsDashboardVisible) {
+      windowOptions = WindowOptions(
+        size: Size(junctionSettings.junctionBarWidth,
+            junctionSettings.junctionBarHeight),
+        alwaysOnTop: true,
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+        windowButtonVisibility: false,
+      );
+    } else {
+      windowOptions = const WindowOptions(
+        alwaysOnTop: true,
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.hidden,
+        windowButtonVisibility: false,
+      );
+    }
+
+    windowManager.waitUntilReadyToShow(windowOptions, () {
+      windowManager.setAsFrameless();
+      windowManager.setResizable(false);
+      if (getIsDashboardVisible) {
+        windowManager.maximize();
+      }
       windowManager.show();
+      windowManager.focus();
     });
     notifyListeners();
-
   }
 
   void expandIfNot(double height){
     if(_isDashboardVisible){
       return;
     }
-    customWindowOptions = WindowOptions(
-      size:  Size(800, height),
+    windowOptions = WindowOptions(
+      size:  Size(junctionSettings.junctionBarWidth, height),
     );
-    windowManager.waitUntilReadyToShow(customWindowOptions, () {
+    windowManager.waitUntilReadyToShow(windowOptions, () {
       windowManager.show();
     });
     notifyListeners();

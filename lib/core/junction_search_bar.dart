@@ -61,7 +61,7 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
               controller.closeView(item);
               EasyDebounce.debounce('deb', const Duration(milliseconds: 150), () {
                 setState(() {
-                  junctionModel.setIsDashboardVisible = false;
+                  junctionModel.setIsDashboardVisible(false);
                 });
               });
             },

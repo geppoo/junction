@@ -4,13 +4,12 @@ import 'package:junction/core/widget/junction_widget.dart';
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
 
-  //TODO implementare Lettura da file JSON
+  //TODO implementare Lettura da file JSON per generazione Widgets
 
   @override
   Widget build(BuildContext context) {
-    //TODO Implementare generazione dinamica dei Widget
     return Stack(
-      //TODO Implementare spostamento del JunctionWidget
+      //TODO Implementare salvataggio posizione sopo spostamento del JunctionWidget
       children: [
         JunctionWidget(
           height: 100,

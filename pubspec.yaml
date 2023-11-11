@@ -43,8 +43,10 @@ dependencies:
   shared_preferences: ^2.2.1
   get: ^4.6.6
   mockito: ^5.4.2
+  keybinder: ^1.0.1
+  hotkey_manager: ^0.1.1
+  path_provider: ^2.1.1
   easy_debounce: ^2.0.3
-
 
 dev_dependencies:
   flutter_test:
@@ -69,8 +71,8 @@ flutter:
   uses-material-design: true
 
     # To add assets to your application, add an assets section, like this:
-assets:
-  - assets/settings.json
+  assets:
+    - assets/settings/junction.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
