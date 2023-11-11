@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:junction/core/junction_search_bar.dart';
 import 'package:junction/dashboard.dart';
 import 'package:provider/provider.dart';
-
 import 'expand_button.dart';
 import 'junction_model.dart';
 
 ///Variable that specify the height of the Junction bar
 double junctionHeight = 50;
+
+
 
 class JunctionTopBar extends StatelessWidget {
   const JunctionTopBar({Key? key}) : super(key: key);

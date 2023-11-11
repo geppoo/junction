@@ -1,5 +1,5 @@
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_utils/get_utils.dart';
 import 'package:provider/provider.dart';
 
 import 'junction_model.dart';
@@ -43,12 +43,11 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
             controller: controller,
             onTap: () {
               junctionModel.expandIfNot(height);
-              controller.openView();
+              EasyDebounce.debounce('deb', const Duration(milliseconds: 150), () {
+                controller.openView();
+              });
             },
-            onChanged: (_) {
-              junctionModel.expandIfNot(height);
-              controller.openView();
-            },
+            onChanged: (_) {},
             leading: const Icon(Icons.search),
           ),
         );
@@ -59,8 +58,11 @@ class _JunctionSearchBarState extends State<JunctionSearchBar> {
           return ListTile(
             title: Text(item),
             onTap: () {
-              setState(() {
-                controller.closeView(item);
+              controller.closeView(item);
+              EasyDebounce.debounce('deb', const Duration(milliseconds: 150), () {
+                setState(() {
+                  junctionModel.setIsDashboardVisible = false;
+                });
               });
             },
           );
