@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
 class FileInterface {
   Future? _initializer;
@@ -15,14 +14,21 @@ class FileInterface {
   Future? get ensureInitialized => _initializer;
 
   Future<File> _initializeFile() async {
-    final localDirectory = await getApplicationDocumentsDirectory();
-    File file;
+    //final localDirectory = await getApplicationDocumentsDirectory();
+    File file = File("tmp");
+    String? home = "";
+    Map<String, String> envVars = Platform.environment;
 
-    //Check for OS for specific filepath type
-    if(Platform.isWindows){
-      file = File('${localDirectory.path}\\$localFilename');
-    }else{
-      file = File('${localDirectory.path}/$localFilename');
+    //Getting user home environment variable
+    if (Platform.isMacOS) {
+      home = envVars['HOME'];
+      file = File('$home/.config/junction/$localFilename');
+    } else if (Platform.isLinux) {
+      home = envVars['HOME'];
+      file = File('$home/.config/junction/$localFilename');
+    } else if (Platform.isWindows) {
+      home = envVars['UserProfile'];
+      file = File('$home\\$localFilename');
     }
 
     if (!await file.exists()) {
