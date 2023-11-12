@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:junction/core/io/file_interface.dart';
-import 'package:junction/core/junction_search_bar.dart';
+import 'package:junction/core/search_bar/junction_search_bar.dart';
 
 ///The class builds a suggestion engine for [JunctionSearchBar], using the history
 ///and the executable on the device.
