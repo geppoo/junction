@@ -8,8 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:async';
 
-import 'config/configuration_initializer.dart';
-import 'config/hotkey_bindings.dart';
+import 'config/junction_settings_repository.dart';
 
 JunctionSettingsRepository? junctionSettings;
 WindowOptions windowOptions = const WindowOptions();
@@ -65,9 +64,6 @@ class JunctionApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HotKeyBindings hotKeyBindings = HotKeyBindings(context);
-    hotKeyBindings.init(junctionSettings!.hotKeys);
-
     return ChangeNotifierProvider(
       create: (context) => JunctionModel(windowOptions, junctionSettings!),
       child: const MaterialApp(

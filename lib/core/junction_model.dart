@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:junction/config/configuration_initializer.dart';
+import 'package:junction/config/junction_settings_repository.dart';
 import 'package:window_manager/window_manager.dart';
 
 class JunctionModel extends ChangeNotifier {

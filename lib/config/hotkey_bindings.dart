@@ -7,7 +7,7 @@ import 'model/hotkey_model.dart';
 
 class HotKeyBindings {
   final BuildContext _context;
-  Map<String, Function>? hotKeys;
+  Map<String, Function> hotKeys = <String, Function>{};
 
   HotKeyBindings(this._context) {
     JunctionModel junctionModel = Provider.of<JunctionModel>(_context);
@@ -17,12 +17,12 @@ class HotKeyBindings {
     };
   }
 
-  void init(List<HotKeyModel>? hotKeys) {
-    for (HotKeyModel hotKey in hotKeys!) {
-      _registerHotKey(
+  Future<void> init(List<HotKeyModel> hotKeys) async {
+    for (HotKeyModel hotKey in hotKeys) {
+      await _registerHotKey(
           HotKey(
               KeyCode.values
-                  .firstWhere((e) => e.toString() == hotKey.hotKeyKey),
+                  .firstWhere((e) => e.keyLabel == hotKey.hotKeyKey, orElse: () => KeyCode.alt),
               modifiers: _getModifiers(hotKey.hotKeyModifiers),
               scope: HotKeyScope.system),
           hotKey.hotKeyAction);
@@ -30,10 +30,10 @@ class HotKeyBindings {
   }
 
   List<KeyModifier>? _getModifiers(List<String> keyModifiers) {
-    List<KeyModifier>? tempModifiers;
+    List<KeyModifier>? tempModifiers = <KeyModifier>[];
     for (String keyModifier in keyModifiers) {
-      tempModifiers!.add(
-          KeyModifier.values.firstWhere((e) => e.toString() == keyModifier));
+      tempModifiers.add(
+          KeyModifier.values.firstWhere((e) => e.keyLabel == keyModifier));
     }
 
     return tempModifiers;
@@ -43,7 +43,7 @@ class HotKeyBindings {
     await hotKeyManager.register(
       hotKey,
       keyDownHandler: (hotKey) {
-        hotKeys?[hotKeyName];
+        () => hotKeys[hotKeyName];
       },
     );
   }

@@ -12,7 +12,7 @@ class JunctionSettingsRepository {
   dynamic jsonFileData;
   late double _junctionBarHeight;
   late double _junctionBarWidth;
-  List<HotKeyModel>? _hotKeys;
+  List<HotKeyModel> _hotKeys = <HotKeyModel>[];
 
   JunctionSettingsRepository() {
     _fileInterface = FileInterface(initialAssetFile, localFilename);
@@ -20,7 +20,13 @@ class JunctionSettingsRepository {
 
   double get junctionBarHeight => _junctionBarHeight;
   double get junctionBarWidth => _junctionBarWidth;
-  List<HotKeyModel>? get hotKeys => _hotKeys;
+  List<HotKeyModel> get hotKeys => _hotKeys;
+
+  set hotKeys(List<HotKeyModel> value) {
+    if (value.isNotEmpty) {
+      _hotKeys = value;
+    }
+  }
 
   set junctionBarHeight(double value) {
     if (value >= 30) {
@@ -43,9 +49,22 @@ class JunctionSettingsRepository {
     junctionBarHeight = junctionBar["junctionBarHeight"];
 
     //read and save all hotKeys
+    List<HotKeyModel> tempHotKeys = <HotKeyModel>[];
+
     for (var hotKey in jsonFileData["HotKeys"]) {
-      _hotKeys?.add(HotKeyModel(hotKey["name"], hotKey["modifiers"],
-          hotKey["key"], hotKey["action"]));
+      tempHotKeys.add(HotKeyModel(hotKey["name"],
+          _getStringModifiers(hotKey["modifiers"]), hotKey["key"], hotKey["action"]));
     }
+
+    hotKeys = tempHotKeys;
+  }
+
+  List<String> _getStringModifiers(List<dynamic> hotKeyModifiers) {
+    List<String> tempHotKeyModifiers = <String>[];
+    for (var hotKeyModifier in hotKeyModifiers) {
+      tempHotKeyModifiers.add(hotKeyModifier);
+    }
+
+    return tempHotKeyModifiers;
   }
 }
