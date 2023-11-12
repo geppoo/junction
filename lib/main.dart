@@ -9,6 +9,7 @@ import 'package:window_manager/window_manager.dart';
 import 'dart:async';
 
 import 'config/configuration_initializer.dart';
+import 'config/hotkey_bindings.dart';
 
 JunctionSettingsRepository? junctionSettings;
 WindowOptions windowOptions = const WindowOptions();
@@ -23,7 +24,8 @@ Future<void> main() async {
   await junctionSettings?.init();
 
   windowOptions = WindowOptions(
-    size: Size(junctionSettings!.junctionBarWidth, junctionSettings!.junctionBarHeight),
+    size: Size(junctionSettings!.junctionBarWidth,
+        junctionSettings!.junctionBarHeight),
     alwaysOnTop: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
@@ -59,10 +61,13 @@ Future<void> main() async {
 class JunctionApp extends StatelessWidget {
   final bool resizable;
 
-  const JunctionApp({Key? key,required this.resizable}) : super(key: key);
+  const JunctionApp({Key? key, required this.resizable}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    HotKeyBindings hotKeyBindings = HotKeyBindings(context);
+    hotKeyBindings.init(junctionSettings!.hotKeys);
+
     return ChangeNotifierProvider(
       create: (context) => JunctionModel(windowOptions, junctionSettings!),
       child: const MaterialApp(
