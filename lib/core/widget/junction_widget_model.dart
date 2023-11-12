@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 
-//ignore: must_be_immutable
-class JunctionWidget extends StatefulWidget {
-  late final String? token;
-  late final List<String>? list;
+///Main model for the Junction Widgets
+class JunctionWidgetModel extends StatefulWidget {
+  final String? token;
+  final List<String>? list;
 
-  Widget child;
+  final Widget child;
+  final double height;
+  final String title;
+  final double width;
+  final double bottom;
+  final double left;
 
-  double height;
-
-  String title;
-
-  double width;
-
-  double bottom;
-
-  double left;
-
-  JunctionWidget(
+  const JunctionWidgetModel(
       {super.key,
       required this.child,
       required this.height,
@@ -29,10 +24,10 @@ class JunctionWidget extends StatefulWidget {
       this.list});
 
   @override
-  State<JunctionWidget> createState() => _StateJunctionWidget();
+  State<JunctionWidgetModel> createState() => _StateJunctionWidget();
 }
 
-class _StateJunctionWidget extends State<JunctionWidget> {
+class _StateJunctionWidget extends State<JunctionWidgetModel> {
   Offset position = const Offset(100, 100);
 
   void updatePosition(Offset newPosition) => setState(() => position = newPosition);

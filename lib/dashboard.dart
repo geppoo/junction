@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:junction/core/widget/junction_widget.dart';
+import 'package:junction/core/widget/junction_widget_model.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -8,16 +8,16 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return const Stack(
       //TODO Implementare salvataggio posizione sopo spostamento del JunctionWidget
       children: [
-        JunctionWidget(
+        JunctionWidgetModel(
           height: 100,
           title: "2",
           width: 300,
           left: 300,
           bottom: 300,
-          child: const Text("Widget che si trascina"),
+          child: Text("Widget che si trascina"),
         ),
       ],
     );

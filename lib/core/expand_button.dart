@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:junction/core/junction_model.dart';
 import 'package:provider/provider.dart';
 
+///Widget for the overlay toggle button
 class ExpandButton extends StatelessWidget {
   const ExpandButton({super.key});
 
@@ -11,9 +12,9 @@ class ExpandButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () {
         junctionModel
-            .setIsDashboardVisible(!junctionModel.getIsDashboardVisible);
+            .setIsDashboardVisible(!junctionModel.isDashboardVisible);
       },
-      child: junctionModel.getIsDashboardVisible
+      child: junctionModel.isDashboardVisible
           ? const Icon(Icons.arrow_drop_up)
           : const Icon(Icons.arrow_drop_down),
     );

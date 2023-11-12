@@ -1,3 +1,5 @@
+
+///Model for the HotKey shortcuts
 class HotKeyModel{
   String _hotKeyName;
   List<String> _hotKeyModifiers;

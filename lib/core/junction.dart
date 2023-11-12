@@ -8,9 +8,7 @@ import '../config/hotkey_bindings.dart';
 import 'expand_button.dart';
 import 'junction_model.dart';
 
-///Variable that specify the height of the Junction bar
-double junctionHeight = 50;
-
+///Main Widget that render Junction top bar.
 class JunctionTopBar extends StatelessWidget {
   const JunctionTopBar({Key? key}) : super(key: key);
 
@@ -18,7 +16,7 @@ class JunctionTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
 
-    //HotKey init
+    //HotKeys init
     hotKeyManager.unregisterAll();
     HotKeyBindings hotKeyBindings = HotKeyBindings(context);
     hotKeyBindings.init(junctionModel.junctionSettings.hotKeys);
@@ -52,7 +50,7 @@ class JunctionTopBar extends StatelessWidget {
       Flexible(
         flex: 1,
         child: Visibility(
-          visible: junctionModel.getIsDashboardVisible,
+          visible: junctionModel.isDashboardVisible,
           child: const Row(
             children: [Expanded(flex: 1, child: Dashboard())],
           ),
