@@ -1,10 +1,10 @@
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:junction/core/io/file_interface.dart';
-import 'package:junction/core/search_builder.dart';
+import 'package:junction/core/search_bar/search_builder.dart';
 import 'package:provider/provider.dart';
 
-import 'junction_model.dart';
+import '../junction_model.dart';
 
 class JunctionSearchBar extends StatefulWidget {
   final int numberOfResult;

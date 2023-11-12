@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
-import 'package:junction/core/junction_search_bar.dart';
+import 'package:junction/core/search_bar/junction_search_bar.dart';
 import 'package:junction/dashboard.dart';
 import 'package:provider/provider.dart';
 
