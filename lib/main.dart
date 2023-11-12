@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
-import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:junction/core/junction.dart';
 import 'package:junction/core/junction_model.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
-import 'dart:async';
 
 import 'config/junction_settings_repository.dart';
 
@@ -51,8 +51,6 @@ Future<void> main() async {
 
   // Must add this line.
   WidgetsFlutterBinding.ensureInitialized();
-  // For hot reload, `unregisterAll()` needs to be called.
-  await hotKeyManager.unregisterAll();
 
   runApp(const JunctionApp(resizable: arg == "true"));
 }

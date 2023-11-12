@@ -18,9 +18,10 @@ class JunctionTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
 
-    _init(junctionModel, context);
-
-    print(hotKeyManager.registeredHotKeyList);
+    //HotKey init
+    hotKeyManager.unregisterAll();
+    HotKeyBindings hotKeyBindings = HotKeyBindings(context);
+    hotKeyBindings.init(junctionModel.junctionSettings.hotKeys);
 
     return Column(children: [
       ///Junction bar
@@ -60,10 +61,5 @@ class JunctionTopBar extends StatelessWidget {
         ),
       )
     ]);
-  }
-
-  void _init(JunctionModel junctionModel, BuildContext context) async{
-    HotKeyBindings hotKeyBindings = HotKeyBindings(context);
-    await hotKeyBindings.init(junctionModel.junctionSettings.hotKeys);
   }
 }

@@ -17,9 +17,9 @@ class HotKeyBindings {
     };
   }
 
-  Future<void> init(List<HotKeyModel> hotKeys) async {
+  void init(List<HotKeyModel> hotKeys) async {
     for (HotKeyModel hotKey in hotKeys) {
-      await _registerHotKey(
+      _registerHotKey(
           HotKey(
               KeyCode.values
                   .firstWhere((e) => e.keyLabel == hotKey.hotKeyKey, orElse: () => KeyCode.alt),
@@ -43,7 +43,7 @@ class HotKeyBindings {
     await hotKeyManager.register(
       hotKey,
       keyDownHandler: (hotKey) {
-        () => hotKeys[hotKeyName];
+        hotKeys[hotKeyName]?.call();
       },
     );
   }
