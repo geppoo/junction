@@ -1,10 +1,12 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/search_anchor.dart';
 import 'package:junction/core/io/file_interface.dart';
+import 'package:junction/core/junction_search_bar.dart';
 
+///The class builds a suggestion engine for [JunctionSearchBar], using the history
+///and the executable on the device.
+///
+/// It reads [assets/history.json] and [assets/executable.json] for the necessary data
 class SearchBuilder {
   late FileInterface? _history;
   late FileInterface _executable;
@@ -20,9 +22,14 @@ class SearchBuilder {
   //ctor testing
   SearchBuilder.testing(this._history, this._executable);
 
-  Future<List<Widget>> generateSearch(int len) async {
+  ///It generates a list of widget containing the suggestion for [JunctionSearchBar] of a specified [length]
+  ///
+  /// Throws a [ArgumentError] if [length] >= 0
+  Future<List<Widget>> generateSearch(int length) async {
     List<ListTile> res = [];
-
+    if(length <= 0) {
+      throw ArgumentError("Length must be > 0");
+    }
     var stringFileData = await _history!.ensureInitialized!;
 
     var jsonFileData = jsonDecode(stringFileData!);
@@ -32,7 +39,7 @@ class SearchBuilder {
       return res;
     }
     var historyList = jsonFileData['history'] as List<dynamic>;
-    while (i < len && i < historyList.length) {
+    while (i < length && i < historyList.length) {
       res.add(ListTile(title: Text(historyList[i]),
       onTap: () {
         _controller.closeView(historyList[i]);
@@ -46,7 +53,7 @@ class SearchBuilder {
       return res;
     }
     var executableList = exeJson['executable'] as List<dynamic>;
-    while (i < len && i < executableList.length) {
+    while (i < length && i < executableList.length) {
       res.add(ListTile(title: Text(executableList[i]),
           onTap: () {
             _controller.closeView(executableList[i]);
@@ -55,16 +62,5 @@ class SearchBuilder {
     }
     return res;
   }
-  //suggestionsBuilder:
-  //(BuildContext context, SearchController controller) {
-  //return List<ListTile>.generate(5, (int index) {
-  //final String item = 'item $index';
-  //return ListTile(
-  //title: Text(item),
-  //onTap: () {
-  //setState(() {
-  //controller.closeView(item);
-  //});
-  //},
-  //);
+
 }
