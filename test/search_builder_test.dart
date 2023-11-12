@@ -10,8 +10,6 @@ import 'package:mockito/mockito.dart';
 import 'search_builder_test.mocks.dart';
 
 @GenerateMocks([FileInterface])
-// Assuming you have the necessary imports
-
 void main() {
   group('Search builder', () {
     test('history', () async {
