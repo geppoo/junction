@@ -8,7 +8,7 @@ class FileInterface {
   String initialAssetFile;
   String localFilename;
 
-  FileInterface(this.initialAssetFile, this.localFilename){
+  FileInterface(this.initialAssetFile, this.localFilename) {
     _initializer = _readFile();
   }
 

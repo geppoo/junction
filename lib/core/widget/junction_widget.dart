@@ -35,8 +35,7 @@ class JunctionWidget extends StatefulWidget {
 class _StateJunctionWidget extends State<JunctionWidget> {
   Offset position = const Offset(100, 100);
 
-  void updatePosition(Offset newPosition) =>
-      setState(() => position = newPosition);
+  void updatePosition(Offset newPosition) => setState(() => position = newPosition);
 
   @override
   Widget build(BuildContext context) {
