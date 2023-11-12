@@ -16,7 +16,14 @@ class FileInterface {
 
   Future<File> _initializeFile() async {
     final localDirectory = await getApplicationDocumentsDirectory();
-    final file = File('${localDirectory.path}\\$localFilename');
+    File file;
+
+    //Check for OS for specific filepath type
+    if(Platform.isWindows){
+      file = File('${localDirectory.path}\\$localFilename');
+    }else{
+      file = File('${localDirectory.path}/$localFilename');
+    }
 
     if (!await file.exists()) {
       // read the file from assets first and create the local file with its contents
