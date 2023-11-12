@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
-import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:junction/core/junction.dart';
 import 'package:junction/core/junction_model.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
-import 'dart:async';
 
-import 'config/configuration_initializer.dart';
+import 'config/junction_settings_repository.dart';
 
 JunctionSettingsRepository? junctionSettings;
 WindowOptions windowOptions = const WindowOptions();
@@ -23,7 +23,8 @@ Future<void> main() async {
   await junctionSettings?.init();
 
   windowOptions = WindowOptions(
-    size: Size(junctionSettings!.junctionBarWidth, junctionSettings!.junctionBarHeight),
+    size: Size(junctionSettings!.junctionBarWidth,
+        junctionSettings!.junctionBarHeight),
     alwaysOnTop: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
@@ -50,8 +51,6 @@ Future<void> main() async {
 
   // Must add this line.
   WidgetsFlutterBinding.ensureInitialized();
-  // For hot reload, `unregisterAll()` needs to be called.
-  await hotKeyManager.unregisterAll();
 
   runApp(const JunctionApp(resizable: arg == "true"));
 }
@@ -59,7 +58,7 @@ Future<void> main() async {
 class JunctionApp extends StatelessWidget {
   final bool resizable;
 
-  const JunctionApp({Key? key,required this.resizable}) : super(key: key);
+  const JunctionApp({Key? key, required this.resizable}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

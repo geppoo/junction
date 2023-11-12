@@ -4,6 +4,7 @@ import 'package:junction/core/junction_search_bar.dart';
 import 'package:junction/dashboard.dart';
 import 'package:provider/provider.dart';
 
+import '../config/hotkey_bindings.dart';
 import 'expand_button.dart';
 import 'junction_model.dart';
 
@@ -17,14 +18,10 @@ class JunctionTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
 
-    //TODO Implementare configurazione dinamica delle shortcut
-    final HotKey hotKeyOpenJunction = HotKey(
-      KeyCode.keyJ,
-      modifiers: [KeyModifier.alt],
-      scope: HotKeyScope.system,
-    );
-
-    _registerExpandJunctionHotkey(hotKeyOpenJunction, junctionModel);
+    //HotKey init
+    hotKeyManager.unregisterAll();
+    HotKeyBindings hotKeyBindings = HotKeyBindings(context);
+    hotKeyBindings.init(junctionModel.junctionSettings.hotKeys);
 
     return Column(children: [
       ///Junction bar
@@ -62,14 +59,5 @@ class JunctionTopBar extends StatelessWidget {
         ),
       )
     ]);
-  }
-
-  Future<void> _registerExpandJunctionHotkey(HotKey hotKey, JunctionModel junctionModel) async {
-    await hotKeyManager.register(
-      hotKey,
-      keyDownHandler: (hotKey) {
-        junctionModel.setIsDashboardVisible(!junctionModel.getIsDashboardVisible);
-      },
-    );
   }
 }
