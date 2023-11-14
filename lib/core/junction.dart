@@ -31,7 +31,7 @@ class JunctionTopBar extends StatelessWidget {
       SizedBox(
         width: junctionModel.junctionSettings.junctionBarWidth,
         height: junctionModel.junctionSettings.junctionBarHeight,
-        child: Row(
+        child: const Row(
           children: [
             Expanded(
               child: Row(children: [
@@ -39,13 +39,16 @@ class JunctionTopBar extends StatelessWidget {
                   flex: 1,
                   fit: FlexFit.tight,
                   child: Padding(
-                      padding: const EdgeInsets.only(left: 1.0, top: 1, bottom: 1, right: 1.0),
-                      child: JunctionSearchBar(numberOfResult: 4)),
+                      padding: EdgeInsets.only(
+                          left: 1.0, top: 1, bottom: 1, right: 1.0),
+                      child: JunctionSearchBar(
+                        suggestedLength: 5,
+                      )),
                 ),
               ]),
             ),
             //const WindowButtons(),
-            const ExpandButton(),
+            ExpandButton(),
           ],
         ),
       ),
@@ -64,11 +67,13 @@ class JunctionTopBar extends StatelessWidget {
     ]);
   }
 
-  Future<void> _registerExpandJunctionHotkey(HotKey hotKey, JunctionModel junctionModel) async {
+  Future<void> _registerExpandJunctionHotkey(
+      HotKey hotKey, JunctionModel junctionModel) async {
     await hotKeyManager.register(
       hotKey,
       keyDownHandler: (hotKey) {
-        junctionModel.setIsDashboardVisible(!junctionModel.getIsDashboardVisible);
+        junctionModel
+            .setIsDashboardVisible(!junctionModel.getIsDashboardVisible);
       },
     );
   }

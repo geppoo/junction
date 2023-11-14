@@ -1,30 +1,32 @@
 import 'dart:convert';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:junction/core/io/file_interface.dart';
 import 'package:junction/core/search_builder.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
 import 'search_builder_test.mocks.dart';
 
-@GenerateMocks([FileInterface])
+@GenerateMocks([FileInterface, SearchController, BuildContext])
 void main() {
   group('Search builder', () {
+    final MockFileInterface doc = MockFileInterface();
+    final MockFileInterface docS = MockFileInterface();
+    final MockSearchController docSc = MockSearchController();
+    final MockBuildContext docC = MockBuildContext();
+
     test('history', () async {
       // Arrange
-      final MockFileInterface doc = MockFileInterface();
-      final MockFileInterface doc_s = MockFileInterface();
 
       when(doc.ensureInitialized).thenAnswer((_) async => jsonEncode({
             'history': ['peppo', 'dwm', 'junction']
           }));
-      when(doc_s.ensureInitialized).thenAnswer((_) async => jsonEncode({
+      when(docS.ensureInitialized).thenAnswer((_) async => jsonEncode({
             'executable': ['ampl', 'bestie', 'carbon']
           }));
       // Act
-      final SearchBuilder SUT = SearchBuilder.testing(doc, doc_s);
+      final SearchBuilder SUT = SearchBuilder.testing(doc, docS, docC, docSc);
       final List<Widget> result = await SUT.generateSearch(3);
 
       expect(result, isList); // Ensure it's a list
@@ -44,8 +46,6 @@ void main() {
 
     test('ExecutableAfterHistory', () async {
       // Arrange
-      final MockFileInterface doc = MockFileInterface();
-      final MockFileInterface docS = MockFileInterface();
 
       when(doc.ensureInitialized).thenAnswer((_) async => jsonEncode({
             'history': ['peppo', 'dwm', 'junction']
@@ -54,7 +54,7 @@ void main() {
             'executable': ['ampl', 'bestie', 'carbon']
           }));
       // Act
-      final SearchBuilder SUT = SearchBuilder.testing(doc, docS);
+      final SearchBuilder SUT = SearchBuilder.testing(doc, docS, docC, docSc);
       final List<Widget> result = await SUT.generateSearch(5);
 
       final List<String> textValues = result.map((widget) {
@@ -67,6 +67,24 @@ void main() {
         return '';
       }).toList();
       expect(textValues, ['peppo', 'dwm', 'junction', 'ampl', 'bestie']);
+    });
+
+    testWidgets('tap test', (WidgetTester tester) async {
+      when(doc.ensureInitialized).thenAnswer((_) async => jsonEncode({
+            'history': ['peppo', 'dwm', 'junction']
+          }));
+      when(docS.ensureInitialized).thenAnswer((_) async => jsonEncode({
+            'executable': ['ampl', 'bestie', 'carbon']
+          }));
+      // Act
+      final SearchBuilder SUT = SearchBuilder.testing(doc, docS, docC, docSc);
+      final List<Widget> result = await SUT.generateSearch(5);
+
+      await tester.pumpWidget(Material(
+          child: Directionality(
+              textDirection: TextDirection.ltr, child: result.first)));
+      await tester.tap(find.byType(ListTile));
+      verify(docSc.closeView('peppo'));
     });
   });
 }

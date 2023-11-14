@@ -20,7 +20,7 @@ class SearchBuilder {
   }
 
   //ctor testing
-  SearchBuilder.testing(this._history, this._executable);
+  SearchBuilder.testing(this._history, this._executable,this._context,this._controller);
 
   ///It generates a list of widget containing the suggestion for [JunctionSearchBar] of a specified [length]
   ///
