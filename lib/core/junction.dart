@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
-import 'package:junction/core/search_bar/junction_search_bar.dart';
 import 'package:junction/dashboard.dart';
 import 'package:provider/provider.dart';
-
+import 'package:junction/core/search_bar/junction_search_bar.dart';
 import '../config/hotkey_bindings.dart';
 import 'expand_button.dart';
 import 'junction_model.dart';
-
-///Variable that specify the height of the Junction bar
-double junctionHeight = 50;
 
 class JunctionTopBar extends StatelessWidget {
   const JunctionTopBar({Key? key}) : super(key: key);
@@ -28,7 +24,7 @@ class JunctionTopBar extends StatelessWidget {
       SizedBox(
         width: junctionModel.junctionSettings.junctionBarWidth,
         height: junctionModel.junctionSettings.junctionBarHeight,
-        child: Row(
+        child: const Row(
           children: [
             Expanded(
               child: Row(children: [
@@ -36,13 +32,16 @@ class JunctionTopBar extends StatelessWidget {
                   flex: 1,
                   fit: FlexFit.tight,
                   child: Padding(
-                      padding: const EdgeInsets.only(left: 1.0, top: 1, bottom: 1, right: 1.0),
-                      child: JunctionSearchBar(numberOfResult: 4)),
+                      padding: EdgeInsets.only(
+                          left: 1.0, top: 1, bottom: 1, right: 1.0),
+                      child: JunctionSearchBar(
+                        suggestedLength: 5,
+                      )),
                 ),
               ]),
             ),
             //const WindowButtons(),
-            const ExpandButton(),
+            ExpandButton(),
           ],
         ),
       ),
