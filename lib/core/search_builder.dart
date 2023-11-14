@@ -60,6 +60,7 @@ class SearchBuilder {
         onTap: () {
           controller.closeView(item);
         },
+        trailing: const Icon(Icons.history),
       );
     });
   }
