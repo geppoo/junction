@@ -11,7 +11,7 @@ class SearchBuilder {
   late FileInterface? _history;
   late FileInterface _executable;
 
-  SearchBuilder(SearchController controller) {
+  SearchBuilder() {
     _history = FileInterface("assets/history.json", "history.json");
     _executable = FileInterface("assets/executable.json", "executable.json");
   }
