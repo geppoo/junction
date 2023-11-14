@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:junction/core/io/file_interface.dart';
@@ -14,7 +13,6 @@ void main() {
     final MockFileInterface doc = MockFileInterface();
     final MockFileInterface docS = MockFileInterface();
     final MockSearchController docSc = MockSearchController();
-    final MockBuildContext docC = MockBuildContext();
 
     test('history', () async {
       // Arrange
@@ -26,8 +24,8 @@ void main() {
             'executable': ['ampl', 'bestie', 'carbon']
           }));
       // Act
-      final SearchBuilder SUT = SearchBuilder.testing(doc, docS, docC, docSc);
-      final List<Widget> result = await SUT.generateSearch(3);
+      final SearchBuilder SUT = SearchBuilder.testing(doc, docS);
+      final List<Widget> result = await SUT.generateSearch(docSc, 3);
 
       expect(result, isList); // Ensure it's a list
 
@@ -54,8 +52,8 @@ void main() {
             'executable': ['ampl', 'bestie', 'carbon']
           }));
       // Act
-      final SearchBuilder SUT = SearchBuilder.testing(doc, docS, docC, docSc);
-      final List<Widget> result = await SUT.generateSearch(5);
+      final SearchBuilder SUT = SearchBuilder.testing(doc, docS);
+      final List<Widget> result = await SUT.generateSearch(docSc, 5);
 
       final List<String> textValues = result.map((widget) {
         if (widget is ListTile) {
@@ -77,8 +75,8 @@ void main() {
             'executable': ['ampl', 'bestie', 'carbon']
           }));
       // Act
-      final SearchBuilder SUT = SearchBuilder.testing(doc, docS, docC, docSc);
-      final List<Widget> result = await SUT.generateSearch(5);
+      final SearchBuilder SUT = SearchBuilder.testing(doc, docS);
+      final List<Widget> result = await SUT.generateSearch(docSc, 5);
 
       await tester.pumpWidget(Material(
           child: Directionality(

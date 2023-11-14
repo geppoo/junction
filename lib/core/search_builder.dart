@@ -10,22 +10,20 @@ import 'package:junction/core/junction_search_bar.dart';
 class SearchBuilder {
   late FileInterface? _history;
   late FileInterface _executable;
-  late BuildContext _context;
-  late SearchController _controller;
-  SearchBuilder(BuildContext context, SearchController controller) {
+
+  SearchBuilder(SearchController controller) {
     _history = FileInterface("assets/history.json", "history.json");
     _executable = FileInterface("assets/executable.json", "executable.json");
-    _context = context;
-    _controller = controller;
   }
 
   //ctor testing
-  SearchBuilder.testing(this._history, this._executable,this._context,this._controller);
+  SearchBuilder.testing(this._history, this._executable);
 
   ///It generates a list of widget containing the suggestion for [JunctionSearchBar] of a specified [length]
   ///
   /// Throws a [ArgumentError] if [length] >= 0
-  Future<List<Widget>> generateSearch(int length) async {
+  Future<List<Widget>> generateSearch(
+      SearchController controller, int length) async {
     List<String> res = [];
     if (length <= 0) {
       throw ArgumentError("Length must be > 0");
@@ -60,7 +58,7 @@ class SearchBuilder {
       return ListTile(
         title: Text(item),
         onTap: () {
-          _controller.closeView(item);
+          controller.closeView(item);
         },
       );
     });

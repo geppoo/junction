@@ -35,8 +35,8 @@ class JunctionSearchBar extends StatelessWidget {
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        SearchBuilder sb = SearchBuilder(context, controller);
-        return sb.generateSearch(suggestedLength);
+        return SearchBuilder(controller)
+            .generateSearch(controller, suggestedLength);
       },
     );
   }
