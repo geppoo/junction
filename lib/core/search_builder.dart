@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:junction/core/io/file_interface.dart';
 import 'package:junction/core/junction_search_bar.dart';
+import 'dart:math';
 
 ///The class builds a suggestion engine for [JunctionSearchBar], using the history
 ///and the executable on the device.
@@ -40,7 +41,6 @@ class SearchBuilder {
     var historyList = jsonFileData['history'] as List<dynamic>;
     while (i < length && i < historyList.length) {
       res.add(historyList[i]);
-
       i++;
     }
 
@@ -48,12 +48,12 @@ class SearchBuilder {
     var exeJson = jsonDecode(exec!);
 
     var executableList = exeJson['executable'] as List<dynamic>;
-
-    while (i < length && i % historyList.length < executableList.length) {
-      res.add(executableList[i % historyList.length]);
+    i = 0;
+    while (i < min(length - historyList.length, executableList.length)) {
+      res.add(executableList[i]);
       i++;
     }
-    return List<ListTile>.generate(length, (index) {
+    return List<ListTile>.generate(res.length, (index) {
       final String item = res[index];
       return ListTile(
         title: Text(item),
