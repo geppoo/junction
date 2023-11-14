@@ -67,6 +67,28 @@ void main() {
       expect(textValues, ['peppo', 'dwm', 'junction', 'ampl', 'bestie']);
     });
 
+    test('History trailing icon', () async {
+      // Arrange
+
+      when(doc.ensureInitialized).thenAnswer((_) async => jsonEncode({
+            'history': ['peppo', 'dwm', 'junction']
+          }));
+      when(docS.ensureInitialized).thenAnswer((_) async => jsonEncode({
+            'executable': ['ampl', 'bestie', 'carbon']
+          }));
+      // Act
+      final SearchBuilder SUT = SearchBuilder.testing(doc, docS);
+      final List<Widget> result = await SUT.generateSearch(docSc, 5);
+      for (int i = 0; i < 3; i++) {
+        Widget w = result[i];
+        if (w is ListTile) {
+          final Widget? icon = w.trailing;
+          expect(
+              icon?.toStringShort(), const Icon(Icons.history).toStringShort());
+        }
+      }
+    });
+
     testWidgets('tap test', (WidgetTester tester) async {
       when(doc.ensureInitialized).thenAnswer((_) async => jsonEncode({
             'history': ['peppo', 'dwm', 'junction']
