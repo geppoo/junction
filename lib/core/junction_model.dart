@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:junction/config/junction_settings_repository.dart';
 import 'package:window_manager/window_manager.dart';
 
+///Model used for the global application.
+///
+/// This class is used for the application global Provider that manages the app state.
 class JunctionModel extends ChangeNotifier {
   bool _isDashboardVisible = false;
   WindowOptions _windowOptions = const WindowOptions();
@@ -10,7 +13,8 @@ class JunctionModel extends ChangeNotifier {
 
   JunctionModel(this._windowOptions, this._junctionSettings);
 
-  bool get getIsDashboardVisible => _isDashboardVisible;
+  ///Return if the dashboard is open
+  bool get isDashboardVisible => _isDashboardVisible;
   WindowOptions get windowOptions => _windowOptions;
   JunctionSettingsRepository get junctionSettings => _junctionSettings;
 
@@ -20,12 +24,16 @@ class JunctionModel extends ChangeNotifier {
     }
   }
 
+  ///Method that change the overlay visibility status
+  ///
+  /// The [value] need to be the negation of the property [isDashboardVisible]
   void setIsDashboardVisible(bool value) {
     _isDashboardVisible = value;
 
-    if (!getIsDashboardVisible) {
+    if (!isDashboardVisible) {
       windowOptions = WindowOptions(
-        size: Size(junctionSettings.junctionBarWidth, junctionSettings.junctionBarHeight),
+        size: Size(junctionSettings.junctionBarWidth,
+            junctionSettings.junctionBarHeight),
         alwaysOnTop: true,
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
@@ -45,7 +53,7 @@ class JunctionModel extends ChangeNotifier {
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       windowManager.setAsFrameless();
 
-      if (getIsDashboardVisible) {
+      if (isDashboardVisible) {
         windowManager.maximize();
       }
       windowManager.show();
@@ -54,6 +62,7 @@ class JunctionModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///Method that expand the window to fit the suggestion bar result if the dashboard is not visible.
   void expandIfNot(double height) {
     if (_isDashboardVisible) {
       return;
