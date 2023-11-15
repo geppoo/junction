@@ -35,10 +35,10 @@ class FileInterface {
     //Getting user home environment variable
     if (Platform.isMacOS) {
       home = envVars['HOME'];
-      file = File('$home/.config/junction/$localFilename');
+      file = File('$home/.config/$localFilename');
     } else if (Platform.isLinux) {
       home = envVars['HOME'];
-      file = File('$home/.config/junction/$localFilename');
+      file = File('$home/.config/$localFilename');
     } else if (Platform.isWindows) {
       home = envVars['UserProfile'];
       file = File('$home\\$localFilename');
