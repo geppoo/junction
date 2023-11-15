@@ -8,14 +8,15 @@ import '../junction_model.dart';
 class JunctionSearchBar extends StatelessWidget {
   final int suggestedLength;
   static double height = 50;
-  const JunctionSearchBar({Key? key, required this.suggestedLength})
-      : super(key: key);
+  const JunctionSearchBar({Key? key, required this.suggestedLength}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return SearchAnchor(
-      // viewConstraints: BoxConstraints(maxHeight: _height, maxWidth: _width),
+      viewConstraints: BoxConstraints(
+          maxHeight: suggestedLength * (2 + height),
+          maxWidth: junctionModel.junctionSettings.junctionBarWidth),
       dividerColor: Colors.black87,
       builder: (BuildContext context, SearchController controller) {
         return Directionality(
@@ -24,8 +25,7 @@ class JunctionSearchBar extends StatelessWidget {
             controller: controller,
             onTap: () {
               junctionModel.expandIfNot(height * suggestedLength);
-              EasyDebounce.debounce('deb', const Duration(milliseconds: 150),
-                  () {
+              EasyDebounce.debounce('deb', const Duration(milliseconds: 150), () {
                 controller.openView();
               });
             },
