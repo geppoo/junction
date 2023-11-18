@@ -30,29 +30,52 @@ class JunctionWidgetModel extends StatefulWidget {
 class _StateJunctionWidget extends State<JunctionWidgetModel> {
   Offset position = const Offset(100, 100);
 
-  void updatePosition(Offset newPosition) => setState(() => position = newPosition);
+  void updatePosition(Offset newPosition) =>
+      setState(() => position = newPosition);
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
       left: position.dx,
       top: position.dy,
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height,
-        child: Draggable<Key>(
-          maxSimultaneousDrags: 1,
-          feedback: Opacity(
-            opacity: 0.5,
+      child: Column(
+        children: [
+          Container(
+            width: widget.width,
+            height: 20,
+            color: Colors.blueGrey,
+            child: Draggable(
+                maxSimultaneousDrags: 1,
+                feedback: Opacity(
+                  opacity: 0.7,
+                  child: widget,
+                ),
+                childWhenDragging: const Visibility(
+                  visible: false,
+                  child: Text(""),
+                ),
+                onDragEnd: (details) => updatePosition(details.offset),
+                //TODO Implement close bar
+                child: Material(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        onPressed: () => print("Ciao"),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+          Container(
+            width: widget.width,
+            height: widget.height - 20,
+            color: Colors.grey,
+            //clipBehavior: Clip.hardEdge,
             child: widget.child,
           ),
-          childWhenDragging: Container(
-            color: Colors.green,
-            child: const Text("background when dragging"),
-          ),
-          onDragEnd: (details) => updatePosition(details.offset),
-          child: widget.child,
-        ),
+        ],
       ),
     );
   }
