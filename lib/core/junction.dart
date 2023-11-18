@@ -27,10 +27,11 @@ class _JunctionTopBarState extends State<JunctionTopBar> {
     HotKeyBindings hotKeyBindings = HotKeyBindings(context);
     hotKeyBindings.init(junctionModel.junctionSettings.hotKeys);
 
+    //TODO Resolve RenderFlex overflow exception
     return AnimatedContainer(
-      decoration: const BoxDecoration(
-        color: Colors.black54,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: junctionModel.isDashboardVisible ? Colors.black45 : Colors.black,
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(10),
           bottomRight: Radius.circular(10),
         ),
@@ -42,50 +43,58 @@ class _JunctionTopBarState extends State<JunctionTopBar> {
         bottom: 10,
       ),
       height: expanded ? junctionModel.junctionSettings.junctionBarHeight : 10,
-      duration: const Duration(seconds: 2),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ///Junction bar
-          SizedBox(
-            width: junctionModel.junctionSettings.junctionBarWidth,
-            height: junctionModel.junctionSettings.junctionBarHeight,
-            child: const Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 1.0, top: 1, bottom: 1, right: 1.0),
-                            child: JunctionSearchBar(
-                              suggestedLength: 5,
-                            )),
+      duration: const Duration(seconds: 1),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onHover: (isHover) {
+            setState(() {
+              expanded = true;
+            });
+          },
+          child: Column(
+            children: [
+              ///Junction bar
+              SizedBox(
+                width: junctionModel.junctionSettings.junctionBarWidth,
+                height: junctionModel.junctionSettings.junctionBarHeight,
+                child: const Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            flex: 1,
+                            fit: FlexFit.tight,
+                            child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 1.0, top: 1, bottom: 1, right: 1.0),
+                                child: JunctionSearchBar(
+                                  suggestedLength: 5,
+                                )),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
+                    //const WindowButtons(),
+                    ExpandButton(),
+                  ],
+                ),
+              ),
+
+              ///Expandable Dashboard window
+              Flexible(
+                flex: 1,
+                child: Visibility(
+                  visible: junctionModel.isDashboardVisible,
+                  child: const Row(
+                    children: [Expanded(flex: 1, child: Dashboard())],
                   ),
                 ),
-                //const WindowButtons(),
-                ExpandButton(),
-              ],
-            ),
+              )
+            ],
           ),
-
-          ///Expandable Dashboard window
-
-          Flexible(
-            flex: 1,
-            child: Visibility(
-              visible: junctionModel.isDashboardVisible,
-              child: const Row(
-                children: [Expanded(flex: 1, child: Dashboard())],
-              ),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
