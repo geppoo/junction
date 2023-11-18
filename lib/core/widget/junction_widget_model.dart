@@ -11,6 +11,7 @@ class JunctionWidgetModel extends StatefulWidget {
   final double width;
   final double bottom;
   final double left;
+  final bool visible;
 
   const JunctionWidgetModel(
       {super.key,
@@ -21,7 +22,8 @@ class JunctionWidgetModel extends StatefulWidget {
       required this.left,
       required this.bottom,
       this.token,
-      this.list});
+      this.list,
+      required this.visible});
 
   @override
   State<JunctionWidgetModel> createState() => _StateJunctionWidget();
@@ -29,29 +31,60 @@ class JunctionWidgetModel extends StatefulWidget {
 
 class _StateJunctionWidget extends State<JunctionWidgetModel> {
   Offset position = const Offset(100, 100);
+  bool visible = true;
 
-  void updatePosition(Offset newPosition) => setState(() => position = newPosition);
+  void updatePosition(Offset newPosition) =>
+      setState(() => position = newPosition);
+
+  void hideWidget(bool value) => setState(() => visible = value);
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: position.dx,
-      top: position.dy,
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height,
-        child: Draggable<Key>(
-          maxSimultaneousDrags: 1,
-          feedback: Opacity(
-            opacity: 0.5,
-            child: widget.child,
-          ),
-          childWhenDragging: Container(
-            color: Colors.green,
-            child: const Text("background when dragging"),
-          ),
-          onDragEnd: (details) => updatePosition(details.offset),
-          child: widget.child,
+    return Visibility(
+      visible: visible,
+      child: Positioned(
+        left: position.dx,
+        top: position.dy,
+        child: Column(
+          children: [
+            Container(
+              width: widget.width,
+              height: 20,
+              color: Colors.blueGrey,
+              child: Draggable(
+                  maxSimultaneousDrags: 1,
+                  feedback: Opacity(
+                    opacity: 0.8,
+                    //TODO Change to parent widget for visualization when dragging
+                    child: widget.child,
+                  ),
+                  childWhenDragging: const Visibility(
+                    visible: false,
+                    child: Text(""),
+                  ),
+                  onDragEnd: (details) => updatePosition(details.offset),
+                  child: Material(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          padding: const EdgeInsets.all(0.0),
+                          onPressed: () => hideWidget(!widget.visible),
+                          icon: const Icon(Icons.close),
+                          iconSize: 15,
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+            Container(
+              width: widget.width,
+              height: widget.height - 20,
+              color: Colors.grey,
+              //clipBehavior: Clip.hardEdge,
+              child: widget.child,
+            ),
+          ],
         ),
       ),
     );
