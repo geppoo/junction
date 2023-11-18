@@ -17,7 +17,8 @@ class Dashboard extends StatelessWidget {
           width: 300,
           left: 300,
           bottom: 300,
-          child: Text("Widget che si trascina"),
+          visible: true,
+          child: Text("TEST"),
         ),
       ],
     );
