@@ -32,8 +32,8 @@ class JunctionModel extends ChangeNotifier {
 
     if (!isDashboardVisible) {
       windowOptions = WindowOptions(
-        size: Size(junctionSettings.junctionBarWidth,
-            junctionSettings.junctionBarHeight),
+        size: Size(junctionSettings.junctionBarWidth ,
+            junctionSettings.junctionBarHeight + 1 + 17),
         alwaysOnTop: true,
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
