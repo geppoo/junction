@@ -1,6 +1,9 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
-import 'package:junction/core/search_bar/search_builder.dart';
+import 'package:junction/core/io/file_interface.dart';
 import 'package:provider/provider.dart';
 
 import '../junction_model.dart';
@@ -34,8 +37,48 @@ class JunctionSearchBar extends StatelessWidget {
           ),
         );
       },
-      suggestionsBuilder: (BuildContext context, SearchController controller) {
-        return SearchBuilder().generateSearch(controller, suggestedLength);
+      suggestionsBuilder: (BuildContext context, SearchController controller) async{
+        final FileInterface history =  FileInterface.HISTORY();
+        final FileInterface executable= FileInterface.EXECUTABLE();
+
+        List<String> res = [];
+        if (suggestedLength <= 0) {
+          throw ArgumentError("Length must be > 0");
+        }
+
+        var stringFileData = await history.ensureInitialized!;
+
+        var jsonFileData = jsonDecode(stringFileData!);
+
+        int i = 0;
+        if (!jsonFileData.containsKey('history')) {
+          return [];
+        }
+        var historyList = jsonFileData['history'] as List<dynamic>;
+        while (i < suggestedLength && i < historyList.length) {
+          res.add(historyList[i]);
+          i++;
+        }
+
+        var exec = await executable.ensureInitialized!;
+        var exeJson = jsonDecode(exec!);
+
+        var executableList = exeJson['executable'] as List<dynamic>;
+        i = 0;
+        while (i < min(suggestedLength - historyList.length, executableList.length)) {
+          res.add(executableList[i]);
+          i++;
+        }
+        return List<ListTile>.generate(res.length, (index) {
+          final String item = res[index];
+          return ListTile(
+            title: Text(item),
+            onTap: () {
+              controller.closeView(item);
+            },
+            trailing: const Icon(Icons.history),
+          );
+        });
       },
     );
   }
