@@ -66,4 +66,7 @@ class FileInterface {
     final file = await _initializeFile();
     await file.writeAsString(data);
   }
+
+  factory FileInterface.HISTORY()  => FileInterface("assets/history.json", "history.json");
+  factory FileInterface.EXECUTABLE() => FileInterface("assets/executable.json", "executable.json");
 }
