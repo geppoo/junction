@@ -24,7 +24,7 @@ Future<void> main() async {
 
   windowOptions = WindowOptions(
     size: Size(junctionSettings!.junctionBarWidth,
-        junctionSettings!.junctionBarHeight),
+        junctionSettings!.junctionBarHeight + 1 + 17),
     alwaysOnTop: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,

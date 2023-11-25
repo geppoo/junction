@@ -33,7 +33,7 @@ class JunctionModel extends ChangeNotifier {
     if (!isDashboardVisible) {
       windowOptions = WindowOptions(
         size: Size(junctionSettings.junctionBarWidth,
-            junctionSettings.junctionBarHeight),
+            junctionSettings.junctionBarHeight + 1 + 17),
         alwaysOnTop: true,
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
@@ -72,6 +72,23 @@ class JunctionModel extends ChangeNotifier {
     );
     windowManager.waitUntilReadyToShow(windowOptions, () {
       windowManager.show();
+    });
+    notifyListeners();
+  }
+
+  void setWindowSize(Size windowSize) {
+    windowOptions = WindowOptions(
+      size: windowSize,
+      alwaysOnTop: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.hidden,
+      windowButtonVisibility: false,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      windowManager.setAsFrameless();
+      windowManager.show();
+      windowManager.focus();
     });
     notifyListeners();
   }
