@@ -33,8 +33,10 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
   Offset position = const Offset(100, 100);
   bool visible = true;
 
-  void updatePosition(Offset newPosition) =>
-      setState(() => position = newPosition);
+  void updatePosition(Offset newPosition) => {
+        setState(() => position = newPosition),
+        saveJunctionWidgetPosition(newPosition)
+      };
 
   void hideWidget(bool value) => setState(() => visible = value);
 
@@ -88,5 +90,10 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
         ),
       ),
     );
+  }
+
+  void saveJunctionWidgetPosition(Offset newPosition) {
+    //TODO: access widget file prop, check if exists in prop, if not create else modify
+
   }
 }

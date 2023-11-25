@@ -1,0 +1,9 @@
+{
+  "junctionWidgets": [
+      {
+        "widgetKey" : "widgetTest",
+        "offsetX" : 100,
+        "offsetY" : 100
+    }
+  ]
+}
