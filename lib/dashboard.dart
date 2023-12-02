@@ -11,7 +11,9 @@ class Dashboard extends StatelessWidget {
     return const Stack(
       //TODO Implementare salvataggio posizione sopo spostamento del JunctionWidget
       children: [
+        //TODO: estrazione ed inizializzazione dei junction tramite widget prop file
         JunctionWidgetModel(
+          id: "widgetTestId",
           height: 100,
           title: "2",
           width: 300,

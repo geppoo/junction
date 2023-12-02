@@ -37,7 +37,7 @@ class JunctionWidgetSettingsRepository {
 
     for (var junction in junctionWidgets) {
       tempJunctionWidgetsProp.add(JunctionWidgetPropsModel(
-        junction["widgetKey"],
+        junction["widgetId"],
         junction["offsetX"],
         junction["offsetY"],
       ));

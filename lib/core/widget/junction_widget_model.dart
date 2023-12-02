@@ -5,6 +5,7 @@ class JunctionWidgetModel extends StatefulWidget {
   final String? token;
   final List<String>? list;
 
+  final String id;
   final Widget child;
   final double height;
   final String title;
@@ -15,6 +16,7 @@ class JunctionWidgetModel extends StatefulWidget {
 
   const JunctionWidgetModel(
       {super.key,
+      required this.id,
       required this.child,
       required this.height,
       required this.title,
@@ -33,9 +35,9 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
   Offset position = const Offset(100, 100);
   bool visible = true;
 
-  void updatePosition(Offset newPosition) => {
+  void updatePosition(String junctionId, Offset newPosition) => {
         setState(() => position = newPosition),
-        saveJunctionWidgetPosition(newPosition)
+        saveJunctionWidgetPosition(junctionId, newPosition)
       };
 
   void hideWidget(bool value) => setState(() => visible = value);
@@ -64,7 +66,8 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                     visible: false,
                     child: Text(""),
                   ),
-                  onDragEnd: (details) => updatePosition(details.offset),
+                  onDragEnd: (details) =>
+                      updatePosition(widget.id, details.offset),
                   child: Material(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -92,8 +95,7 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
     );
   }
 
-  void saveJunctionWidgetPosition(Offset newPosition) {
+  void saveJunctionWidgetPosition(String junctionId, Offset newPosition) {
     //TODO: access widget file prop, check if exists in prop, if not create else modify
-
   }
 }
