@@ -23,6 +23,7 @@ Future<void> main() async {
   //settings and data initialization
   junctionSettings = JunctionSettingsRepository();
   await junctionSettings?.init();
+  //Widgets props inti
   junctionData = JunctionWidgetSettingsRepository();
   await junctionData?.init();
 

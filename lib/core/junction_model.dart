@@ -10,19 +10,19 @@ import 'package:window_manager/window_manager.dart';
 class JunctionModel extends ChangeNotifier {
   bool _isDashboardVisible = false;
   WindowOptions _windowOptions = const WindowOptions();
-  final JunctionSettingsRepository _junctionSettings;
+  final JunctionSettingsRepository _junctionSettingsRepository;
   final JunctionWidgetSettingsRepository _junctionWidgetSettingsRepository;
 
   JunctionModel(
     this._windowOptions,
-    this._junctionSettings,
+    this._junctionSettingsRepository,
     this._junctionWidgetSettingsRepository,
   );
 
   ///Return if the dashboard is open
   bool get isDashboardVisible => _isDashboardVisible;
   WindowOptions get windowOptions => _windowOptions;
-  JunctionSettingsRepository get junctionSettings => _junctionSettings;
+  JunctionSettingsRepository get junctionSettings => _junctionSettingsRepository;
   JunctionWidgetSettingsRepository get junctionWidgetSettingsRepository =>
       _junctionWidgetSettingsRepository;
 

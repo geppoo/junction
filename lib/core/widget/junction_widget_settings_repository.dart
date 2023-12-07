@@ -18,7 +18,7 @@ class JunctionWidgetSettingsRepository {
   dynamic _jsonFileData;
 
   ///This property contains all the widget basic settings
-  late final List<JunctionWidgetPropsModel> junctionWidgetsProp;
+  late final Map<String, JunctionWidgetPropertiesModel> junctionWidgetsProp;
 
   JunctionWidgetSettingsRepository() {
     _fileInterface = FileInterface(initialAssetFile, localFilename);
@@ -31,43 +31,64 @@ class JunctionWidgetSettingsRepository {
     _jsonFileData = await jsonDecode(stringFileData!);
     final junctionWidgets = _jsonFileData["junctionWidgets"];
 
+    debugPrint("PROPS DATA ------> $junctionWidgets");
+
     //read and save all hotKeys
-    List<JunctionWidgetPropsModel> tempJunctionWidgetsProp =
-        <JunctionWidgetPropsModel>[];
+    Map<String, JunctionWidgetPropertiesModel> tempJunctionWidgetsProps =
+        <String, JunctionWidgetPropertiesModel>{};
 
     for (var junction in junctionWidgets) {
-      tempJunctionWidgetsProp.add(JunctionWidgetPropsModel(
+      tempJunctionWidgetsProps[junction["widgetId"]] =
+          JunctionWidgetPropertiesModel(
         junction["widgetId"],
-        junction["offsetX"],
-        junction["offsetY"],
-      ));
+        junction["offSetX"],
+        junction["offSetY"],
+      );
     }
 
-    junctionWidgetsProp = tempJunctionWidgetsProp;
+    junctionWidgetsProp = tempJunctionWidgetsProps;
   }
 }
 
-class JunctionWidgetPropsModel {
-  late final Key widgetKey;
+class JunctionWidgetPropertiesModel {
+  late final String _widgetId;
 
-  late final double _offsetX;
+  late double _offsetX;
 
-  late final double _offsetY;
+  late double _offsetY;
 
-  JunctionWidgetPropsModel(widgetKey, offsetX, offsetY);
+  JunctionWidgetPropertiesModel(widgetId, offsetX, offsetY)
+      : _widgetId = widgetId,
+        _offsetX = offsetX,
+        _offsetY = offsetY;
+
+  String get widgetId => _widgetId;
 
   double get offsetX => _offsetX;
+
   double get offsetY => _offsetY;
 
   set offsetX(double value) {
-    if (!value.isNaN && value.isFinite && !value.isNegative) {
+    if (!value.isNegative && value.isFinite) {
       _offsetX = value;
     }
   }
 
   set offsetY(double value) {
-    if (!value.isNaN && value.isFinite && !value.isNegative) {
+    if (!value.isNegative && value.isFinite) {
       _offsetY = value;
     }
   }
+
+  set widgetId(String value) {
+    if (value.isNotEmpty) {
+      _widgetId = value;
+    }
+  }
+
+  Map toJson() => {
+        'widgetId': widgetId,
+        'offSetX': offsetX,
+        'offSetY': offsetY,
+      };
 }

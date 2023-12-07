@@ -9,7 +9,6 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Stack(
-      //TODO Implementare salvataggio posizione sopo spostamento del JunctionWidget
       children: [
         //TODO: estrazione ed inizializzazione dei junction tramite widget prop file
         JunctionWidgetModel(
