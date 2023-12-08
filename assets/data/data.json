@@ -1,20 +1,22 @@
 {
   "junctionWidgets": [
     {
-      "widgetId": "widgetTestId",
+      "widgetId": "widgetTestId1",
       "offSetX": 100.0,
       "offSetY": 100.0,
       "title": "TEST",
       "height": 100.0,
-      "width": 100.0
+      "width": 100.0,
+      "visible": "true"
     },
     {
-      "widgetId": "widgetTestId",
+      "widgetId": "widgetTestId2",
       "offSetX": 100.0,
       "offSetY": 100.0,
       "title": "TEST",
       "height": 100.0,
-      "width": 100.0
+      "width": 100.0,
+      "visible": "true"
     }
   ]
 }

@@ -38,8 +38,8 @@ class JunctionSearchBar extends StatelessWidget {
         );
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) async{
-        final FileInterface history =  FileInterface.HISTORY();
-        final FileInterface executable= FileInterface.EXECUTABLE();
+        final FileInterface history =  FileInterface.history();
+        final FileInterface executable= FileInterface.executable();
 
         List<String> res = [];
         if (suggestedLength <= 0) {

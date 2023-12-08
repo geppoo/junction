@@ -81,7 +81,12 @@ class _JunctionTopBarState extends State<JunctionTopBar> {
               child: Visibility(
                 visible: junctionModel.isDashboardVisible,
                 child: const Row(
-                  children: [Expanded(flex: 1, child: Dashboard())],
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Dashboard(),
+                    )
+                  ],
                 ),
               ),
             )

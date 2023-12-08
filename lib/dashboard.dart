@@ -14,27 +14,18 @@ class Dashboard extends StatelessWidget {
     return Stack(
       children: junctionModel
           .junctionWidgetSettingsRepository.junctionWidgetsProp.entries
-          .map((junctionWidget) {
-        return JunctionWidgetModel(
-          id: junctionWidget.value.widgetId,
-          title: junctionWidget.value.title,
-          height: junctionWidget.value.height,
-          width: junctionWidget.value.width,
-          visible: true,
-          child: const Text("TEST"),
-        );
-      }).toList(),
-      //TODO: estrazione ed inizializzazione dei junction tramite widget prop file
-      /*JunctionWidgetModel(
-          id: "widgetTestId",
-          height: 100,
-          title: "2",
-          width: 300,
-          left: 300,
-          bottom: 300,
-          visible: true,
-          child: Text("TEST"),
-        ),*/
+          .map(
+        (junctionWidget) {
+          return JunctionWidgetModel(
+            id: junctionWidget.value.widgetId,
+            title: junctionWidget.value.title,
+            height: junctionWidget.value.height,
+            width: junctionWidget.value.width,
+            visible: true,
+            junctionContentWidget: Text(junctionWidget.value.title),
+          );
+        },
+      ).toList(),
     );
   }
 }
