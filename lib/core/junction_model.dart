@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:junction/config/junction_settings_repository.dart';
+import 'package:junction/core/widget/junction_widget_settings_repository.dart';
 import 'package:window_manager/window_manager.dart';
 
 ///Model used for the global application.
@@ -9,14 +10,21 @@ import 'package:window_manager/window_manager.dart';
 class JunctionModel extends ChangeNotifier {
   bool _isDashboardVisible = false;
   WindowOptions _windowOptions = const WindowOptions();
-  final JunctionSettingsRepository _junctionSettings;
+  final JunctionSettingsRepository _junctionSettingsRepository;
+  final JunctionWidgetSettingsRepository _junctionWidgetSettingsRepository;
 
-  JunctionModel(this._windowOptions, this._junctionSettings);
+  JunctionModel(
+    this._windowOptions,
+    this._junctionSettingsRepository,
+    this._junctionWidgetSettingsRepository,
+  );
 
   ///Return if the dashboard is open
   bool get isDashboardVisible => _isDashboardVisible;
   WindowOptions get windowOptions => _windowOptions;
-  JunctionSettingsRepository get junctionSettings => _junctionSettings;
+  JunctionSettingsRepository get junctionSettings => _junctionSettingsRepository;
+  JunctionWidgetSettingsRepository get junctionWidgetSettingsRepository =>
+      _junctionWidgetSettingsRepository;
 
   set windowOptions(WindowOptions options) {
     if (!options.isBlank!) {
@@ -33,7 +41,7 @@ class JunctionModel extends ChangeNotifier {
     if (!isDashboardVisible) {
       windowOptions = WindowOptions(
         size: Size(junctionSettings.junctionBarWidth,
-            junctionSettings.junctionBarHeight),
+            junctionSettings.junctionBarHeight + 1 + 17),
         alwaysOnTop: true,
         backgroundColor: Colors.transparent,
         skipTaskbar: false,
@@ -72,6 +80,23 @@ class JunctionModel extends ChangeNotifier {
     );
     windowManager.waitUntilReadyToShow(windowOptions, () {
       windowManager.show();
+    });
+    notifyListeners();
+  }
+
+  void setWindowSize(Size windowSize) {
+    windowOptions = WindowOptions(
+      size: windowSize,
+      alwaysOnTop: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.hidden,
+      windowButtonVisibility: false,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      windowManager.setAsFrameless();
+      windowManager.show();
+      windowManager.focus();
     });
     notifyListeners();
   }

@@ -1,10 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:junction/core/io/file_interface.dart';
+import 'package:provider/provider.dart';
+
+import '../junction_model.dart';
+import 'junction_widget_settings_repository.dart';
 
 ///Main model for the Junction Widgets
 class JunctionWidgetModel extends StatefulWidget {
   final String? token;
   final List<String>? list;
 
+  final String id;
   final Widget child;
   final double height;
   final String title;
@@ -15,6 +23,7 @@ class JunctionWidgetModel extends StatefulWidget {
 
   const JunctionWidgetModel(
       {super.key,
+      required this.id,
       required this.child,
       required this.height,
       required this.title,
@@ -30,16 +39,70 @@ class JunctionWidgetModel extends StatefulWidget {
 }
 
 class _StateJunctionWidget extends State<JunctionWidgetModel> {
-  Offset position = const Offset(100, 100);
+  late Offset position;
   bool visible = true;
 
-  void updatePosition(Offset newPosition) =>
-      setState(() => position = newPosition);
+  void initPosition(Offset initialPosition) =>
+      {setState(() => position = initialPosition)};
+
+  void updatePosition(
+          String junctionId, Offset newPosition, JunctionModel junctionModel) =>
+      {
+        setState(() => position = newPosition),
+        saveJunctionWidgetPosition(junctionId, newPosition, junctionModel)
+      };
 
   void hideWidget(bool value) => setState(() => visible = value);
 
+  Future<void> saveJunctionWidgetPosition(String junctionId, Offset newPosition,
+      JunctionModel junctionModel) async {
+    if (junctionModel
+            .junctionWidgetSettingsRepository.junctionWidgetsProp[widget.id] !=
+        null) {
+      var x = junctionModel.junctionWidgetSettingsRepository
+          .junctionWidgetsProp[widget.id]?.offSetX;
+      var y = junctionModel.junctionWidgetSettingsRepository
+          .junctionWidgetsProp[widget.id]?.offSetY;
+
+      //TODO remove debug
+      debugPrint("Old offSet - > X: $x, Y $y \n"
+          "New offSet X: ${newPosition.dx}, Y: ${newPosition.dy}");
+
+      junctionModel.junctionWidgetSettingsRepository
+          .junctionWidgetsProp[widget.id]?.offSetX = newPosition.dx;
+      junctionModel.junctionWidgetSettingsRepository
+          .junctionWidgetsProp[widget.id]?.offSetY = newPosition.dy;
+
+      List<JunctionWidgetPropertiesModel> junctionWidgets = [];
+
+      for (var widgetProps in junctionModel
+          .junctionWidgetSettingsRepository.junctionWidgetsProp.entries) {
+        junctionWidgets.add(widgetProps.value);
+      }
+
+      String fileData =
+          "{ \"junctionWidgets\": ${json.encode(junctionWidgets)} }";
+
+      //TODO remove debug
+      debugPrint("########## NEW junction_data.json ########## \n"
+          "$fileData");
+
+      //Salvo i dati riguardante il JunctionWidget modificato
+      await FileInterface.DATA().writeToFile(fileData);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
+
+    //Read offSet values from props file
+    initPosition(Offset(
+        junctionModel.junctionWidgetSettingsRepository
+            .junctionWidgetsProp[widget.id]!.offSetX,
+        junctionModel.junctionWidgetSettingsRepository
+            .junctionWidgetsProp[widget.id]!.offSetY));
+
     return Visibility(
       visible: visible,
       child: Positioned(
@@ -62,7 +125,8 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                     visible: false,
                     child: Text(""),
                   ),
-                  onDragEnd: (details) => updatePosition(details.offset),
+                  onDragEnd: (details) =>
+                      updatePosition(widget.id, details.offset, junctionModel),
                   child: Material(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
