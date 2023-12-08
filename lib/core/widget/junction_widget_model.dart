@@ -39,8 +39,11 @@ class JunctionWidgetModel extends StatefulWidget {
 }
 
 class _StateJunctionWidget extends State<JunctionWidgetModel> {
-  Offset position = const Offset(100, 100);
+  late Offset position;
   bool visible = true;
+
+  void initPosition(Offset initialPosition) =>
+      {setState(() => position = initialPosition)};
 
   void updatePosition(
           String junctionId, Offset newPosition, JunctionModel junctionModel) =>
@@ -51,9 +54,54 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
 
   void hideWidget(bool value) => setState(() => visible = value);
 
+  Future<void> saveJunctionWidgetPosition(String junctionId, Offset newPosition,
+      JunctionModel junctionModel) async {
+    if (junctionModel
+            .junctionWidgetSettingsRepository.junctionWidgetsProp[widget.id] !=
+        null) {
+      var x = junctionModel.junctionWidgetSettingsRepository
+          .junctionWidgetsProp[widget.id]?.offSetX;
+      var y = junctionModel.junctionWidgetSettingsRepository
+          .junctionWidgetsProp[widget.id]?.offSetY;
+
+      //TODO remove debug
+      debugPrint("Old offSet - > X: $x, Y $y \n"
+          "New offSet X: ${newPosition.dx}, Y: ${newPosition.dy}");
+
+      junctionModel.junctionWidgetSettingsRepository
+          .junctionWidgetsProp[widget.id]?.offSetX = newPosition.dx;
+      junctionModel.junctionWidgetSettingsRepository
+          .junctionWidgetsProp[widget.id]?.offSetY = newPosition.dy;
+
+      List<JunctionWidgetPropertiesModel> junctionWidgets = [];
+
+      for (var widgetProps in junctionModel
+          .junctionWidgetSettingsRepository.junctionWidgetsProp.entries) {
+        junctionWidgets.add(widgetProps.value);
+      }
+
+      String fileData =
+          "{ \"junctionWidgets\": ${json.encode(junctionWidgets)} }";
+
+      //TODO remove debug
+      debugPrint("########## NEW junction_data.json ########## \n"
+          "$fileData");
+
+      //Salvo i dati riguardante il JunctionWidget modificato
+      await FileInterface.DATA().writeToFile(fileData);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
+
+    //Read offSet values from props file
+    initPosition(Offset(
+        junctionModel.junctionWidgetSettingsRepository
+            .junctionWidgetsProp[widget.id]!.offSetX,
+        junctionModel.junctionWidgetSettingsRepository
+            .junctionWidgetsProp[widget.id]!.offSetY));
 
     return Visibility(
       visible: visible,
@@ -104,43 +152,5 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
         ),
       ),
     );
-  }
-
-  Future<void> saveJunctionWidgetPosition(String junctionId, Offset newPosition,
-      JunctionModel junctionModel) async {
-    //TODO: access widget file prop, check if exists in prop, if not create else modify
-    if (junctionModel
-            .junctionWidgetSettingsRepository.junctionWidgetsProp[widget.id] !=
-        null) {
-      var x = junctionModel.junctionWidgetSettingsRepository
-          .junctionWidgetsProp[widget.id]?.offsetX;
-      var y = junctionModel.junctionWidgetSettingsRepository
-          .junctionWidgetsProp[widget.id]?.offsetY;
-
-      //TODO remove debug
-      debugPrint("Old offSet - > X: $x, Y $y \n"
-          "New offSet X: ${newPosition.dx}, Y: ${newPosition.dy}");
-
-      junctionModel.junctionWidgetSettingsRepository
-          .junctionWidgetsProp[widget.id]?.offsetX = newPosition.dx;
-      junctionModel.junctionWidgetSettingsRepository
-          .junctionWidgetsProp[widget.id]?.offsetY = newPosition.dy;
-
-      List<JunctionWidgetPropertiesModel> junctionWidgets = [];
-
-      for (var widgetProps in junctionModel
-          .junctionWidgetSettingsRepository.junctionWidgetsProp.entries) {
-        junctionWidgets.add(widgetProps.value);
-      }
-
-      String fileData = "{ \"junctionWidgets\": ${json.encode(junctionWidgets)} }";
-
-      //TODO remove debug
-      debugPrint("########## New junction_data.json ########## \n"
-          "$fileData");
-
-      //Salvo i dati riguardante il JunctionWidget modificato
-      await FileInterface.DATA().writeToFile(fileData);
-    }
   }
 }

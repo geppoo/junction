@@ -50,45 +50,50 @@ class JunctionWidgetSettingsRepository {
   }
 }
 
+///Model for JunctionWidget props initialization
 class JunctionWidgetPropertiesModel {
   late final String _widgetId;
-
-  late double _offsetX;
-
-  late double _offsetY;
+  late double _offSetX;
+  late double _offSetY;
 
   JunctionWidgetPropertiesModel(widgetId, offsetX, offsetY)
       : _widgetId = widgetId,
-        _offsetX = offsetX,
-        _offsetY = offsetY;
+        _offSetX = offsetX,
+        _offSetY = offsetY;
 
   String get widgetId => _widgetId;
 
-  double get offsetX => _offsetX;
+  double get offSetX => _offSetX;
 
-  double get offsetY => _offsetY;
+  double get offSetY => _offSetY;
 
-  set offsetX(double value) {
+  set offSetX(double value) {
     if (!value.isNegative && value.isFinite) {
-      _offsetX = value;
+      _offSetX = value;
+    } else {
+      throw ArgumentError.notNull();
     }
   }
 
-  set offsetY(double value) {
+  set offSetY(double value) {
     if (!value.isNegative && value.isFinite) {
-      _offsetY = value;
+      _offSetY = value;
+    } else {
+      throw ArgumentError.notNull();
     }
   }
 
   set widgetId(String value) {
     if (value.isNotEmpty) {
       _widgetId = value;
+    } else {
+      throw ArgumentError.notNull();
     }
   }
 
   Map toJson() => {
         'widgetId': widgetId,
-        'offSetX': offsetX,
-        'offSetY': offsetY,
+        'offSetX': offSetX,
+        'offSetY': offSetY,
       };
 }
