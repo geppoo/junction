@@ -17,8 +17,6 @@ class JunctionWidgetModel extends StatefulWidget {
   final double height;
   final String title;
   final double width;
-  final double bottom;
-  final double left;
   final bool visible;
 
   const JunctionWidgetModel(
@@ -28,8 +26,6 @@ class JunctionWidgetModel extends StatefulWidget {
       required this.height,
       required this.title,
       required this.width,
-      required this.left,
-      required this.bottom,
       this.token,
       this.list,
       required this.visible});

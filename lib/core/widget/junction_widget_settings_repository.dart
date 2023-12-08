@@ -43,6 +43,9 @@ class JunctionWidgetSettingsRepository {
         junction["widgetId"],
         junction["offSetX"],
         junction["offSetY"],
+        junction["title"],
+        junction["height"],
+        junction["width"],
       );
     }
 
@@ -55,11 +58,18 @@ class JunctionWidgetPropertiesModel {
   late final String _widgetId;
   late double _offSetX;
   late double _offSetY;
+  late final String _title;
+  late double _height;
+  late double _width;
 
-  JunctionWidgetPropertiesModel(widgetId, offsetX, offsetY)
+  JunctionWidgetPropertiesModel(
+      widgetId, offsetX, offsetY, title, height, width)
       : _widgetId = widgetId,
         _offSetX = offsetX,
-        _offSetY = offsetY;
+        _offSetY = offsetY,
+        _title = title,
+        _height = height,
+        _width = width;
 
   String get widgetId => _widgetId;
 
@@ -67,11 +77,17 @@ class JunctionWidgetPropertiesModel {
 
   double get offSetY => _offSetY;
 
+  String get title => _title;
+
+  double get height => _height;
+
+  double get width => _width;
+
   set offSetX(double value) {
     if (!value.isNegative && value.isFinite) {
       _offSetX = value;
     } else {
-      throw ArgumentError.notNull();
+      throw Exception("Invalid number (${value.runtimeType})");
     }
   }
 
@@ -79,15 +95,23 @@ class JunctionWidgetPropertiesModel {
     if (!value.isNegative && value.isFinite) {
       _offSetY = value;
     } else {
-      throw ArgumentError.notNull();
+      throw Exception("Invalid number (${value.runtimeType})");
     }
   }
 
-  set widgetId(String value) {
-    if (value.isNotEmpty) {
-      _widgetId = value;
+  set height(double value) {
+    if (!value.isNegative && value.isFinite) {
+      _height = value;
     } else {
-      throw ArgumentError.notNull();
+      throw Exception("Invalid number (${value.runtimeType})");
+    }
+  }
+
+  set width(double value) {
+    if (!value.isNegative && value.isFinite) {
+      _width = value;
+    } else {
+      throw Exception("Invalid number (${value.runtimeType})");
     }
   }
 
@@ -95,5 +119,8 @@ class JunctionWidgetPropertiesModel {
         'widgetId': widgetId,
         'offSetX': offSetX,
         'offSetY': offSetY,
+        'title': title,
+        'height': height,
+        'width': width,
       };
 }
