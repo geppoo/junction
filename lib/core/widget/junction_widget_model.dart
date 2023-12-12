@@ -33,13 +33,13 @@ class JunctionWidgetModel extends StatefulWidget {
 
 class _StateJunctionWidget extends State<JunctionWidgetModel> {
   late Offset position;
-  late bool visible;
+  late bool isVisible;
 
   void initWidgetProps(JunctionWidgetPropertiesModel junctionWidgetProps) => {
         setState(() => {
               position = Offset(
                   junctionWidgetProps.offSetX, junctionWidgetProps.offSetY),
-              visible = junctionWidgetProps.visible
+              isVisible = junctionWidgetProps.visible
             })
       };
 
@@ -54,9 +54,9 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
             setState(() => position = Offset(
                 junctionWidgetProps.offSetX, junctionWidgetProps.offSetY))
           },
-        if (visible != junctionWidgetProps.visible)
+        if (isVisible != junctionWidgetProps.visible)
           {
-            setState(() => visible = junctionWidgetProps.visible),
+            setState(() => isVisible = junctionWidgetProps.visible),
           },
         saveJunctionWidgetProps(junctionWidgetProps,
             junctionModel.junctionWidgetSettingsRepository.junctionWidgetsProp)
@@ -84,13 +84,13 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
     initWidgetProps(junctionWidgetProps!);
 
     debugPrint(
-        "Widget ${widget.id} state isVisible $visible \n#######################################");
+        "Widget ${widget.id} state isVisible $isVisible \n#######################################");
 
-    return Visibility(
-      visible: visible,
-      child: Positioned(
-        left: position.dx,
-        top: position.dy,
+    return Positioned(
+      left: position.dx,
+      top: position.dy,
+      child: Visibility(
+        visible: isVisible,
         child: Column(
           children: [
             Container(

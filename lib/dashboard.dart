@@ -21,7 +21,7 @@ class Dashboard extends StatelessWidget {
             title: junctionWidget.value.title,
             height: junctionWidget.value.height,
             width: junctionWidget.value.width,
-            visible: true,
+            visible: junctionWidget.value.visible,
             junctionContentWidget: Text(junctionWidget.value.title),
           );
         },
