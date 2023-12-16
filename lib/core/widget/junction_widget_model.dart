@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:junction/core/io/file_interface.dart';
 import 'package:provider/provider.dart';
 
 import '../junction_model.dart';
@@ -13,23 +10,19 @@ class JunctionWidgetModel extends StatefulWidget {
   final List<String>? list;
 
   final String id;
-  final Widget child;
+  final Widget junctionContentWidget;
   final double height;
-  final String title;
   final double width;
-  final double bottom;
-  final double left;
+  final String title;
   final bool visible;
 
   const JunctionWidgetModel(
       {super.key,
       required this.id,
-      required this.child,
+      required this.junctionContentWidget,
       required this.height,
-      required this.title,
       required this.width,
-      required this.left,
-      required this.bottom,
+      required this.title,
       this.token,
       this.list,
       required this.visible});
@@ -40,74 +33,64 @@ class JunctionWidgetModel extends StatefulWidget {
 
 class _StateJunctionWidget extends State<JunctionWidgetModel> {
   late Offset position;
-  bool visible = true;
+  late bool isVisible;
 
-  void initPosition(Offset initialPosition) =>
-      {setState(() => position = initialPosition)};
-
-  void updatePosition(
-          String junctionId, Offset newPosition, JunctionModel junctionModel) =>
-      {
-        setState(() => position = newPosition),
-        saveJunctionWidgetPosition(junctionId, newPosition, junctionModel)
+  void initWidgetProps(JunctionWidgetPropertiesModel junctionWidgetProps) => {
+        setState(() => {
+              position = Offset(
+                  junctionWidgetProps.offSetX, junctionWidgetProps.offSetY),
+              isVisible = junctionWidgetProps.visible
+            })
       };
 
-  void hideWidget(bool value) => setState(() => visible = value);
+  void updateWidgetProps(
+          String junctionId,
+          JunctionWidgetPropertiesModel junctionWidgetProps,
+          JunctionModel junctionModel) =>
+      {
+        if (position.dx != junctionWidgetProps.offSetX ||
+            position.dy != junctionWidgetProps.offSetY)
+          {
+            setState(() => position = Offset(
+                junctionWidgetProps.offSetX, junctionWidgetProps.offSetY))
+          },
+        if (isVisible != junctionWidgetProps.visible)
+          {
+            setState(() => isVisible = junctionWidgetProps.visible),
+          },
+        saveJunctionWidgetProps(junctionWidgetProps,
+            junctionModel.junctionWidgetSettingsRepository.junctionWidgetsProp)
+      };
 
-  Future<void> saveJunctionWidgetPosition(String junctionId, Offset newPosition,
-      JunctionModel junctionModel) async {
-    if (junctionModel
-            .junctionWidgetSettingsRepository.junctionWidgetsProp[widget.id] !=
-        null) {
-      var x = junctionModel.junctionWidgetSettingsRepository
-          .junctionWidgetsProp[widget.id]?.offSetX;
-      var y = junctionModel.junctionWidgetSettingsRepository
-          .junctionWidgetsProp[widget.id]?.offSetY;
+  ///Method to save junctionWidget properties into file
+  Future<void> saveJunctionWidgetProps(
+      JunctionWidgetPropertiesModel junctionWidgetProp,
+      Map<String, JunctionWidgetPropertiesModel> junctionWidgetsProps) async {
+    junctionWidgetsProps[junctionWidgetProp.widgetId] = junctionWidgetProp;
 
-      //TODO remove debug
-      debugPrint("Old offSet - > X: $x, Y $y \n"
-          "New offSet X: ${newPosition.dx}, Y: ${newPosition.dy}");
-
-      junctionModel.junctionWidgetSettingsRepository
-          .junctionWidgetsProp[widget.id]?.offSetX = newPosition.dx;
-      junctionModel.junctionWidgetSettingsRepository
-          .junctionWidgetsProp[widget.id]?.offSetY = newPosition.dy;
-
-      List<JunctionWidgetPropertiesModel> junctionWidgets = [];
-
-      for (var widgetProps in junctionModel
-          .junctionWidgetSettingsRepository.junctionWidgetsProp.entries) {
-        junctionWidgets.add(widgetProps.value);
-      }
-
-      String fileData =
-          "{ \"junctionWidgets\": ${json.encode(junctionWidgets)} }";
-
-      //TODO remove debug
-      debugPrint("########## NEW junction_data.json ########## \n"
-          "$fileData");
-
-      //Salvo i dati riguardante il JunctionWidget modificato
-      await FileInterface.DATA().writeToFile(fileData);
-    }
+    JunctionWidgetPropertiesModel.savePropsToFile(junctionWidgetsProps);
   }
 
   @override
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
+    final JunctionWidgetPropertiesModel? junctionWidgetProps = junctionModel
+        .junctionWidgetSettingsRepository.junctionWidgetsProp[widget.id];
+
+    debugPrint(
+        "Widget: ${junctionWidgetProps?.widgetId} isVisible: ${junctionWidgetProps?.visible}");
 
     //Read offSet values from props file
-    initPosition(Offset(
-        junctionModel.junctionWidgetSettingsRepository
-            .junctionWidgetsProp[widget.id]!.offSetX,
-        junctionModel.junctionWidgetSettingsRepository
-            .junctionWidgetsProp[widget.id]!.offSetY));
+    initWidgetProps(junctionWidgetProps!);
 
-    return Visibility(
-      visible: visible,
-      child: Positioned(
-        left: position.dx,
-        top: position.dy,
+    debugPrint(
+        "Widget ${widget.id} state isVisible $isVisible \n#######################################");
+
+    return Positioned(
+      left: position.dx,
+      top: position.dy,
+      child: Visibility(
+        visible: isVisible,
         child: Column(
           children: [
             Container(
@@ -115,38 +98,44 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
               height: 20,
               color: Colors.blueGrey,
               child: Draggable(
-                  maxSimultaneousDrags: 1,
-                  feedback: Opacity(
-                    opacity: 0.8,
-                    //TODO Change to parent widget for visualization when dragging
-                    child: widget.child,
+                maxSimultaneousDrags: 1,
+                feedback: Opacity(
+                  opacity: 0.8,
+                  //TODO Change to parent widget for visualization when dragging
+                  child: widget.junctionContentWidget,
+                ),
+                childWhenDragging: Text(widget.title),
+                onDragEnd: (details) => {
+                  junctionWidgetProps.offSetX = details.offset.dx,
+                  junctionWidgetProps.offSetY = details.offset.dy,
+                  updateWidgetProps(
+                      widget.id, junctionWidgetProps, junctionModel)
+                },
+                child: Material(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        padding: const EdgeInsets.all(0.0),
+                        onPressed: () => {
+                          junctionWidgetProps.visible = false,
+                          updateWidgetProps(
+                              widget.id, junctionWidgetProps, junctionModel)
+                        },
+                        icon: const Icon(Icons.close),
+                        iconSize: 15,
+                      ),
+                    ],
                   ),
-                  childWhenDragging: const Visibility(
-                    visible: false,
-                    child: Text(""),
-                  ),
-                  onDragEnd: (details) =>
-                      updatePosition(widget.id, details.offset, junctionModel),
-                  child: Material(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          padding: const EdgeInsets.all(0.0),
-                          onPressed: () => hideWidget(!widget.visible),
-                          icon: const Icon(Icons.close),
-                          iconSize: 15,
-                        ),
-                      ],
-                    ),
-                  )),
+                ),
+              ),
             ),
             Container(
               width: widget.width,
               height: widget.height - 20,
               color: Colors.grey,
               //clipBehavior: Clip.hardEdge,
-              child: widget.child,
+              child: widget.junctionContentWidget,
             ),
           ],
         ),

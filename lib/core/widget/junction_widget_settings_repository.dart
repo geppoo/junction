@@ -18,7 +18,7 @@ class JunctionWidgetSettingsRepository {
   dynamic _jsonFileData;
 
   ///This property contains all the widget basic settings
-  late final Map<String, JunctionWidgetPropertiesModel> junctionWidgetsProp;
+  late Map<String, JunctionWidgetPropertiesModel> junctionWidgetsProp;
 
   JunctionWidgetSettingsRepository() {
     _fileInterface = FileInterface(initialAssetFile, localFilename);
@@ -31,6 +31,7 @@ class JunctionWidgetSettingsRepository {
     _jsonFileData = await jsonDecode(stringFileData!);
     final junctionWidgets = _jsonFileData["junctionWidgets"];
 
+    //TODO: remove debug
     debugPrint("PROPS DATA ------> $junctionWidgets");
 
     //read and save all hotKeys
@@ -43,6 +44,10 @@ class JunctionWidgetSettingsRepository {
         junction["widgetId"],
         junction["offSetX"],
         junction["offSetY"],
+        junction["title"],
+        junction["height"],
+        junction["width"],
+        junction["visible"].toString().toLowerCase() == 'true',
       );
     }
 
@@ -55,11 +60,20 @@ class JunctionWidgetPropertiesModel {
   late final String _widgetId;
   late double _offSetX;
   late double _offSetY;
+  late final String _title;
+  late double _height;
+  late double _width;
+  late bool _visible;
 
-  JunctionWidgetPropertiesModel(widgetId, offsetX, offsetY)
+  JunctionWidgetPropertiesModel(
+      widgetId, offsetX, offsetY, title, height, width, visible)
       : _widgetId = widgetId,
         _offSetX = offsetX,
-        _offSetY = offsetY;
+        _offSetY = offsetY,
+        _title = title,
+        _height = height,
+        _width = width,
+        _visible = visible;
 
   String get widgetId => _widgetId;
 
@@ -67,11 +81,19 @@ class JunctionWidgetPropertiesModel {
 
   double get offSetY => _offSetY;
 
+  String get title => _title;
+
+  double get height => _height;
+
+  double get width => _width;
+
+  bool get visible => _visible;
+
   set offSetX(double value) {
     if (!value.isNegative && value.isFinite) {
       _offSetX = value;
     } else {
-      throw ArgumentError.notNull();
+      throw Exception("Invalid number (${value.runtimeType})");
     }
   }
 
@@ -79,21 +101,52 @@ class JunctionWidgetPropertiesModel {
     if (!value.isNegative && value.isFinite) {
       _offSetY = value;
     } else {
-      throw ArgumentError.notNull();
+      throw Exception("Invalid number (${value.runtimeType})");
     }
   }
 
-  set widgetId(String value) {
-    if (value.isNotEmpty) {
-      _widgetId = value;
+  set height(double value) {
+    if (!value.isNegative && value.isFinite) {
+      _height = value;
     } else {
-      throw ArgumentError.notNull();
+      throw Exception("Invalid number (${value.runtimeType})");
     }
+  }
+
+  set width(double value) {
+    if (!value.isNegative && value.isFinite) {
+      _width = value;
+    } else {
+      throw Exception("Invalid number (${value.runtimeType})");
+    }
+  }
+
+  set visible(bool value) {
+    _visible = value;
   }
 
   Map toJson() => {
         'widgetId': widgetId,
         'offSetX': offSetX,
         'offSetY': offSetY,
+        'title': title,
+        'height': height,
+        'width': width,
+        'visible': visible.toString()
       };
+
+  static Future<void> savePropsToFile(
+      Map<String, JunctionWidgetPropertiesModel> junctionWidgetsProp) async {
+    List<JunctionWidgetPropertiesModel> junctionWidgets = [];
+
+    for (var widgetProps in junctionWidgetsProp.entries) {
+      junctionWidgets.add(widgetProps.value);
+    }
+
+    String fileData =
+        "{ \"junctionWidgets\": ${json.encode(junctionWidgets)} }";
+
+    //Salvo i dati riguardante il JunctionWidget modificato
+    await FileInterface.data().writeToFile(fileData);
+  }
 }

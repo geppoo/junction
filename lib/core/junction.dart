@@ -3,6 +3,7 @@ import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:junction/core/search_bar/junction_search_bar.dart';
 import 'package:junction/dashboard.dart';
 import 'package:provider/provider.dart';
+
 import '../config/hotkey_bindings.dart';
 import 'expand_button.dart';
 import 'junction_model.dart';
@@ -81,7 +82,12 @@ class _JunctionTopBarState extends State<JunctionTopBar> {
               child: Visibility(
                 visible: junctionModel.isDashboardVisible,
                 child: const Row(
-                  children: [Expanded(flex: 1, child: Dashboard())],
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Dashboard(),
+                    )
+                  ],
                 ),
               ),
             )

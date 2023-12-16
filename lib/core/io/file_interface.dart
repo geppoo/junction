@@ -67,7 +67,12 @@ class FileInterface {
     await file.writeAsString(data);
   }
 
-  factory FileInterface.HISTORY()  => FileInterface("assets/history.json", "history.json");
-  factory FileInterface.EXECUTABLE() => FileInterface("assets/executable.json", "executable.json");
-  factory FileInterface.DATA() =>   FileInterface("assets/data/data.json", "junction_data.json");
+  factory FileInterface.history() =>
+      FileInterface("assets/history.json", "history.json");
+
+  factory FileInterface.executable() =>
+      FileInterface("assets/executable.json", "executable.json");
+
+  factory FileInterface.data() =>
+      FileInterface("assets/data/data.json", "junction_data.json");
 }
