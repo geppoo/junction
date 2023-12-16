@@ -77,14 +77,8 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
     final JunctionWidgetPropertiesModel? junctionWidgetProps = junctionModel
         .junctionWidgetSettingsRepository.junctionWidgetsProp[widget.id];
 
-    debugPrint(
-        "Widget: ${junctionWidgetProps?.widgetId} isVisible: ${junctionWidgetProps?.visible}");
-
     //Read offSet values from props file
     initWidgetProps(junctionWidgetProps!);
-
-    debugPrint(
-        "Widget ${widget.id} state isVisible $isVisible \n#######################################");
 
     return Positioned(
       left: position.dx,
