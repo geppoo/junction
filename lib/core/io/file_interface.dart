@@ -31,23 +31,24 @@ class FileInterface {
     File file = File("tmp");
     String? home = "";
     Map<String, String> envVars = Platform.environment;
+    String baseAppPath = "Junction";
 
     //Getting user home environment variable
     if (Platform.isMacOS) {
-      home = envVars['HOME'];
+      home = "${envVars['HOME']}/$baseAppPath";
       file = File('$home/.config/$localFilename');
     } else if (Platform.isLinux) {
-      home = envVars['HOME'];
+      home = "${envVars['HOME']}/$baseAppPath";
       file = File('$home/.config/$localFilename');
     } else if (Platform.isWindows) {
-      home = envVars['UserProfile'];
+      home = "${envVars['UserProfile']}\\$baseAppPath";
       file = File('$home\\$localFilename');
     }
 
     if (!await file.exists()) {
       // read the file from assets first and create the local file with its contents
       final initialContent = await rootBundle.loadString(initialAssetFile);
-      await file.create();
+      await file.create(recursive: true);
       await file.writeAsString(initialContent);
     }
 

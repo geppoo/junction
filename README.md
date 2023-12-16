@@ -1,16 +1,9 @@
-# junction
+# Junction
 
-A new Flutter project.
+This is Flutter desktop application. It's a customizable desktop overlay, with also custom widgets.
+<br>It also has a searchbar for basic or more advanced functionalities.
 
-## Getting Started
+## Under Development
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This repository is still under heavy development. As of now, an alpha version doesn't exist.
+<br>If you want to follow the development, you can check this [Twitch channel](https://www.twitch.tv/labaitattv).
