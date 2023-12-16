@@ -9,23 +9,10 @@ class JunctionWidgetModel extends StatefulWidget {
   final String? token;
   final List<String>? list;
 
-  final String id;
-  final Widget junctionContentWidget;
-  final double height;
-  final double width;
-  final String title;
-  final bool visible;
+  final JunctionWidgetPropertiesModel widgetProps;
 
   const JunctionWidgetModel(
-      {super.key,
-      required this.id,
-      required this.junctionContentWidget,
-      required this.height,
-      required this.width,
-      required this.title,
-      this.token,
-      this.list,
-      required this.visible});
+      {super.key, this.token, this.list, required this.widgetProps});
 
   @override
   State<JunctionWidgetModel> createState() => _StateJunctionWidget();
@@ -75,7 +62,8 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     final JunctionWidgetPropertiesModel? junctionWidgetProps = junctionModel
-        .junctionWidgetSettingsRepository.junctionWidgetsProp[widget.id];
+        .junctionWidgetSettingsRepository
+        .junctionWidgetsProp[widget.widgetProps.widgetId];
 
     //Read offSet values from props file
     initWidgetProps(junctionWidgetProps!);
@@ -88,7 +76,7 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
         child: Column(
           children: [
             Container(
-              width: widget.width,
+              width: widget.widgetProps.width,
               height: 20,
               color: Colors.blueGrey,
               child: Draggable(
@@ -96,14 +84,15 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                 feedback: Opacity(
                   opacity: 0.8,
                   //TODO Change to parent widget for visualization when dragging
-                  child: widget.junctionContentWidget,
+                  //child: widget.widgetProps.junctionContentWidget,
+                  child: Text(widget.widgetProps.title),
                 ),
-                childWhenDragging: Text(widget.title),
+                childWhenDragging: Text(widget.widgetProps.title),
                 onDragEnd: (details) => {
                   junctionWidgetProps.offSetX = details.offset.dx,
                   junctionWidgetProps.offSetY = details.offset.dy,
-                  updateWidgetProps(
-                      widget.id, junctionWidgetProps, junctionModel)
+                  updateWidgetProps(widget.widgetProps.widgetId,
+                      junctionWidgetProps, junctionModel)
                 },
                 child: Material(
                   child: Row(
@@ -113,8 +102,8 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                         padding: const EdgeInsets.all(0.0),
                         onPressed: () => {
                           junctionWidgetProps.visible = false,
-                          updateWidgetProps(
-                              widget.id, junctionWidgetProps, junctionModel)
+                          updateWidgetProps(widget.widgetProps.widgetId,
+                              junctionWidgetProps, junctionModel)
                         },
                         icon: const Icon(Icons.close),
                         iconSize: 15,
@@ -125,11 +114,12 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
               ),
             ),
             Container(
-              width: widget.width,
-              height: widget.height - 20,
+              width: widget.widgetProps.width,
+              height: widget.widgetProps.height - 20,
               color: Colors.grey,
               //clipBehavior: Clip.hardEdge,
-              child: widget.junctionContentWidget,
+              //child: widget.widgetProps.junctionContentWidget,
+              child: Text(widget.widgetProps.title),
             ),
           ],
         ),

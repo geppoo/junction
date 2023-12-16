@@ -17,12 +17,7 @@ class Dashboard extends StatelessWidget {
           .map(
         (junctionWidget) {
           return JunctionWidgetModel(
-            id: junctionWidget.value.widgetId,
-            title: junctionWidget.value.title,
-            height: junctionWidget.value.height,
-            width: junctionWidget.value.width,
-            visible: junctionWidget.value.visible,
-            junctionContentWidget: Text(junctionWidget.value.title),
+            widgetProps: junctionWidget.value,
           );
         },
       ).toList(),
