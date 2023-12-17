@@ -21,13 +21,16 @@ class JunctionWidgetModel extends StatefulWidget {
 class _StateJunctionWidget extends State<JunctionWidgetModel> {
   late Offset position;
   late bool isVisible;
+  late double borderRadius = 7.5;
 
   void initWidgetProps(JunctionWidgetPropertiesModel junctionWidgetProps) => {
-        setState(() => {
-              position = Offset(
-                  junctionWidgetProps.offSetX, junctionWidgetProps.offSetY),
-              isVisible = junctionWidgetProps.visible
-            })
+        setState(
+          () => {
+            position = Offset(
+                junctionWidgetProps.offSetX, junctionWidgetProps.offSetY),
+            isVisible = junctionWidgetProps.visible
+          },
+        )
       };
 
   void updateWidgetProps(
@@ -73,55 +76,107 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
       top: position.dy,
       child: Visibility(
         visible: isVisible,
-        child: Column(
-          children: [
-            Container(
-              width: widget.widgetProps.width,
-              height: 20,
-              color: Colors.blueGrey,
-              child: Draggable(
-                maxSimultaneousDrags: 1,
-                feedback: Opacity(
-                  opacity: 0.8,
-                  //TODO Change to parent widget for visualization when dragging
-                  //child: widget.widgetProps.junctionContentWidget,
-                  child: Text(widget.widgetProps.title),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            border: Border.all(color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                width: widget.widgetProps.width,
+                height: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(borderRadius),
+                    topRight: Radius.circular(borderRadius),
+                  ),
                 ),
-                childWhenDragging: Text(widget.widgetProps.title),
-                onDragEnd: (details) => {
-                  junctionWidgetProps.offSetX = details.offset.dx,
-                  junctionWidgetProps.offSetY = details.offset.dy,
-                  updateWidgetProps(widget.widgetProps.widgetId,
-                      junctionWidgetProps, junctionModel)
-                },
-                child: Material(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        padding: const EdgeInsets.all(0.0),
-                        onPressed: () => {
-                          junctionWidgetProps.visible = false,
-                          updateWidgetProps(widget.widgetProps.widgetId,
-                              junctionWidgetProps, junctionModel)
-                        },
-                        icon: const Icon(Icons.close),
-                        iconSize: 15,
-                      ),
-                    ],
+                child: Draggable(
+                  maxSimultaneousDrags: 1,
+                  feedback: Opacity(
+                    opacity: 0.8,
+                    //TODO Resolve "Incorrect use of ParentDataWidget"
+                    child: widget,
+                    //child: Text(widget.widgetProps.title),
+                  ),
+                  childWhenDragging: Material(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(borderRadius),
+                      topRight: Radius.circular(borderRadius),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          padding: const EdgeInsets.all(0.0),
+                          onPressed: () => {
+                            junctionWidgetProps.visible = false,
+                            updateWidgetProps(widget.widgetProps.widgetId,
+                                junctionWidgetProps, junctionModel)
+                          },
+                          icon: const Icon(Icons.close),
+                          iconSize: 15,
+                        ),
+                      ],
+                    ),
+                  ),
+                  onDragEnd: (details) => {
+                    junctionWidgetProps.offSetX = details.offset.dx,
+                    junctionWidgetProps.offSetY = details.offset.dy,
+                    updateWidgetProps(widget.widgetProps.widgetId,
+                        junctionWidgetProps, junctionModel)
+                  },
+                  child: Material(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(borderRadius),
+                      topRight: Radius.circular(borderRadius),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          padding: const EdgeInsets.all(0.0),
+                          onPressed: () => {
+                            junctionWidgetProps.visible = false,
+                            updateWidgetProps(widget.widgetProps.widgetId,
+                                junctionWidgetProps, junctionModel)
+                          },
+                          icon: const Icon(Icons.close),
+                          iconSize: 15,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              width: widget.widgetProps.width,
-              height: widget.widgetProps.height - 20,
-              color: Colors.grey,
-              //clipBehavior: Clip.hardEdge,
-              //child: widget.widgetProps.junctionContentWidget,
-              child: Text(widget.widgetProps.title),
-            ),
-          ],
+              SizedBox(
+                width: widget.widgetProps.width,
+                child: const Divider(
+                  color: Colors.black,
+                  endIndent: 10,
+                  indent: 10,
+                  thickness: 2,
+                ),
+              ),
+              Container(
+                width: widget.widgetProps.width,
+                height: widget.widgetProps.height - 20,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(borderRadius),
+                    bottomRight: Radius.circular(borderRadius),
+                  ),
+                ),
+                child: Text(widget.widgetProps.title),
+              ),
+            ],
+          ),
         ),
       ),
     );
