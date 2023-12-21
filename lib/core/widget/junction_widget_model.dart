@@ -161,6 +161,7 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                   endIndent: 10,
                   indent: 10,
                   thickness: 2,
+                  height: 2,
                 ),
               ),
               Container(
