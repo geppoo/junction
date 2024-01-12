@@ -22,5 +22,21 @@
             "action": "toggleJunctionBar"
 
         }
-    ]
+    ],
+    "Theme": {
+        "active": "junctionLight",
+        "themes": [
+            {
+                "id": "junctionLight",
+                "bodyBackgroundColor": "0xffF3F4ED",
+                "bodyTextColor": "0xff424642",
+                "containerBorderColor": "0xff424642",
+                "dividerColor": "0xffC06014",
+                "topWidgetSectionColor": "0xffF3F4ED",
+                "hoverColor": "0xff536162",
+                "contentColor": "0xff424642",
+                "secondaryContentColor": "0xff536162"
+            }
+        ]
+    }
 }

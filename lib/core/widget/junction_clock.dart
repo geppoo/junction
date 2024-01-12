@@ -28,6 +28,7 @@ class JunctionClock implements JunctionWidget {
       showTicks: true,
       showDigitalClock: false,
       datetime: DateTime.now(),
+      tickColor: const Color(0xff536162),
     );
   }
 }
