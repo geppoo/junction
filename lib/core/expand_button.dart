@@ -9,7 +9,7 @@ class ExpandButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
-    return FloatingActionButton(
+    return FloatingActionButton.small(
       onPressed: () {
         junctionModel
             .setIsDashboardVisible(!junctionModel.isDashboardVisible);
