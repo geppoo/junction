@@ -48,6 +48,7 @@ dependencies:
   path_provider: ^2.1.1
   easy_debounce: ^2.0.3
   io: ^1.0.4
+  fuzzy: ^0.5.1
 
 dev_dependencies:
   flutter_test:

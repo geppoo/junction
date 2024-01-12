@@ -1,17 +1,23 @@
-import 'package:easy_debounce/easy_debounce.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../junction_model.dart';
 import 'dart:io';
 
+import 'package:easy_debounce/easy_debounce.dart';
+import 'package:flutter/material.dart';
+import 'package:fuzzy/fuzzy.dart';
+import 'package:provider/provider.dart';
+
+import '../junction_model.dart';
+
 class JunctionSearchBar extends StatelessWidget {
-  final int suggestedLength;
   static double height = 50;
+  final int suggestedLength;
   const JunctionSearchBar({Key? key, required this.suggestedLength})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (suggestedLength <= 0) {
+      throw ArgumentError("Length must be > 0");
+    }
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return SearchAnchor(
       viewConstraints: BoxConstraints(
@@ -30,35 +36,41 @@ class JunctionSearchBar extends StatelessWidget {
                 controller.openView();
               });
             },
-            onChanged: (_) {},
+            onChanged: (_) {
+              controller.openView();
+            },
             leading: const Icon(Icons.search),
           ),
         );
       },
       suggestionsBuilder:
           (BuildContext context, SearchController controller) async {
-        List<String> res = [];
-        if (suggestedLength <= 0) {
-          throw ArgumentError("Length must be > 0");
-        }
+        List<String> executables = [];
+        var fuseSearch = Fuzzy(executables,
+                options: FuzzyOptions(findAllMatches: true, tokenize: true))
+            .search(controller.text);
+        debugPrint(controller.text);
         for (var d in Platform.environment['PATH']!
             .split(Platform.isWindows ? ";" : ":")) {
-          res.addAll(Directory(d)
+          executables.addAll(Directory(d)
               .listSync()
               .whereType<File>()
+              .where((file) => file.existsSync())
               .map((file) => file.uri.pathSegments.last));
         }
-        return List<ListTile>.generate(res.length, (index) {
-          final String item = res[index];
-          return ListTile(
-            title: Text(item),
-            onTap: () async {
-              controller.closeView(item);
-              Process.run(item, []);
-            },
-            trailing: const Icon(Icons.history),
-          );
-        });
+        return List<ListTile>.generate(
+          fuseSearch.length,
+          (index) {
+            final String item = executables[index];
+            return ListTile(
+              title: Text(item),
+              onTap: () async {
+                controller.closeView("");
+                await Process.run(item, []);
+              },
+            );
+          },
+        );
       },
     );
   }
