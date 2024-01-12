@@ -85,7 +85,7 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
           child: Container(
             decoration: BoxDecoration(
               color: const Color(0xffF3F4ED),
-              border: Border.all(color: Colors.black),
+              border: Border.all(color: const Color(0xff424642)),
               borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
             ),
             child: Column(
