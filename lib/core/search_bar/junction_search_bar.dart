@@ -49,12 +49,17 @@ class JunctionSearchBar extends StatelessWidget {
         debugPrint(controller.text);
         for (var d in Platform.environment['PATH']!
             .split(Platform.isWindows ? ";" : ":")) {
-            Directory dir = Directory(d);     
-               if(dir.existsSync() ){executables.addAll(dir
-              .listSync()
-              .whereType<File>()
-              .where((file) => file.existsSync())
-              .map((file) => file.uri.pathSegments.last));}
+          Directory dir = Directory(d);
+          if (dir.existsSync()) {
+            executables.addAll(dir
+                .listSync()
+                .whereType<File>()
+                .where((file) =>
+                    file.existsSync() &&
+                    file.uri.pathSegments.last
+                        .endsWith(Platform.isWindows ? ".exe" : ''))
+                .map((file) => file.uri.pathSegments.last));
+          }
         }
         debugPrint(controller.text);
 
