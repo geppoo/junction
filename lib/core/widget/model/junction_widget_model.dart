@@ -22,7 +22,7 @@ class JunctionWidgetModel extends StatefulWidget {
 class _StateJunctionWidget extends State<JunctionWidgetModel> {
   late Offset position;
   late bool isVisible;
-  late double borderRadius = 7.5;
+  late double borderRadius = 10;
 
   void initWidgetProps(JunctionWidgetPropertiesModel junctionWidgetProps) => {
         setState(
