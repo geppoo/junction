@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:junction/core/widget/junction_calendar.dart';
 
 import '../../../config/junction_widget_settings_repository.dart';
