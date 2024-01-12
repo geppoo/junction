@@ -1,7 +1,7 @@
 {
   "junctionWidgets": [
     {
-      "widgetId": "widgetTestId1",
+      "widgetId": "clock",
       "offSetX": 100.0,
       "offSetY": 100.0,
       "title": "TEST",
@@ -10,7 +10,7 @@
       "visible": "true"
     },
     {
-      "widgetId": "widgetTestId2",
+      "widgetId": "widgetTestId",
       "offSetX": 100.0,
       "offSetY": 100.0,
       "title": "TEST",
