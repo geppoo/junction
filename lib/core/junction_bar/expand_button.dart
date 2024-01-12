@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:junction/core/junction_model.dart';
+import 'package:junction/config/model/junction_model.dart';
 import 'package:provider/provider.dart';
 
 ///Widget for the overlay toggle button

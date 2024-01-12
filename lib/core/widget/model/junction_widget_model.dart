@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:junction/core/widget/factory/junction_widget_factory.dart';
 import 'package:provider/provider.dart';
 
-import '../junction_model.dart';
-import 'junction_widget_settings_repository.dart';
+import '../../../config/model/junction_model.dart';
+import '../../../config/junction_widget_settings_repository.dart';
 
 ///Main model for the Junction Widgets
 class JunctionWidgetModel extends StatefulWidget {
@@ -181,7 +182,9 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Text(widget.widgetProps.title),
+                      //TODO: add children props rendering
+                      child: JunctionWidgetFactory.factory(widget.widgetProps).build()
+                      //Text(widget.widgetProps.childName),
                     )),
               ],
             ),

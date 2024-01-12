@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
-import 'package:junction/core/junction_model.dart';
+import 'package:junction/config/model/junction_model.dart';
 import 'package:provider/provider.dart';
 
 import 'model/hotkey_model.dart';

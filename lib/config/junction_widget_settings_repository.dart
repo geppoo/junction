@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 
-import '../io/file_interface.dart';
+import '../core/io/file_interface.dart';
 
 const initialAssetFile = 'assets/data/data.json';
 const localFilename = 'junction_data.json';

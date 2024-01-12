@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:junction/core/io/file_interface.dart';
 import 'package:provider/provider.dart';
 
-import '../junction_model.dart';
+import '../../config/model/junction_model.dart';
 
 class JunctionSearchBar extends StatelessWidget {
   final int suggestedLength;

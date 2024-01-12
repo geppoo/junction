@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:junction/config/junction_settings_repository.dart';
-import 'package:junction/core/widget/junction_widget_settings_repository.dart';
+import 'package:junction/config/junction_widget_settings_repository.dart';
 import 'package:window_manager/window_manager.dart';
 
 ///Model used for the global application.
