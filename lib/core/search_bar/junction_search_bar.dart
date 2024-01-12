@@ -46,6 +46,7 @@ class JunctionSearchBar extends StatelessWidget {
       suggestionsBuilder:
           (BuildContext context, SearchController controller) async {
         List<String> executables = [];
+<<<<<<< HEAD
         var fuseSearch = Fuzzy(executables,
                 options: FuzzyOptions(findAllMatches: true, tokenize: true))
             .search(controller.text);
@@ -58,6 +59,23 @@ class JunctionSearchBar extends StatelessWidget {
               .where((file) => file.existsSync())
               .map((file) => file.uri.pathSegments.last));
         }
+=======
+        debugPrint(controller.text);
+        for (var d in Platform.environment['PATH']!
+            .split(Platform.isWindows ? ";" : ":")) {
+          Directory dir = Directory(d);
+          if (dir.existsSync()) {
+            executables.addAll(dir
+                .listSync()
+                .whereType<File>()
+                .map((file) => file.uri.pathSegments.last));
+          }
+        }
+
+        var fuseSearch = Fuzzy(executables,
+                options: FuzzyOptions(findAllMatches: true, tokenize: true))
+            .search(controller.text);
+>>>>>>> b956da6 (fixed for windows dumbasses)
         return List<ListTile>.generate(
           fuseSearch.length,
           (index) {
