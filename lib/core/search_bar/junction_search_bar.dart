@@ -41,8 +41,8 @@ class JunctionSearchBar extends StatelessWidget {
         if (suggestedLength <= 0) {
           throw ArgumentError("Length must be > 0");
         }
-        var dir = Platform.environment['PATH'];
-        for (var d in dir!.split(Platform.isWindows ? ";" : ":")) {
+        for (var d in Platform.environment['PATH']!
+            .split(Platform.isWindows ? ";" : ":")) {
           res.addAll(Directory(d)
               .listSync()
               .whereType<File>()
@@ -52,8 +52,9 @@ class JunctionSearchBar extends StatelessWidget {
           final String item = res[index];
           return ListTile(
             title: Text(item),
-            onTap: () {
+            onTap: () async {
               controller.closeView(item);
+              Process.run(item, []);
             },
             trailing: const Icon(Icons.history),
           );
