@@ -1,39 +1,99 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:fuzzy/fuzzy.dart';
 
-import '../junction_model.dart';
-import 'junction_search_delegate.dart';
-
-class JunctionSearchBar extends StatelessWidget {
-  static double height = 50;
-  final int suggestedLength;
-  const JunctionSearchBar({Key? key, required this.suggestedLength})
-      : super(key: key);
+class JunctionSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: const Icon(Icons.clear),
+      ),
+    ];
+  }
 
   @override
-  Widget build(BuildContext context) {
-    if (suggestedLength <= 0) {
-      throw ArgumentError("Length must be > 0");
+  Widget? buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> executables = [];
+
+    for (var d in Platform.environment['PATH']!
+        .split(Platform.isWindows ? ";" : ":")) {
+      Directory dir = Directory(d);
+      if (dir.existsSync()) {
+        executables.addAll(dir
+            .listSync()
+            .whereType<File>()
+            .where((file) =>
+                file.existsSync() &&
+                file.uri.pathSegments.last
+                    .endsWith(Platform.isWindows ? ".exe" : ''))
+            .map((file) => file.uri.pathSegments.last));
+      }
     }
-    final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              // method to show the search bar
-              showSearch(
-                  context: context,
-                  // delegate to customize the search bar
-                  delegate: JunctionSearchDelegate());
-            },
-            icon: const Icon(Icons.search),
-          )
-        ],
-      ),
+
+    return ListView.builder(
+      itemCount: executables.length,
+      itemBuilder: (context, index) {
+        var result = executables[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+
+    List<String> executables = [];
+
+    for (var d in Platform.environment['PATH']!
+        .split(Platform.isWindows ? ";" : ":")) {
+      Directory dir = Directory(d);
+      if (dir.existsSync()) {
+        executables.addAll(dir
+            .listSync()
+            .whereType<File>()
+            .where((file) =>
+                file.existsSync() &&
+                file.uri.pathSegments.last
+                    .endsWith(Platform.isWindows ? ".exe" : ''))
+            .map((file) => file.uri.pathSegments.last));
+      }
+    }
+
+    var fuseSearch = Fuzzy(executables,
+            options: FuzzyOptions(findAllMatches: true, tokenize: true))
+        .search(query);
+    return ListView.builder(
+      itemCount: fuseSearch.length,
+      itemBuilder: (context, index) {
+        var result = fuseSearch[index];
+        return ListTile(
+          title: Text(result.item),
+        );
+      },
     );
   }
 }
+
     // return SearchAnchor(
     //   viewConstraints: BoxConstraints(
     //       maxHeight: suggestedLength * (2 + height),
