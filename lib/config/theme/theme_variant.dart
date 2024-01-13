@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+///Class that define the basic theme values for the application
+//TODO: add more options for more customization
 class ThemeVariant {
   String variantId;
   Color primary;

@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:junction/config/theme/custom_theme.dart';
