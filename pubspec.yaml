@@ -48,6 +48,7 @@ dependencies:
   path_provider: ^2.1.1
   easy_debounce: ^2.0.3
   one_clock: ^2.0.0
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:

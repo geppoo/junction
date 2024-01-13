@@ -182,7 +182,6 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      //TODO: add children props rendering
                       child: JunctionWidgetFactory.factory(widget.widgetProps).build()
                       //Text(widget.widgetProps.childName),
                     )),
