@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -65,7 +66,7 @@ class FileInterface {
   ///Method for writing String content in file.
   Future<void> writeToFile(String data) async {
     final file = await _initializeFile();
-    await file.writeAsString(data);
+    await file.writeAsString(const JsonEncoder.withIndent('  ').convert(data));
   }
 
   factory FileInterface.history() =>
