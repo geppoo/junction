@@ -11,7 +11,7 @@ import '../../config/model/junction_model.dart';
 class JunctionSearchBar extends StatelessWidget {
   final int suggestedLength;
   static double height = 50;
-  const JunctionSearchBar({Key? key, required this.suggestedLength}) : super(key: key);
+  const JunctionSearchBar({super.key, required this.suggestedLength});
 
   @override
   Widget build(BuildContext context) {
