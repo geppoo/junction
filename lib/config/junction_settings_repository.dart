@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:junction/config/theme/custom_theme.dart';
 import 'package:junction/config/theme/custom_theme_settings_model.dart';
 import 'package:junction/config/theme/theme_variant.dart';
@@ -32,7 +33,7 @@ class JunctionSettingsRepository {
   List<HotKeyModel> _hotKeys = <HotKeyModel>[];
 
   ///Property for the theme settings
-  late CustomThemeSettingsModel customTheme;
+  late ThemeData customTheme;
 
   JunctionSettingsRepository() {
     _fileInterface = FileInterface(initialAssetFile, localFilename);
@@ -106,11 +107,35 @@ class JunctionSettingsRepository {
       ));
     }
 
-    customTheme = CustomThemeSettingsModel(
+    CustomThemeSettingsModel customThemeSettingsModel =
+        CustomThemeSettingsModel(
       themeSettings["activeThemeId"],
       themeSettings["activeVariantId"],
       customThemes,
     );
+
+    ThemeVariant? activeThemeVariant =
+        customThemeSettingsModel.getActiveThemeVariant();
+
+    customTheme = ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: activeThemeVariant!.primary,
+          brightness: Brightness.light,
+          primary: activeThemeVariant.primary,
+          onPrimary: activeThemeVariant.onPrimary,
+          secondary: activeThemeVariant.secondary,
+          onSecondary: activeThemeVariant.onSecondary,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: activeThemeVariant.secondary,
+          ),
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: activeThemeVariant.secondary,
+        ),
+        dividerColor: activeThemeVariant.secondary,
+        useMaterial3: true);
   }
 
   ///Extract all the modifiers for the given hotKey setting

@@ -69,10 +69,11 @@ class JunctionApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => JunctionModel(windowOptions, junctionSettings!, junctionData!),
-      child: const MaterialApp(
+      child: MaterialApp(
+        theme: junctionSettings?.customTheme,
         debugShowCheckedModeBanner: false,
         title: "Junction",
-        home: JunctionTopBar(),
+        home: const JunctionTopBar(),
       ),
     );
   }

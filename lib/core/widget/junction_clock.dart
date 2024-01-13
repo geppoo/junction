@@ -13,22 +13,25 @@ class JunctionClock implements JunctionWidget {
   Widget build() {
     return AnalogClock(
       decoration: BoxDecoration(
-          border: Border.all(width: 2.0, color: const Color(0xff424642)),
+          border: Border.all(
+            width: 2.0,
+            //color: const Color(0xff424642),
+          ),
           color: Colors.transparent,
           shape: BoxShape.circle),
       width: 150.0,
       isLive: true,
-      hourHandColor: const Color(0xff424642),
-      minuteHandColor: const Color(0xffC06014),
+      //hourHandColor: const Color(0xff424642),
+      //minuteHandColor: const Color(0xffC06014),
       showSecondHand: false,
-      numberColor: const Color(0xff424642),
+      //numberColor: const Color(0xff424642),
       showNumbers: true,
       showAllNumbers: false,
       textScaleFactor: 1.4,
       showTicks: true,
       showDigitalClock: false,
       datetime: DateTime.now(),
-      tickColor: const Color(0xff536162),
+      //tickColor: const Color(0xff536162),
     );
   }
 }

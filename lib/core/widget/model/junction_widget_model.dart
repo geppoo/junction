@@ -79,13 +79,13 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
         visible: isVisible,
         child: DefaultTextStyle.merge(
           style: const TextStyle(
-            color: Color(0xff424642),
+            //color: Color(0xff424642),
             fontWeight: FontWeight.bold
           ),
           child: Container(
             decoration: BoxDecoration(
-              color: const Color(0xffF3F4ED),
-              border: Border.all(color: const Color(0xff424642)),
+              //color: const Color(0xffF3F4ED),
+              //border: Border.all(color: const Color(0xff424642)),
               borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
             ),
             child: Column(
@@ -109,7 +109,7 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                       //child: Text(widget.widgetProps.title),
                     ),
                     childWhenDragging: Material(
-                      color: const Color(0xffF3F4ED),
+                      //color: const Color(0xffF3F4ED),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(borderRadius),
                         topRight: Radius.circular(borderRadius),
@@ -137,7 +137,7 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                           junctionWidgetProps, junctionModel)
                     },
                     child: Material(
-                      color: const Color(0xffF3F4ED),
+                      //color: const Color(0xffF3F4ED),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(borderRadius),
                         topRight: Radius.circular(borderRadius),
@@ -160,10 +160,11 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                     ),
                   ),
                 ),
-                SizedBox(
+                Container(
                   width: widget.widgetProps.width,
-                  child: const Divider(
-                    color: Color(0xffC06014),
+                  color: Theme.of(context).primaryColor,
+                  child: Divider(
+                    color: Theme.of(context).dividerColor,
                     endIndent: 10,
                     indent: 10,
                     thickness: 3,
@@ -174,7 +175,7 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                     width: widget.widgetProps.width,
                     height: widget.widgetProps.height - 20,
                     decoration: BoxDecoration(
-                      color: const Color(0xffF3F4ED),
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(borderRadius),
                         bottomRight: Radius.circular(borderRadius),
