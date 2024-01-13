@@ -16,84 +16,15 @@ class JunctionSearchBar extends StatelessWidget {
       throw ArgumentError("Length must be > 0");
     }
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              // method to show the search bar
-              showSearch(
-                  context: context,
-                  // delegate to customize the search bar
-                  delegate: JunctionSearchDelegate());
-            },
-            icon: const Icon(Icons.search),
-          )
-        ],
-      ),
+    return IconButton(
+      onPressed: () {
+        // method to show the search bar
+        showSearch(
+            context: context,
+            // delegate to customize the search bar
+            delegate: JunctionSearchDelegate());
+      },
+      icon: const Icon(Icons.search),
     );
   }
 }
-    // return SearchAnchor(
-    //   viewConstraints: BoxConstraints(
-    //       maxHeight: suggestedLength * (2 + height),
-    //       maxWidth: junctionModel.junctionSettings.junctionBarWidth),
-    //   dividerColor: Colors.black87,
-    //   builder: (BuildContext context, SearchController controller) {
-    //     return Directionality(
-    //       textDirection: TextDirection.ltr,
-    //       child: SearchBar(
-    //         controller: controller,
-    //         onTap: () {
-    //           junctionModel.expandIfNot(height * suggestedLength);
-    //           EasyDebounce.debounce('deb', const Duration(milliseconds: 150),
-    //               () {
-    //             controller.openView();
-    //           });
-    //         },
-    //         onChanged: (_) {
-    //           controller.openView();
-    //         },
-    //         leading: const Icon(Icons.search),
-    //       ),
-    //     );
-    //   },
-    //   suggestionsBuilder:
-    //       (BuildContext context, SearchController controller) async {
-    //     List<String> executables = [];
-    //     debugPrint(controller.text);
-    //     for (var d in Platform.environment['PATH']!
-    //         .split(Platform.isWindows ? ";" : ":")) {
-    //       Directory dir = Directory(d);
-    //       if (dir.existsSync()) {
-    //         executables.addAll(dir
-    //             .listSync()
-    //             .whereType<File>()
-    //             .where((file) =>
-    //                 file.existsSync() &&
-    //                 file.uri.pathSegments.last
-    //                     .endsWith(Platform.isWindows ? ".exe" : ''))
-    //             .map((file) => file.uri.pathSegments.last));
-    //       }
-    //     }
-    //     debugPrint(controller.text);
-
-    //     var fuseSearch = Fuzzy(executables,
-    //             options: FuzzyOptions(findAllMatches: true, tokenize: true))
-    //         .search(controller.text);
-    //     return List<ListTile>.generate(
-    //       fuseSearch.length,
-    //       (index) {
-    //         final String item = executables[index];
-    //         return ListTile(
-    //           title: Text(item),
-    //           onTap: () async {
-    //             controller.closeView("");
-    //             await Process.run(item, []);
-    //           },
-    //         );
-    //       },
-    //     );
-    //   },
-    // );
- 

@@ -30,38 +30,40 @@ class JunctionSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<String> executables = [];
+    List<String> executables = _getExecutable();
 
-    for (var d in Platform.environment['PATH']!
-        .split(Platform.isWindows ? ";" : ":")) {
-      Directory dir = Directory(d);
-      if (dir.existsSync()) {
-        executables.addAll(dir
-            .listSync()
-            .whereType<File>()
-            .where((file) =>
-                file.existsSync() &&
-                file.uri.pathSegments.last
-                    .endsWith(Platform.isWindows ? ".exe" : ''))
-            .map((file) => file.uri.pathSegments.last));
-      }
-    }
-
-    return ListView.builder(
-      itemCount: executables.length,
-      itemBuilder: (context, index) {
-        var result = executables[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
+    return _buildListView(executables);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
 
+    List<String> executables = _getExecutable();
+    return _buildListView(Fuzzy(executables,
+            options: FuzzyOptions(findAllMatches: true, tokenize: true))
+        .search(query)
+        .map((e) => e.item.toString())
+        .toList());
+  }
+
+  ListView _buildListView(List<String> executables) {
+    return ListView.builder(
+      itemCount: executables.length,
+      itemBuilder: (context, index) {
+        var result = executables[index];
+        return ListTile(
+          tileColor: Colors.black,
+          title: Text(
+            result,
+            style: const TextStyle(color: Colors.white),
+          ),
+        );
+      },
+    );
+  }
+
+  List<String> _getExecutable() {
     List<String> executables = [];
 
     for (var d in Platform.environment['PATH']!
@@ -78,19 +80,7 @@ class JunctionSearchDelegate extends SearchDelegate {
             .map((file) => file.uri.pathSegments.last));
       }
     }
-
-    var fuseSearch = Fuzzy(executables,
-            options: FuzzyOptions(findAllMatches: true, tokenize: true))
-        .search(query);
-    return ListView.builder(
-      itemCount: fuseSearch.length,
-      itemBuilder: (context, index) {
-        var result = fuseSearch[index];
-        return ListTile(
-          title: Text(result.item),
-        );
-      },
-    );
+    return executables;
   }
 }
 
