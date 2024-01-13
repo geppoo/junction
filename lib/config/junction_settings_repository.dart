@@ -116,24 +116,25 @@ class JunctionSettingsRepository {
         customThemeSettingsModel.getActiveThemeVariant();
 
     customTheme = ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: activeThemeVariant!.primary,
-          brightness: Brightness.light,
-          primary: activeThemeVariant.primary,
-          onPrimary: activeThemeVariant.onPrimary,
-          secondary: activeThemeVariant.secondary,
-          onSecondary: activeThemeVariant.onSecondary,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: activeThemeVariant.secondary,
-          ),
-        ),
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: activeThemeVariant!.primary,
+        brightness: Brightness.light,
+        primary: activeThemeVariant.primary,
+        onPrimary: activeThemeVariant.onPrimary,
+        secondary: activeThemeVariant.secondary,
+        onSecondary: activeThemeVariant.onSecondary,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
           backgroundColor: activeThemeVariant.secondary,
         ),
-        dividerColor: activeThemeVariant.secondary,
-        useMaterial3: true);
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: activeThemeVariant.secondary,
+      ),
+      dividerColor: activeThemeVariant.secondary,
+      useMaterial3: true,
+    );
   }
 
   ///Extract all the modifiers for the given hotKey setting

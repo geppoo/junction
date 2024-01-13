@@ -12,8 +12,12 @@ class JunctionWidgetModel extends StatefulWidget {
 
   final JunctionWidgetPropertiesModel widgetProps;
 
-  const JunctionWidgetModel(
-      {super.key, this.token, this.list, required this.widgetProps});
+  const JunctionWidgetModel({
+    super.key,
+    this.token,
+    this.list,
+    required this.widgetProps,
+  });
 
   @override
   State<JunctionWidgetModel> createState() => _StateJunctionWidget();
@@ -78,14 +82,9 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
       child: Visibility(
         visible: isVisible,
         child: DefaultTextStyle.merge(
-          style: const TextStyle(
-            //color: Color(0xff424642),
-            fontWeight: FontWeight.bold
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold),
           child: Container(
             decoration: BoxDecoration(
-              //color: const Color(0xffF3F4ED),
-              //border: Border.all(color: const Color(0xff424642)),
               borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
             ),
             child: Column(
@@ -106,10 +105,8 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                       opacity: 0.8,
                       //TODO Resolve "Incorrect use of ParentDataWidget"
                       child: widget,
-                      //child: Text(widget.widgetProps.title),
                     ),
                     childWhenDragging: Material(
-                      //color: const Color(0xffF3F4ED),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(borderRadius),
                         topRight: Radius.circular(borderRadius),
@@ -137,7 +134,6 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                           junctionWidgetProps, junctionModel)
                     },
                     child: Material(
-                      //color: const Color(0xffF3F4ED),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(borderRadius),
                         topRight: Radius.circular(borderRadius),
@@ -182,10 +178,11 @@ class _StateJunctionWidget extends State<JunctionWidgetModel> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: JunctionWidgetFactory.factory(widget.widgetProps).build()
-                      //Text(widget.widgetProps.childName),
-                    )),
+                        padding: const EdgeInsets.all(5.0),
+                        child: JunctionWidgetFactory.factory(widget.widgetProps)
+                            .build()
+                        //Text(widget.widgetProps.childName),
+                        )),
               ],
             ),
           ),

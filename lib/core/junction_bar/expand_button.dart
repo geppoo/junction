@@ -10,8 +10,6 @@ class ExpandButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return FloatingActionButton.small(
-      backgroundColor:
-          Theme.of(context).floatingActionButtonTheme.backgroundColor,
       onPressed: () {
         junctionModel.setIsDashboardVisible(!junctionModel.isDashboardVisible);
       },
