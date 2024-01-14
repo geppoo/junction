@@ -47,6 +47,12 @@ dependencies:
   hotkey_manager: ^0.1.1
   path_provider: ^2.1.1
   easy_debounce: ^2.0.3
+  one_clock: ^2.0.0
+  google_fonts: ^6.1.0
+  io: ^1.0.4
+  fuzzy: ^0.5.1
+  win32: ^5.2.0
+  win32_registry: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -57,7 +63,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   build_runner: ^2.4.6
 
 # For information on the generic Dart part of this file, see the

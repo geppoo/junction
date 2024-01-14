@@ -1,5 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:junction/config/theme/custom_theme.dart';
+import 'package:junction/config/theme/custom_theme_settings_model.dart';
+import 'package:junction/config/theme/theme_variant.dart';
+
 import '../core/io/file_interface.dart';
 import 'model/hotkey_model.dart';
 
@@ -24,6 +29,9 @@ class JunctionSettingsRepository {
 
   ///Property for the list of all the app hotkeys
   List<HotKeyModel> _hotKeys = <HotKeyModel>[];
+
+  ///Property for the theme settings
+  late ThemeData customTheme;
 
   JunctionSettingsRepository() {
     _fileInterface = FileInterface(initialAssetFile, localFilename);
@@ -51,16 +59,18 @@ class JunctionSettingsRepository {
     }
   }
 
-  ///Initialization of all the repository properties
+  ///Initialization of all the settings properties
   init() async {
     final stringFileData = await _fileInterface?.ensureInitialized;
 
     _jsonFileData = await jsonDecode(stringFileData!);
+
+    //bar settings
     final junctionBar = _jsonFileData["junctionBar"];
     junctionBarWidth = junctionBar["junctionBarWidth"];
     junctionBarHeight = junctionBar["junctionBarHeight"];
 
-    //read and save all hotKeys
+    //hotKeys settings
     List<HotKeyModel> tempHotKeys = <HotKeyModel>[];
 
     for (var hotKey in _jsonFileData["HotKeys"]) {
@@ -73,6 +83,58 @@ class JunctionSettingsRepository {
     }
 
     hotKeys = tempHotKeys;
+
+    //theme settings
+    late List<ThemeVariant> variantList = [];
+    late List<CustomTheme> customThemes = [];
+    final themeSettings = _jsonFileData["Theme"];
+
+    for (var theme in themeSettings["themes"]) {
+      for (var variant in theme["variants"]) {
+        variantList.add(ThemeVariant(
+          variant["variantId"],
+          Color(int.parse(variant["primary"])),
+          Color(int.parse(variant["onPrimary"])),
+          Color(int.parse(variant["secondary"])),
+          Color(int.parse(variant["onSecondary"])),
+        ));
+      }
+      customThemes.add(CustomTheme(
+        theme["id"],
+        variantList,
+      ));
+    }
+
+    CustomThemeSettingsModel customThemeSettingsModel =
+        CustomThemeSettingsModel(
+      themeSettings["activeThemeId"],
+      themeSettings["activeVariantId"],
+      customThemes,
+    );
+
+    ThemeVariant? activeThemeVariant =
+        customThemeSettingsModel.getActiveThemeVariant();
+
+    customTheme = ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: activeThemeVariant!.primary,
+        brightness: Brightness.light,
+        primary: activeThemeVariant.primary,
+        onPrimary: activeThemeVariant.onPrimary,
+        secondary: activeThemeVariant.secondary,
+        onSecondary: activeThemeVariant.onSecondary,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: activeThemeVariant.secondary,
+        ),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: activeThemeVariant.secondary,
+      ),
+      dividerColor: activeThemeVariant.secondary,
+      useMaterial3: true,
+    );
   }
 
   ///Extract all the modifiers for the given hotKey setting

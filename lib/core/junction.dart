@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
-import 'package:junction/core/search_bar/junction_search_bar.dart';
-import 'package:junction/dashboard.dart';
+import 'package:junction/core/dashboard.dart';
 import 'package:provider/provider.dart';
 
 import '../config/hotkey_bindings.dart';
-import 'expand_button.dart';
-import 'junction_model.dart';
+import 'junction_bar/expand_button.dart';
+import 'junction_bar/junction_search_bar.dart';
+import '../config/model/junction_model.dart';
 
 ///Main Widget that render Junction top bar.
 class JunctionTopBar extends StatefulWidget {
-  const JunctionTopBar({Key? key}) : super(key: key);
+  const JunctionTopBar({super.key});
 
   @override
   State<StatefulWidget> createState() => _JunctionTopBarState();

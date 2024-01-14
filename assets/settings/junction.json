@@ -22,5 +22,23 @@
             "action": "toggleJunctionBar"
 
         }
-    ]
+    ],
+    "Theme": {
+        "activeThemeId": "junction",
+        "activeVariantId": "light",
+        "themes": [
+            {
+                "id": "junction",
+                "variants": [
+                    {
+                        "variantId": "light",
+                        "primary": "0xffF3F4ED",
+                        "onPrimary": "0xffF3F4ED",
+                        "secondary": "0xffC06014",
+                        "onSecondary": "0xffC06014"
+                    }
+                ]
+            }
+        ]
+    }
 }

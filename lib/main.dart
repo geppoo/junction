@@ -4,12 +4,12 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:junction/core/junction.dart';
-import 'package:junction/core/junction_model.dart';
+import 'package:junction/config/model/junction_model.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'config/junction_settings_repository.dart';
-import 'core/widget/junction_widget_settings_repository.dart';
+import 'config/junction_widget_settings_repository.dart';
 
 JunctionSettingsRepository? junctionSettings;
 JunctionWidgetSettingsRepository? junctionData;
@@ -63,16 +63,17 @@ Future<void> main() async {
 class JunctionApp extends StatelessWidget {
   final bool resizable;
 
-  const JunctionApp({Key? key, required this.resizable}) : super(key: key);
+  const JunctionApp({super.key, required this.resizable});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => JunctionModel(windowOptions, junctionSettings!, junctionData!),
-      child: const MaterialApp(
+      child: MaterialApp(
+        theme: junctionSettings?.customTheme,
         debugShowCheckedModeBanner: false,
         title: "Junction",
-        home: JunctionTopBar(),
+        home: const JunctionTopBar(),
       ),
     );
   }

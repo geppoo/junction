@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-import '../io/file_interface.dart';
+import '../core/io/file_interface.dart';
 
 const initialAssetFile = 'assets/data/data.json';
 const localFilename = 'junction_data.json';
@@ -48,6 +48,7 @@ class JunctionWidgetSettingsRepository {
         junction["height"],
         junction["width"],
         junction["visible"].toString().toLowerCase() == 'true',
+        junction["child"],
       );
     }
 
@@ -64,16 +65,18 @@ class JunctionWidgetPropertiesModel {
   late double _height;
   late double _width;
   late bool _visible;
+  late String _childName;
 
   JunctionWidgetPropertiesModel(
-      widgetId, offsetX, offsetY, title, height, width, visible)
+      widgetId, offsetX, offsetY, title, height, width, visible, childName)
       : _widgetId = widgetId,
         _offSetX = offsetX,
         _offSetY = offsetY,
         _title = title,
         _height = height,
         _width = width,
-        _visible = visible;
+        _visible = visible,
+        _childName = childName;
 
   String get widgetId => _widgetId;
 
@@ -88,6 +91,8 @@ class JunctionWidgetPropertiesModel {
   double get width => _width;
 
   bool get visible => _visible;
+
+  String get childName => _childName;
 
   set offSetX(double value) {
     if (!value.isNegative && value.isFinite) {
@@ -125,6 +130,12 @@ class JunctionWidgetPropertiesModel {
     _visible = value;
   }
 
+  set childName(String value) {
+    if (value.isNotEmpty) {
+      _childName = value;
+    }
+  }
+
   Map toJson() => {
         'widgetId': widgetId,
         'offSetX': offSetX,
@@ -132,7 +143,8 @@ class JunctionWidgetPropertiesModel {
         'title': title,
         'height': height,
         'width': width,
-        'visible': visible.toString()
+        'visible': visible.toString(),
+        'child': childName
       };
 
   static Future<void> savePropsToFile(
