@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:junction/core/search_bar/junction_search_results.dart';
 import 'package:provider/provider.dart';
 
 import '../junction_model.dart';
@@ -22,7 +23,8 @@ class JunctionSearchBar extends StatelessWidget {
         showSearch(
             context: context,
             // delegate to customize the search bar
-            delegate: JunctionSearchDelegate());
+            delegate:
+                JunctionSearchDelegate(JunctionSearchResults.executable()));
       },
       icon: const Icon(Icons.search),
     );
