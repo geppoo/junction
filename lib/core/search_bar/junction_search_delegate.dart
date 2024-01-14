@@ -2,12 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fuzzy/fuzzy.dart';
+import 'package:junction/config/junction_settings_repository.dart';
+import 'package:junction/core/search_bar/junction_search_results.dart';
 import 'package:provider/provider.dart';
 
 class JunctionSearchDelegate extends SearchDelegate {
+  int selectedIndex = -1;
+
+  JunctionSearchResults searchResults;
+
+  JunctionSearchDelegate(this.searchResults);
+
   @override
   List<Widget>? buildActions(BuildContext context) {
-    // TODO: implement buildActions
     return [
       IconButton(
         onPressed: () {
@@ -20,7 +27,6 @@ class JunctionSearchDelegate extends SearchDelegate {
 
   @override
   Widget? buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
     return IconButton(
       onPressed: () {
         close(context, null);
@@ -38,8 +44,6 @@ class JunctionSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-
     List<String> executables = _getExecutable();
     return _buildListView(Fuzzy(executables,
             options: FuzzyOptions(findAllMatches: true, tokenize: true))
@@ -51,18 +55,26 @@ class JunctionSearchDelegate extends SearchDelegate {
   ListView _buildListView(List<String> executables) {
     return ListView.builder(
       itemCount: executables.length,
+      clipBehavior: Clip.antiAlias,
       itemBuilder: (context, index) {
-        var result = executables[index];
-        return ListTile(
-          tileColor: Colors.black,
-          title: Text(
-            result,
-            style: const TextStyle(color: Colors.white),
+        final result = executables[index];
+        return RawKeyboardListener(
+          focusNode: FocusNode(),
+          child: ListTile(
+            tileColor: Colors.black,
+            selected: index == selectedIndex,
+            title: Text(
+              result,
+              style: const TextStyle(color: Colors.white),
+            ),
+            selectedTileColor: Colors.tealAccent,
+            onTap: () async {
+              selectedIndex = index;
+              close(context, null);
+              Process.run(result, []);
+            },
+            focusColor: Colors.teal,
           ),
-          onTap: () async {
-            close(context, null);
-            Process.run(result, []);
-          },
         );
       },
     );
