@@ -134,8 +134,10 @@ class JunctionSettingsRepository {
       ),
       dividerColor: activeThemeVariant.secondary,
       listTileTheme: ListTileThemeData(
-          selectedColor: activeThemeVariant.secondary,
-          textColor: activeThemeVariant.secondary),
+        tileColor: activeThemeVariant.primary,
+        textColor: activeThemeVariant.secondary,
+      ),
+      focusColor: activeThemeVariant.onPrimary,
       useMaterial3: true,
     );
   }

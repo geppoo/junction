@@ -40,8 +40,8 @@ class FileInterface {
       home = "${envVars['UserProfile']}\\$baseAppPath";
       file = File('$home\\$localFilename');
     } else {
-      home = "${envVars['HOME']}/$baseAppPath";
-      file = File('$home/.config/$localFilename');
+      home = "${envVars['HOME']}";
+      file = File('$home/.config/$baseAppPath/$localFilename');
     }
     if (!await file.exists()) {
       // read the file from assets first and create the local file with its contents
@@ -63,7 +63,7 @@ class FileInterface {
   ///Method for writing String content in file.
   Future<void> writeToFile(String data) async {
     final file = await _initializeFile();
-    await file.writeAsString(const JsonEncoder.withIndent('  ').convert(data));
+    await file.writeAsString(data);
   }
 
   factory FileInterface.history() =>
