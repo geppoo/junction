@@ -133,6 +133,9 @@ class JunctionSettingsRepository {
         backgroundColor: activeThemeVariant.secondary,
       ),
       dividerColor: activeThemeVariant.secondary,
+      listTileTheme: ListTileThemeData(
+          selectedColor: activeThemeVariant.secondary,
+          textColor: activeThemeVariant.secondary),
       useMaterial3: true,
     );
   }

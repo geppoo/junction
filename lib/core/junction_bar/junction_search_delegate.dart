@@ -59,19 +59,15 @@ class JunctionSearchDelegate extends SearchDelegate {
         return RawKeyboardListener(
           focusNode: FocusNode(),
           child: ListTile(
-            tileColor: Colors.black,
             selected: index == selectedIndex,
             title: Text(
               result.name,
-              style: const TextStyle(color: Colors.white),
             ),
-            selectedTileColor: Colors.tealAccent,
             onTap: () async {
               selectedIndex = index;
               close(context, null);
               Process.run(result.path, []);
             },
-            focusColor: Colors.teal,
           ),
         );
       },
