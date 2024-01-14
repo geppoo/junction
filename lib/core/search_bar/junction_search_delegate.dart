@@ -37,22 +37,22 @@ class JunctionSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<String> executables = _getExecutable();
-
-    return _buildListView(executables);
+    return _buildListView(
+        searchResults.getPathExecutable()
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> executables = _getExecutable();
-    return _buildListView(Fuzzy(executables,
-            options: FuzzyOptions(findAllMatches: true, tokenize: true))
+    Map<String, String> executables = Map<String, String>.fromEntries(
+        searchResults.getPathExecutable().map((e) => MapEntry(e.name, e.path)));
+    return _buildListView(Fuzzy(executables.keys.toList())
         .search(query)
-        .map((e) => e.item.toString())
+        .map((e) => SearchResult(e.item , executables[e.item] as String))
         .toList());
   }
 
-  ListView _buildListView(List<String> executables) {
+  ListView _buildListView(List<SearchResult> executables) {
     return ListView.builder(
       itemCount: executables.length,
       clipBehavior: Clip.antiAlias,
@@ -64,14 +64,14 @@ class JunctionSearchDelegate extends SearchDelegate {
             tileColor: Colors.black,
             selected: index == selectedIndex,
             title: Text(
-              result,
+              result.name,
               style: const TextStyle(color: Colors.white),
             ),
             selectedTileColor: Colors.tealAccent,
             onTap: () async {
               selectedIndex = index;
               close(context, null);
-              Process.run(result, []);
+              Process.run(result.path, []);
             },
             focusColor: Colors.teal,
           ),
