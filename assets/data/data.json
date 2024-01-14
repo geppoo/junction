@@ -1,12 +1,22 @@
 {
   "junctionWidgets": [
     {
+      "widgetId": "settings",
+      "offSetX": 100.0,
+      "offSetY": 100.0,
+      "title": "Settings",
+      "height": 500.0,
+      "width": 700.0,
+      "visible": "true",
+      "child": "clock"
+    },
+    {
       "widgetId": "junctionClock",
       "offSetX": 100.0,
       "offSetY": 100.0,
-      "title": "TEST",
-      "height": 100.0,
-      "width": 100.0,
+      "title": "Clock",
+      "height": 200.0,
+      "width": 200.0,
       "visible": "true",
       "child": "clock"
     },
@@ -14,7 +24,7 @@
       "widgetId": "junctionCalendar",
       "offSetX": 100.0,
       "offSetY": 100.0,
-      "title": "TEST",
+      "title": "Calendar",
       "height": 100.0,
       "width": 100.0,
       "visible": "true",

@@ -63,7 +63,7 @@ class FileInterface {
   ///Method for writing String content in file.
   Future<void> writeToFile(String data) async {
     final file = await _initializeFile();
-    await file.writeAsString(const JsonEncoder.withIndent('  ').convert(data));
+    await file.writeAsString(data);
   }
 
   factory FileInterface.history() =>
