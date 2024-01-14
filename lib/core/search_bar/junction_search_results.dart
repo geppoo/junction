@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:win32_registry/win32_registry.dart';
 
 class JunctionSearchResults {
@@ -20,7 +18,8 @@ class JunctionSearchResults {
         final newKey =
             Registry.openPath(RegistryHive.localMachine, path: newKeyPath);
         if (newKey.getValueAsString("InstallLocation") != null) {
-          _searchResults.add(SearchResult(subKey, newKey.getValueAsString("InstallLocation") as String));
+          _searchResults.add(SearchResult(
+              subKey, newKey.getValueAsString("InstallLocation") as String));
         }
       }
 
@@ -31,11 +30,12 @@ class JunctionSearchResults {
     } else {
       Platform.environment['PATH']!
           .split(":")
-          .map((e) => Directory(e))
-          .where(
-              (element) => element.existsSync() && element.runtimeType == File)
-          .where(
-            (element) => element.existsSync(),
+          .where((element) => Directory(element).existsSync())
+          .map((e) => Directory(e).listSync().map(
+                (e) => SearchResult.single(e.uri.pathSegments.last),
+              ))
+          .forEach(
+            (element) => _searchResults.addAll(element),
           );
     }
   }
@@ -51,4 +51,8 @@ final class SearchResult {
   late final String path;
 
   SearchResult(this.name, this.path);
+
+  SearchResult.single(String name) {
+    this.name = path = name;
+  }
 }
