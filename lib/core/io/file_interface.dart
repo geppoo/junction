@@ -35,17 +35,14 @@ class FileInterface {
     String baseAppPath = "Junction";
 
     //Getting user home environment variable
-    if (Platform.isMacOS) {
-      home = "${envVars['HOME']}/$baseAppPath";
-      file = File('$home/.config/$localFilename');
-    } else if (Platform.isLinux) {
-      home = "${envVars['HOME']}/$baseAppPath";
-      file = File('$home/.config/$localFilename');
-    } else if (Platform.isWindows) {
+
+    if (Platform.isWindows) {
       home = "${envVars['UserProfile']}\\$baseAppPath";
       file = File('$home\\$localFilename');
+    } else {
+      home = "${envVars['HOME']}/$baseAppPath";
+      file = File('$home/.config/$localFilename');
     }
-
     if (!await file.exists()) {
       // read the file from assets first and create the local file with its contents
       final initialContent = await rootBundle.loadString(initialAssetFile);

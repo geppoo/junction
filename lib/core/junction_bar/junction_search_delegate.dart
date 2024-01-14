@@ -46,7 +46,7 @@ class JunctionSearchDelegate extends SearchDelegate {
     return _buildListView(Fuzzy(executables.keys.toList(),
             options: FuzzyOptions(findAllMatches: true))
         .search(query)
-        .map((e) => SearchResult(e.item, executables[e.item] as String))
+        .map((e) => SearchResult(e.item, executables[e.item]!))
         .toList());
   }
 

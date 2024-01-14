@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:win32_registry/win32_registry.dart';
 
 class JunctionSearchResults {
@@ -17,12 +16,6 @@ class JunctionSearchResults {
                 (e) => SearchResult(e.uri.pathSegments.last, e.path),
               )),
         );
-    debugPrint(_searchResults
-        .map(
-          (e) => e.name + " " + e.path,
-        )
-        .toList()
-        .toString());
   }
 
   JunctionSearchResults.executable() {
@@ -45,7 +38,7 @@ class JunctionSearchResults {
             Registry.openPath(RegistryHive.localMachine, path: newKeyPath);
         if (newKey.getValueAsString("InstallLocation") != null) {
           _searchResults.add(SearchResult(
-              subKey, newKey.getValueAsString("InstallLocation") as String));
+              subKey, newKey.getValueAsString("InstallLocation")!));
         }
       }
     } else {
