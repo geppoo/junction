@@ -37,18 +37,17 @@ class JunctionSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return _buildListView(
-        searchResults.getPathExecutable()
-    );
+    return _buildListView(searchResults.getPathExecutable());
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     Map<String, String> executables = Map<String, String>.fromEntries(
         searchResults.getPathExecutable().map((e) => MapEntry(e.name, e.path)));
-    return _buildListView(Fuzzy(executables.keys.toList())
+    return _buildListView(Fuzzy(executables.keys.toList(),
+            options: FuzzyOptions(findAllMatches: true))
         .search(query)
-        .map((e) => SearchResult(e.item , executables[e.item] as String))
+        .map((e) => SearchResult(e.item, executables[e.item] as String))
         .toList());
   }
 
@@ -78,25 +77,5 @@ class JunctionSearchDelegate extends SearchDelegate {
         );
       },
     );
-  }
-
-  List<String> _getExecutable() {
-    List<String> executables = [];
-
-    for (var d in Platform.environment['PATH']!
-        .split(Platform.isWindows ? ";" : ":")) {
-      Directory dir = Directory(d);
-      if (dir.existsSync()) {
-        executables.addAll(dir
-            .listSync()
-            .whereType<File>()
-            .where((file) =>
-                file.existsSync() &&
-                file.uri.pathSegments.last
-                    .endsWith(Platform.isWindows ? ".exe" : ''))
-            .map((file) => file.uri.pathSegments.last));
-      }
-    }
-    return executables;
   }
 }

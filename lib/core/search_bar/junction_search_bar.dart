@@ -23,8 +23,9 @@ class JunctionSearchBar extends StatelessWidget {
         showSearch(
             context: context,
             // delegate to customize the search bar
-            delegate:
-                JunctionSearchDelegate(JunctionSearchResults.executable()));
+            delegate: JunctionSearchDelegate(
+                JunctionSearchResults.customPathWithExecutables(
+                    ["/home/mango/Documents"])));
       },
       icon: const Icon(Icons.search),
     );

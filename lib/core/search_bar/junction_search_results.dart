@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:win32_registry/win32_registry.dart';
 
 class JunctionSearchResults {
@@ -7,7 +8,32 @@ class JunctionSearchResults {
 
   JunctionSearchResults(this._searchResults);
 
+  JunctionSearchResults.customPathWithExecutables(List<String> customPaths) {
+    _getPathExecutables();
+    customPaths.where((e) => Directory(e).existsSync()).forEach(
+          (element) => _searchResults.addAll(Directory(element)
+              .listSync(recursive: true, followLinks: true)
+              .map(
+                (e) => SearchResult(e.uri.pathSegments.last, e.path),
+              )),
+        );
+    debugPrint(_searchResults
+        .map(
+          (e) => e.name + " " + e.path,
+        )
+        .toList()
+        .toString());
+  }
+
   JunctionSearchResults.executable() {
+    _getPathExecutables();
+  }
+
+  List<SearchResult> getPathExecutable() {
+    return _searchResults;
+  }
+
+  void _getPathExecutables() {
     if (Platform.isWindows) {
       const keyPath = r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
       final key = Registry.openPath(RegistryHive.localMachine, path: keyPath);
@@ -22,11 +48,6 @@ class JunctionSearchResults {
               subKey, newKey.getValueAsString("InstallLocation") as String));
         }
       }
-
-      ///Get-ChildItem -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\ | Get-ItemProperty |
-      // ∙ Select-Object DisplayName, DisplayVersion, InstallLocation
-      ///  Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\ | Get-ItemProperty |
-      // ∙ Select-Object DisplayName, DisplayVersion, InstallLocation
     } else {
       Platform.environment['PATH']!
           .split(":")
@@ -38,10 +59,6 @@ class JunctionSearchResults {
             (element) => _searchResults.addAll(element),
           );
     }
-  }
-
-  List<SearchResult> getPathExecutable() {
-    return _searchResults;
   }
 }
 
