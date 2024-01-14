@@ -49,6 +49,10 @@ dependencies:
   easy_debounce: ^2.0.3
   one_clock: ^2.0.0
   google_fonts: ^6.1.0
+  io: ^1.0.4
+  fuzzy: ^0.5.1
+  win32: ^5.2.0
+  win32_registry: ^1.1.2
 
 dev_dependencies:
   flutter_test:
