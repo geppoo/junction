@@ -1,5 +1,8 @@
 {
-    "junctionBar" : {
+    "JunctionBar" : {
+        "settingsMetadata" : {
+            "icon": "0xe57f"
+        },
         "junctionBarHeight" : 30.0,
         "junctionBarWidth" : 300.0
     },

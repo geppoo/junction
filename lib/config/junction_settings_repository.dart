@@ -37,6 +37,7 @@ class JunctionSettingsRepository {
     _fileInterface = FileInterface(initialAssetFile, localFilename);
   }
 
+  dynamic get jsonData => _jsonFileData;
   double get junctionBarHeight => _junctionBarHeight;
   double get junctionBarWidth => _junctionBarWidth;
   List<HotKeyModel> get hotKeys => _hotKeys;
@@ -66,7 +67,7 @@ class JunctionSettingsRepository {
     _jsonFileData = await jsonDecode(stringFileData!);
 
     //bar settings
-    final junctionBar = _jsonFileData["junctionBar"];
+    final junctionBar = _jsonFileData["JunctionBar"];
     junctionBarWidth = junctionBar["junctionBarWidth"];
     junctionBarHeight = junctionBar["junctionBarHeight"];
 

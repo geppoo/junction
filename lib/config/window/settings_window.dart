@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:junction/config/window/settings_window_impl.dart';
 import 'package:junction/core/widget/factory/junction_widget_factory.dart';
 
 import '../junction_widget_settings_repository.dart';
@@ -10,6 +11,6 @@ class WindowSettings implements JunctionWidget {
 
   @override
   Widget build() {
-    return Text(_props.title);
+    return SettingsWindowImpl(_props);
   }
 }
