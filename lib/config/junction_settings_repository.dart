@@ -74,7 +74,7 @@ class JunctionSettingsRepository {
     //hotKeys settings
     List<HotKeyModel> tempHotKeys = <HotKeyModel>[];
 
-    for (var hotKey in _jsonFileData["HotKeys"]) {
+    for (var hotKey in _jsonFileData["HotKeys"]["list"]) {
       tempHotKeys.add(HotKeyModel(
         hotKey["name"],
         _getStringModifiers(hotKey["modifiers"]),

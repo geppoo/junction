@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:junction/config/junction_widget_settings_repository.dart';
+import 'package:junction/config/window/factory/settings_factory.dart';
 import 'package:provider/provider.dart';
 
 import '../model/junction_model.dart';
@@ -23,6 +24,7 @@ class _SettingsWindowImplState extends State<SettingsWindowImpl> {
   Widget build(BuildContext context) {
     late final List<ListTile> routes = [];
     late final List<Expanded> pages = [];
+    late Map<String, dynamic> pageOptions = {};
     int pageIndex = 0;
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     Map<String, dynamic> settings = junctionModel.junctionSettings.jsonData;
@@ -48,10 +50,20 @@ class _SettingsWindowImplState extends State<SettingsWindowImpl> {
           ),
         );
 
+        final Map<String, dynamic> pageOptions = Map.from(value);
+
         pages.add(
           Expanded(
             child: Center(
-              child: Text(key),
+              child: ListView(
+                children: pageOptions.entries.map(
+                  (e) {
+                    return ListTile(
+                      title: SettingsFactory.factory(key, value).build(),
+                    );
+                  },
+                ).toList(),
+              ),
             ),
           ),
         );
