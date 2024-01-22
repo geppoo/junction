@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fuzzy/fuzzy.dart';
+import 'package:provider/provider.dart';
 
+import '../../config/model/junction_model.dart';
 import 'junction_search_results.dart';
 
 class JunctionSearchDelegate extends SearchDelegate {
@@ -14,6 +16,7 @@ class JunctionSearchDelegate extends SearchDelegate {
 
   @override
   List<Widget>? buildActions(BuildContext context) {
+    //TODO: fix the opening
     return [
       IconButton(
         onPressed: () {
@@ -26,9 +29,11 @@ class JunctionSearchDelegate extends SearchDelegate {
 
   @override
   Widget? buildLeading(BuildContext context) {
+    final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return IconButton(
       onPressed: () {
         close(context, null);
+        junctionModel.expandIfNot(200);
       },
       icon: const Icon(Icons.arrow_back),
     );
@@ -53,7 +58,13 @@ class JunctionSearchDelegate extends SearchDelegate {
   ListView _buildListView(List<SearchResult> executables) {
     return ListView.builder(
       itemCount: executables.length,
-      clipBehavior: Clip.antiAlias,
+      shrinkWrap: true,
+      prototypeItem: RawKeyboardListener(
+        focusNode: FocusNode(),
+        child: ListTile(
+          title: Text(executables.map((e) => e.name).first),
+        ),
+      ),
       itemBuilder: (context, index) {
         final result = executables[index];
         return RawKeyboardListener(

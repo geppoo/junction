@@ -12,13 +12,14 @@ class JunctionSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     if (suggestedLength <= 0) {
       throw ArgumentError("Length must be > 0");
     }
-    final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     return IconButton(
       onPressed: () {
         // method to show the search bar
+        junctionModel.expandIfNot(1000);
         showSearch(
             context: context,
             // delegate to customize the search bar
