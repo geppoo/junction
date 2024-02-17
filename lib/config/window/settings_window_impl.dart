@@ -70,10 +70,20 @@ class _SettingsWindowImplState extends State<SettingsWindowImpl> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Flexible(
-                  child: SizedBox(
-                    width: 200,
-                    child: ListView(
-                      children: routes,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(
+                          color: Theme.of(context).primaryColor,
+                          width: 3
+                        ),
+                      ),
+                    ),
+                    child: SizedBox(
+                      width: 200,
+                      child: ListView(
+                        children: routes,
+                      ),
                     ),
                   ),
                 ),

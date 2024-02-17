@@ -133,6 +133,9 @@ class JunctionSettingsRepository {
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: activeThemeVariant.secondary,
       ),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: activeThemeVariant.secondary,
+      ),
       dividerColor: activeThemeVariant.secondary,
       useMaterial3: true,
     );

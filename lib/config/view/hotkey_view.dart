@@ -19,6 +19,7 @@ class HotKeyView extends StatelessWidget {
                   : e == 'Shift'
                       ? Icons.keyboard_capslock
                       : Icons.keyboard,
+          size: 17,
         ),
       );
     });

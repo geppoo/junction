@@ -36,9 +36,9 @@
                     {
                         "variantId": "light",
                         "primary": "0xffF3F4ED",
-                        "onPrimary": "0xffF3F4ED",
+                        "onPrimary": "0xffC06014",
                         "secondary": "0xffC06014",
-                        "onSecondary": "0xffC06014"
+                        "onSecondary": "0xffF3F4ED"
                     }
                 ]
             }

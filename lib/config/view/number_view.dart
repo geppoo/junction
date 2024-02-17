@@ -16,12 +16,14 @@ class NumberView extends StatelessWidget {
         height: 30,
         child: TextField(
           controller: TextEditingController(text: _value.toString()),
+          cursorColor: Theme.of(context).indicatorColor,
           decoration: InputDecoration(
-              contentPadding: const EdgeInsets.all(15),
-              fillColor: Theme.of(context).primaryColor,
-              focusColor: Theme.of(context).primaryColor,
-              hoverColor: Theme.of(context).focusColor,
-              filled: true),
+            contentPadding: const EdgeInsets.all(15),
+            fillColor: Theme.of(context).primaryColor,
+            focusColor: Theme.of(context).primaryColor,
+            hoverColor: Theme.of(context).focusColor,
+            filled: true,
+          ),
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.digitsOnly
