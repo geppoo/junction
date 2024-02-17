@@ -17,14 +17,13 @@ class SettingsWindowImpl extends StatefulWidget {
 class _SettingsWindowImplState extends State<SettingsWindowImpl> {
   int _activeIndex = 0;
   final _controller = PageController(
-    initialPage: 1,
+    initialPage: 0,
   );
 
   @override
   Widget build(BuildContext context) {
     late final List<ListTile> routes = [];
     late final List<Expanded> pages = [];
-    late Map<String, dynamic> pageOptions = {};
     int pageIndex = 0;
     final JunctionModel junctionModel = Provider.of<JunctionModel>(context);
     Map<String, dynamic> settings = junctionModel.junctionSettings.jsonData;
@@ -42,7 +41,7 @@ class _SettingsWindowImplState extends State<SettingsWindowImpl> {
               _controller.animateToPage(
                 index,
                 duration: const Duration(
-                  milliseconds: 500,
+                  milliseconds: 150,
                 ),
                 curve: Curves.linear,
               );
@@ -50,20 +49,10 @@ class _SettingsWindowImplState extends State<SettingsWindowImpl> {
           ),
         );
 
-        final Map<String, dynamic> pageOptions = Map.from(value);
-
         pages.add(
           Expanded(
             child: Center(
-              child: ListView(
-                children: pageOptions.entries.map(
-                  (e) {
-                    return ListTile(
-                      title: SettingsFactory.factory(key, value).build(),
-                    );
-                  },
-                ).toList(),
-              ),
+              child: SettingsFactory.factory(key, value).build(),
             ),
           ),
         );

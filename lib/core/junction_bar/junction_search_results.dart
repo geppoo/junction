@@ -36,9 +36,9 @@ class JunctionSearchResults {
             r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + subKey;
         final newKey =
             Registry.openPath(RegistryHive.localMachine, path: newKeyPath);
-        if (newKey.getValueAsString("InstallLocation") != null) {
+        if (newKey.getValueAsString("InstallLocation") != null && newKey.getValueAsString("DisplayName") != null) {
           _searchResults.add(SearchResult(
-              subKey, newKey.getValueAsString("InstallLocation")!));
+              newKey.getValueAsString("DisplayName")!, newKey.getValueAsString("InstallLocation")!));
         }
       }
     } else {
