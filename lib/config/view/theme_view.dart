@@ -26,7 +26,7 @@ class _ThemeViewState extends State<ThemeView> {
     return ListView(
       children: [
         ListTile(
-          title: const Text("Tema"),
+          title: const Text("Theme"),
           trailing: SizedBox(
             width: 300,
             child: FormField<String>(
@@ -42,8 +42,7 @@ class _ThemeViewState extends State<ThemeView> {
                     //TODO Aggiustare altezza menu dropdown
                     child: DropdownButton<String>(
                       value: currentSelectedValue,
-                      isDense: true,
-                      isExpanded: true,
+                      isDense: false,
                       onChanged: (String? newValue) {
                         setState(() {
                           currentSelectedValue = newValue;
