@@ -19,10 +19,16 @@ class ThemeView extends StatefulWidget {
 }
 
 class _ThemeViewState extends State<ThemeView> {
+  String? currentSelectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    currentSelectedValue = widget._themes["activeThemeId"];
+  }
+
   @override
   Widget build(BuildContext context) {
-    String? currentSelectedValue = widget._themes["activeThemeId"];
-
     return ListView(
       children: [
         ListTile(
@@ -36,12 +42,15 @@ class _ThemeViewState extends State<ThemeView> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
+                    isCollapsed: false,
+                    isDense: false,
                   ),
                   isEmpty: currentSelectedValue == '',
                   child: DropdownButtonHideUnderline(
                     //TODO Aggiustare altezza menu dropdown
                     child: DropdownButton<String>(
                       value: currentSelectedValue,
+                      isExpanded: true,
                       isDense: false,
                       onChanged: (String? newValue) {
                         setState(() {
