@@ -56,6 +56,7 @@ class JunctionSearchDelegate extends SearchDelegate {
   }
 
   ListView _buildListView(List<SearchResult> executables) {
+    
     return ListView.builder(
       itemCount: executables.length,
       shrinkWrap: true,

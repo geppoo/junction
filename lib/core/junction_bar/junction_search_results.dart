@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:get/get.dart';
 import 'package:win32_registry/win32_registry.dart';
 
 class JunctionSearchResults {
@@ -36,10 +35,11 @@ class JunctionSearchResults {
             r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + subKey;
         final newKey =
             Registry.openPath(RegistryHive.localMachine, path: newKeyPath);
-        if (newKey.getValueAsString("InstallLocation") != null) {
-          _searchResults.add(SearchResult(
-              subKey, newKey.getValueAsString("InstallLocation")!));
-        }
+          if (newKey.getValueAsString("DisplayName")!= null && newKey.getValueAsString("InstallLocation")!= null) {
+            _searchResults.add(SearchResult(
+              newKey.getValueAsString("DisplayName")!, newKey.getValueAsString("InstallLocation")!));
+          }
+        
       }
     } else {
       Platform.environment['PATH']!
